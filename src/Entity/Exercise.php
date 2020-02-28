@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -50,6 +52,22 @@ class Exercise
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $updated_at;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Hint")
+     */
+    private $hints;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Prerequisite", inversedBy="exercises")
+     */
+    private $prerequisites;
+
+    public function __construct()
+    {
+        $this->hints = new ArrayCollection();
+        $this->prerequisites = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -136,6 +154,58 @@ class Exercise
     public function setUpdatedAt(?\DateTimeInterface $updated_at): self
     {
         $this->updated_at = $updated_at;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Hint[]
+     */
+    public function getHints(): Collection
+    {
+        return $this->hints;
+    }
+
+    public function addHint(Hint $hint): self
+    {
+        if (!$this->hints->contains($hint)) {
+            $this->hints[] = $hint;
+        }
+
+        return $this;
+    }
+
+    public function removeHint(Hint $hint): self
+    {
+        if ($this->hints->contains($hint)) {
+            $this->hints->removeElement($hint);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Prerequisite[]
+     */
+    public function getPrerequisites(): Collection
+    {
+        return $this->prerequisites;
+    }
+
+    public function addPrerequisite(Prerequisite $prerequisite): self
+    {
+        if (!$this->prerequisites->contains($prerequisite)) {
+            $this->prerequisites[] = $prerequisite;
+        }
+
+        return $this;
+    }
+
+    public function removePrerequisite(Prerequisite $prerequisite): self
+    {
+        if ($this->prerequisites->contains($prerequisite)) {
+            $this->prerequisites->removeElement($prerequisite);
+        }
 
         return $this;
     }
