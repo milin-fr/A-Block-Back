@@ -54,14 +54,14 @@ class Program
     private $exercises;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\User", mappedBy="program_comments")
+     * @ORM\OneToMany(targetEntity="App\Entity\ProgramComment", mappedBy="program", orphanRemoval=true)
      */
-    private $users;
+    private $comments;
 
     public function __construct()
     {
         $this->exercises = new ArrayCollection();
-        $this->users = new ArrayCollection();
+        $this->comments = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -168,30 +168,34 @@ class Program
     }
 
     /**
-     * @return Collection|User[]
+     * @return Collection|ProgramComment[]
      */
-    public function getUsers(): Collection
+    public function getComments(): Collection
     {
-        return $this->users;
+        return $this->comments;
     }
 
-    public function addUser(User $user): self
+    public function addComment(ProgramComment $comment): self
     {
-        if (!$this->users->contains($user)) {
-            $this->users[] = $user;
-            $user->addProgramComment($this);
+        if (!$this->comments->contains($comment)) {
+            $this->comments[] = $comment;
+            $comment->setProgram($this);
         }
 
         return $this;
     }
 
-    public function removeUser(User $user): self
+    public function removeComment(ProgramComment $comment): self
     {
-        if ($this->users->contains($user)) {
-            $this->users->removeElement($user);
-            $user->removeProgramComment($this);
+        if ($this->comments->contains($comment)) {
+            $this->comments->removeElement($comment);
+            // set the owning side to null (unless already changed)
+            if ($comment->getProgram() === $this) {
+                $comment->setProgram(null);
+            }
         }
 
         return $this;
     }
+
 }
