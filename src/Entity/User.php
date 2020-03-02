@@ -68,10 +68,16 @@ class User
      */
     private $exercise_bookmarks;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\User")
+     */
+    private $followed_programs;
+
     public function __construct()
     {
         $this->program_bookmarks = new ArrayCollection();
         $this->exercise_bookmarks = new ArrayCollection();
+        $this->followed_programs = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -222,6 +228,32 @@ class User
     {
         if ($this->exercise_bookmarks->contains($exerciseBookmark)) {
             $this->exercise_bookmarks->removeElement($exerciseBookmark);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|self[]
+     */
+    public function getFollowedPrograms(): Collection
+    {
+        return $this->followed_programs;
+    }
+
+    public function addFollowedProgram(self $followedProgram): self
+    {
+        if (!$this->followed_programs->contains($followedProgram)) {
+            $this->followed_programs[] = $followedProgram;
+        }
+
+        return $this;
+    }
+
+    public function removeFollowedProgram(self $followedProgram): self
+    {
+        if ($this->followed_programs->contains($followedProgram)) {
+            $this->followed_programs->removeElement($followedProgram);
         }
 
         return $this;
