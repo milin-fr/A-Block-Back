@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -55,6 +57,40 @@ class User
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $updated_at;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Program")
+     */
+    private $program_bookmarks;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Exercise")
+     */
+    private $exercise_bookmarks;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\User")
+     */
+    private $followed_programs;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Program", inversedBy="users")
+     */
+    private $program_comments;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Exercise", inversedBy="users")
+     */
+    private $exercise_comments;
+
+    public function __construct()
+    {
+        $this->program_bookmarks = new ArrayCollection();
+        $this->exercise_bookmarks = new ArrayCollection();
+        $this->followed_programs = new ArrayCollection();
+        $this->program_comments = new ArrayCollection();
+        $this->exercise_comments = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -153,6 +189,136 @@ class User
     public function setUpdatedAt(?\DateTimeInterface $updated_at): self
     {
         $this->updated_at = $updated_at;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Program[]
+     */
+    public function getProgramBookmarks(): Collection
+    {
+        return $this->program_bookmarks;
+    }
+
+    public function addProgramBookmark(Program $programBookmark): self
+    {
+        if (!$this->program_bookmarks->contains($programBookmark)) {
+            $this->program_bookmarks[] = $programBookmark;
+        }
+
+        return $this;
+    }
+
+    public function removeProgramBookmark(Program $programBookmark): self
+    {
+        if ($this->program_bookmarks->contains($programBookmark)) {
+            $this->program_bookmarks->removeElement($programBookmark);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Exercise[]
+     */
+    public function getExerciseBookmarks(): Collection
+    {
+        return $this->exercise_bookmarks;
+    }
+
+    public function addExerciseBookmark(Exercise $exerciseBookmark): self
+    {
+        if (!$this->exercise_bookmarks->contains($exerciseBookmark)) {
+            $this->exercise_bookmarks[] = $exerciseBookmark;
+        }
+
+        return $this;
+    }
+
+    public function removeExerciseBookmark(Exercise $exerciseBookmark): self
+    {
+        if ($this->exercise_bookmarks->contains($exerciseBookmark)) {
+            $this->exercise_bookmarks->removeElement($exerciseBookmark);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|self[]
+     */
+    public function getFollowedPrograms(): Collection
+    {
+        return $this->followed_programs;
+    }
+
+    public function addFollowedProgram(self $followedProgram): self
+    {
+        if (!$this->followed_programs->contains($followedProgram)) {
+            $this->followed_programs[] = $followedProgram;
+        }
+
+        return $this;
+    }
+
+    public function removeFollowedProgram(self $followedProgram): self
+    {
+        if ($this->followed_programs->contains($followedProgram)) {
+            $this->followed_programs->removeElement($followedProgram);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Program[]
+     */
+    public function getProgramComments(): Collection
+    {
+        return $this->program_comments;
+    }
+
+    public function addProgramComment(Program $programComment): self
+    {
+        if (!$this->program_comments->contains($programComment)) {
+            $this->program_comments[] = $programComment;
+        }
+
+        return $this;
+    }
+
+    public function removeProgramComment(Program $programComment): self
+    {
+        if ($this->program_comments->contains($programComment)) {
+            $this->program_comments->removeElement($programComment);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Exercise[]
+     */
+    public function getExerciseComments(): Collection
+    {
+        return $this->exercise_comments;
+    }
+
+    public function addExerciseComment(Exercise $exerciseComment): self
+    {
+        if (!$this->exercise_comments->contains($exerciseComment)) {
+            $this->exercise_comments[] = $exerciseComment;
+        }
+
+        return $this;
+    }
+
+    public function removeExerciseComment(Exercise $exerciseComment): self
+    {
+        if ($this->exercise_comments->contains($exerciseComment)) {
+            $this->exercise_comments->removeElement($exerciseComment);
+        }
 
         return $this;
     }
