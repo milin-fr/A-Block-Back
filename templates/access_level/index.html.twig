@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}AccessLevel index{% endblock %}
+
+{% block body %}
+    <h1>AccessLevel index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Title</th>
+                <th>Created_at</th>
+                <th>Updated_at</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for access_level in access_levels %}
+            <tr>
+                <td>{{ access_level.id }}</td>
+                <td>{{ access_level.title }}</td>
+                <td>{{ access_level.createdAt ? access_level.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ access_level.updatedAt ? access_level.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('access_level_show', {'id': access_level.id}) }}">show</a>
+                    <a href="{{ path('access_level_edit', {'id': access_level.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('access_level_new') }}">Create new</a>
+{% endblock %}

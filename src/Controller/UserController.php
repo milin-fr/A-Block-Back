@@ -11,17 +11,18 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/users")
+ * @Route("/user")
  */
 class UserController extends AbstractController
 {
     /**
-     * @Route("/", name="api_user_list", methods={"GET"})
+     * @Route("/", name="user_index", methods={"GET"})
      */
-    public function getUsers(UserRepository $userRepository)
+    public function index(UserRepository $userRepository): Response
     {
-        $users = $userRepository->findAll();
-        return $this->json($users, Response::HTTP_OK, [], []);
+        return $this->render('user/index.html.twig', [
+            'users' => $userRepository->findAll(),
+        ]);
     }
 
     /**
