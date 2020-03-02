@@ -63,10 +63,16 @@ class Exercise
      */
     private $prerequisites;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Program", mappedBy="exercises")
+     */
+    private $programs;
+
     public function __construct()
     {
         $this->hints = new ArrayCollection();
         $this->prerequisites = new ArrayCollection();
+        $this->programs = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -205,6 +211,34 @@ class Exercise
     {
         if ($this->prerequisites->contains($prerequisite)) {
             $this->prerequisites->removeElement($prerequisite);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Program[]
+     */
+    public function getPrograms(): Collection
+    {
+        return $this->programs;
+    }
+
+    public function addProgram(Program $program): self
+    {
+        if (!$this->programs->contains($program)) {
+            $this->programs[] = $program;
+            $program->addExercise($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProgram(Program $program): self
+    {
+        if ($this->programs->contains($program)) {
+            $this->programs->removeElement($program);
+            $program->removeExercise($this);
         }
 
         return $this;
