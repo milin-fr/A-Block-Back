@@ -73,11 +73,17 @@ class User
      */
     private $followed_programs;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Program", inversedBy="users")
+     */
+    private $program_comments;
+
     public function __construct()
     {
         $this->program_bookmarks = new ArrayCollection();
         $this->exercise_bookmarks = new ArrayCollection();
         $this->followed_programs = new ArrayCollection();
+        $this->program_comments = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -254,6 +260,32 @@ class User
     {
         if ($this->followed_programs->contains($followedProgram)) {
             $this->followed_programs->removeElement($followedProgram);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Program[]
+     */
+    public function getProgramComments(): Collection
+    {
+        return $this->program_comments;
+    }
+
+    public function addProgramComment(Program $programComment): self
+    {
+        if (!$this->program_comments->contains($programComment)) {
+            $this->program_comments[] = $programComment;
+        }
+
+        return $this;
+    }
+
+    public function removeProgramComment(Program $programComment): self
+    {
+        if ($this->program_comments->contains($programComment)) {
+            $this->program_comments->removeElement($programComment);
         }
 
         return $this;
