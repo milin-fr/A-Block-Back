@@ -68,11 +68,17 @@ class Exercise
      */
     private $programs;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\User", mappedBy="exercise_comments")
+     */
+    private $users;
+
     public function __construct()
     {
         $this->hints = new ArrayCollection();
         $this->prerequisites = new ArrayCollection();
         $this->programs = new ArrayCollection();
+        $this->users = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -239,6 +245,34 @@ class Exercise
         if ($this->programs->contains($program)) {
             $this->programs->removeElement($program);
             $program->removeExercise($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|User[]
+     */
+    public function getUsers(): Collection
+    {
+        return $this->users;
+    }
+
+    public function addUser(User $user): self
+    {
+        if (!$this->users->contains($user)) {
+            $this->users[] = $user;
+            $user->addExerciseComment($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUser(User $user): self
+    {
+        if ($this->users->contains($user)) {
+            $this->users->removeElement($user);
+            $user->removeExerciseComment($this);
         }
 
         return $this;
