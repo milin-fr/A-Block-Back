@@ -19,6 +19,30 @@
                 <th>Password</th>
                 <td>{{ user.password }}</td>
             </tr>
+            <tr>
+                <th>Account_name</th>
+                <td>{{ user.accountName }}</td>
+            </tr>
+            <tr>
+                <th>Img_path</th>
+                <td>{{ user.imgPath }}</td>
+            </tr>
+            <tr>
+                <th>Available_time</th>
+                <td>{{ user.availableTime }}</td>
+            </tr>
+            <tr>
+                <th>Score</th>
+                <td>{{ user.score }}</td>
+            </tr>
+            <tr>
+                <th>Created_at</th>
+                <td>{{ user.createdAt ? user.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Updated_at</th>
+                <td>{{ user.updatedAt ? user.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
         </tbody>
     </table>
 

@@ -2,9 +2,10 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\JoinTable;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
@@ -60,36 +61,45 @@ class User
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Program")
+     * @JoinTable(name="program_bookmark")
      */
     private $program_bookmarks;
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Exercise")
+     * @JoinTable(name="exercise_bookmark")
      */
     private $exercise_bookmarks;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\User")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Program")
+     * @JoinTable(name="followed_program_bookmark")
      */
     private $followed_programs;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Program", inversedBy="users")
+     * @ORM\OneToMany(targetEntity="App\Entity\ExerciseComment", mappedBy="user", orphanRemoval=true)
+     */
+    private $exercise_comments;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\ProgramComment", mappedBy="user", orphanRemoval=true)
      */
     private $program_comments;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Exercise", inversedBy="users")
+     * @ORM\ManyToOne(targetEntity="App\Entity\AccessLevel")
+     * @ORM\JoinColumn(nullable=false)
      */
-    private $exercise_comments;
+    private $access_level;
 
     public function __construct()
     {
         $this->program_bookmarks = new ArrayCollection();
         $this->exercise_bookmarks = new ArrayCollection();
         $this->followed_programs = new ArrayCollection();
-        $this->program_comments = new ArrayCollection();
         $this->exercise_comments = new ArrayCollection();
+        $this->program_comments = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -227,7 +237,7 @@ class User
         return $this->exercise_bookmarks;
     }
 
-    public function addExerciseBookmark(Exercise $exerciseBookmark): self
+    public function addExerciseBookmark(exercise $exerciseBookmark): self
     {
         if (!$this->exercise_bookmarks->contains($exerciseBookmark)) {
             $this->exercise_bookmarks[] = $exerciseBookmark;
@@ -236,7 +246,7 @@ class User
         return $this;
     }
 
-    public function removeExerciseBookmark(Exercise $exerciseBookmark): self
+    public function removeExerciseBookmark(exercise $exerciseBookmark): self
     {
         if ($this->exercise_bookmarks->contains($exerciseBookmark)) {
             $this->exercise_bookmarks->removeElement($exerciseBookmark);
@@ -246,14 +256,14 @@ class User
     }
 
     /**
-     * @return Collection|self[]
+     * @return Collection|Program[]
      */
     public function getFollowedPrograms(): Collection
     {
         return $this->followed_programs;
     }
 
-    public function addFollowedProgram(self $followedProgram): self
+    public function addFollowedProgram(Program $followedProgram): self
     {
         if (!$this->followed_programs->contains($followedProgram)) {
             $this->followed_programs[] = $followedProgram;
@@ -262,7 +272,7 @@ class User
         return $this;
     }
 
-    public function removeFollowedProgram(self $followedProgram): self
+    public function removeFollowedProgram(Program $followedProgram): self
     {
         if ($this->followed_programs->contains($followedProgram)) {
             $this->followed_programs->removeElement($followedProgram);
@@ -272,54 +282,77 @@ class User
     }
 
     /**
-     * @return Collection|Program[]
-     */
-    public function getProgramComments(): Collection
-    {
-        return $this->program_comments;
-    }
-
-    public function addProgramComment(Program $programComment): self
-    {
-        if (!$this->program_comments->contains($programComment)) {
-            $this->program_comments[] = $programComment;
-        }
-
-        return $this;
-    }
-
-    public function removeProgramComment(Program $programComment): self
-    {
-        if ($this->program_comments->contains($programComment)) {
-            $this->program_comments->removeElement($programComment);
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Exercise[]
+     * @return Collection|ExerciseComment[]
      */
     public function getExerciseComments(): Collection
     {
         return $this->exercise_comments;
     }
 
-    public function addExerciseComment(Exercise $exerciseComment): self
+    public function addExerciseComment(ExerciseComment $exerciseComment): self
     {
         if (!$this->exercise_comments->contains($exerciseComment)) {
             $this->exercise_comments[] = $exerciseComment;
+            $exerciseComment->setUser($this);
         }
 
         return $this;
     }
 
-    public function removeExerciseComment(Exercise $exerciseComment): self
+    public function removeExerciseComment(ExerciseComment $exerciseComment): self
     {
         if ($this->exercise_comments->contains($exerciseComment)) {
             $this->exercise_comments->removeElement($exerciseComment);
+            // set the owning side to null (unless already changed)
+            if ($exerciseComment->getUser() === $this) {
+                $exerciseComment->setUser(null);
+            }
         }
 
         return $this;
     }
+
+    /**
+     * @return Collection|ProgramComment[]
+     */
+    public function getProgramComments(): Collection
+    {
+        return $this->program_comments;
+    }
+
+    public function addProgramComment(ProgramComment $programComment): self
+    {
+        if (!$this->program_comments->contains($programComment)) {
+            $this->program_comments[] = $programComment;
+            $programComment->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProgramComment(ProgramComment $programComment): self
+    {
+        if ($this->program_comments->contains($programComment)) {
+            $this->program_comments->removeElement($programComment);
+            // set the owning side to null (unless already changed)
+            if ($programComment->getUser() === $this) {
+                $programComment->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getAccessLevel(): ?AccessLevel
+    {
+        return $this->access_level;
+    }
+
+    public function setAccessLevel(?AccessLevel $access_level): self
+    {
+        $this->access_level = $access_level;
+
+        return $this;
+    }
+
 }

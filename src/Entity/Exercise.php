@@ -69,16 +69,16 @@ class Exercise
     private $programs;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\User", mappedBy="exercise_comments")
+     * @ORM\OneToMany(targetEntity="App\Entity\ExerciseComment", mappedBy="exercise", orphanRemoval=true)
      */
-    private $users;
+    private $comments;
 
     public function __construct()
     {
         $this->hints = new ArrayCollection();
         $this->prerequisites = new ArrayCollection();
         $this->programs = new ArrayCollection();
-        $this->users = new ArrayCollection();
+        $this->comments = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -251,30 +251,34 @@ class Exercise
     }
 
     /**
-     * @return Collection|User[]
+     * @return Collection|ExerciseComment[]
      */
-    public function getUsers(): Collection
+    public function getComments(): Collection
     {
-        return $this->users;
+        return $this->comments;
     }
 
-    public function addUser(User $user): self
+    public function addComment(ExerciseComment $comment): self
     {
-        if (!$this->users->contains($user)) {
-            $this->users[] = $user;
-            $user->addExerciseComment($this);
+        if (!$this->comments->contains($comment)) {
+            $this->comments[] = $comment;
+            $comment->setExercise($this);
         }
 
         return $this;
     }
 
-    public function removeUser(User $user): self
+    public function removeComment(ExerciseComment $comment): self
     {
-        if ($this->users->contains($user)) {
-            $this->users->removeElement($user);
-            $user->removeExerciseComment($this);
+        if ($this->comments->contains($comment)) {
+            $this->comments->removeElement($comment);
+            // set the owning side to null (unless already changed)
+            if ($comment->getExercise() === $this) {
+                $comment->setExercise(null);
+            }
         }
 
         return $this;
     }
+
 }

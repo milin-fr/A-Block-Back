@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Exercise index{% endblock %}
+
+{% block body %}
+    <h1>Exercise index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Title</th>
+                <th>Time</th>
+                <th>Img_path</th>
+                <th>Description</th>
+                <th>Score</th>
+                <th>Created_at</th>
+                <th>Updated_at</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for exercise in exercises %}
+            <tr>
+                <td>{{ exercise.id }}</td>
+                <td>{{ exercise.title }}</td>
+                <td>{{ exercise.time }}</td>
+                <td>{{ exercise.imgPath }}</td>
+                <td>{{ exercise.description }}</td>
+                <td>{{ exercise.score }}</td>
+                <td>{{ exercise.createdAt ? exercise.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ exercise.updatedAt ? exercise.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('exercise_show', {'id': exercise.id}) }}">show</a>
+                    <a href="{{ path('exercise_edit', {'id': exercise.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="9">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('exercise_new') }}">Create new</a>
+{% endblock %}
