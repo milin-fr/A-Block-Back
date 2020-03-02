@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -55,6 +57,16 @@ class User
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $updated_at;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Program")
+     */
+    private $program_bookmarks;
+
+    public function __construct()
+    {
+        $this->program_bookmarks = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -153,6 +165,32 @@ class User
     public function setUpdatedAt(?\DateTimeInterface $updated_at): self
     {
         $this->updated_at = $updated_at;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Program[]
+     */
+    public function getProgramBookmarks(): Collection
+    {
+        return $this->program_bookmarks;
+    }
+
+    public function addProgramBookmark(Program $programBookmark): self
+    {
+        if (!$this->program_bookmarks->contains($programBookmark)) {
+            $this->program_bookmarks[] = $programBookmark;
+        }
+
+        return $this;
+    }
+
+    public function removeProgramBookmark(Program $programBookmark): self
+    {
+        if ($this->program_bookmarks->contains($programBookmark)) {
+            $this->program_bookmarks->removeElement($programBookmark);
+        }
 
         return $this;
     }
