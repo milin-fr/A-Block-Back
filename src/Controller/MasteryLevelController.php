@@ -5,10 +5,13 @@ namespace App\Controller;
 use App\Entity\MasteryLevel;
 use App\Form\MasteryLevelType;
 use App\Repository\MasteryLevelRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
  * @Route("/api/mastery_level")
@@ -20,9 +23,22 @@ class MasteryLevelController extends AbstractController
      */
     public function getMasteryLevels(MasteryLevelRepository $masteryLevelRepository): Response
     {
-        return $this->render('mastery_level/index.html.twig', [
-            'mastery_levels' => $masteryLevelRepository->findAll(),
+        $mastery_levels = $masteryLevelRepository->findAll();
+
+        $encoders = [new JsonEncoder()];
+
+        $normalizers = [new ObjectNormalizer()];
+
+        $serializer = new Serializer($normalizers, $encoders);
+
+        $jsonContent = $serializer->serialize($mastery_levels, 'json', [
+            'circular_reference_handler' => function($objet){
+                return $objet->getId();
+            }
         ]);
+        $response = new Response($jsonContent);
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
     }
 
     /**

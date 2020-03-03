@@ -5,10 +5,14 @@ namespace App\Controller;
 use App\Entity\Exercise;
 use App\Form\ExerciseType;
 use App\Repository\ExerciseRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
  * @Route("/api/exercise")
@@ -20,9 +24,22 @@ class ExerciseController extends AbstractController
      */
     public function getExercises(ExerciseRepository $exerciseRepository): Response
     {
-        return $this->render('exercise/index.html.twig', [
-            'exercises' => $exerciseRepository->findAll(),
+        $exercises = $exerciseRepository->findAll();
+
+        $encoders = [new JsonEncoder()];
+        
+        $normalizers = [new ObjectNormalizer()];
+
+        $serializer = new Serializer($normalizers, $encoders);
+
+        $jsonContent = $serializer->serialize($exercises, 'json', [
+            'circular_reference_handler' => function($objet){
+                return $objet->getId();
+            }
         ]);
+        $response = new Response($jsonContent);
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
     }
 
     /**

@@ -9,6 +9,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
 
 /**
  * @Route("/api/program")
@@ -20,9 +23,22 @@ class ProgramController extends AbstractController
      */
     public function getPrograms(ProgramRepository $programRepository): Response
     {
-        return $this->render('program/index.html.twig', [
-            'programs' => $programRepository->findAll(),
+        $programs = $programRepository->findAll();
+
+        $encoders = [new JsonEncoder()];
+
+        $normalizers = [new ObjectNormalizer()];
+
+        $serializer = new Serializer($normalizers, $encoders);
+
+        $jsonContent = $serializer->serialize($programs, 'json', [
+            'circular_reference_handler' => function($objet){
+                return $objet->getId();
+            }
         ]);
+        $response = new Response($jsonContent);
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
     }
 
     /**

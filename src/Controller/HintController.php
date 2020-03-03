@@ -5,10 +5,13 @@ namespace App\Controller;
 use App\Entity\Hint;
 use App\Form\HintType;
 use App\Repository\HintRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
  * @Route("/api/hint")
@@ -20,9 +23,22 @@ class HintController extends AbstractController
      */
     public function getHints(HintRepository $hintRepository): Response
     {
-        return $this->render('hint/index.html.twig', [
-            'hints' => $hintRepository->findAll(),
+        $hints = $hintRepository->findAll();
+
+        $encoders = [new JsonEncoder()];
+
+        $normalizers = [new ObjectNormalizer()];
+
+        $serializer = new Serializer($normalizers, $encoders);
+
+        $jsonContent = $serializer->serialize($hints, 'json', [
+            'circular_reference_handler' => function($objet){
+                return $objet->getId();
+            }
         ]);
+        $response = new Response($jsonContent);
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
     }
 
     /**
