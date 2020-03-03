@@ -13,6 +13,7 @@ use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
  * @Route("/api/mastery_level")
@@ -55,11 +56,14 @@ class MasteryLevelController extends AbstractController
     /**
      * @Route("/{id}", name="mastery_level_show", methods={"GET"})
      */
-    public function getMasterLevel(MasteryLevel $masteryLevel): Response
+    public function getMasterLevel($id, MasteryLevelRepository $masteryLevelRepository): Response
     {
-        return $this->render('mastery_level/show.html.twig', [
-            'mastery_level' => $masteryLevel,
-        ]);
+        $masteryLevel = $masteryLevelRepository->find($id);
+        if (!$masteryLevel) {
+            
+            return new JsonResponse(['error' => '404 not found.'], 404);
+        }
+        return $this->json($masteryLevel, Response::HTTP_OK, [], ['groups' => 'mastery_level']);
     }
 
     /**

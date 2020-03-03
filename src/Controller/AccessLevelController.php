@@ -13,6 +13,7 @@ use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
  * @Route("/api/access_level")
@@ -24,9 +25,9 @@ class AccessLevelController extends AbstractController
      */
     public function getAcessLevels(AccessLevelRepository $accessLevelRepository): Response
     {
-        $accessLevel = $accessLevelRepository->findAll();
+        $accessLevels = $accessLevelRepository->findAll();
 
-        return $this->json($accessLevel, Response::HTTP_OK, [], ['groups' => 'access_level']);
+        return $this->json($accessLevels, Response::HTTP_OK, [], ['groups' => 'access_level']);
     }
 
     /**
@@ -55,11 +56,14 @@ class AccessLevelController extends AbstractController
     /**
      * @Route("/{id}", name="access_level_show", methods={"GET"})
      */
-    public function getAccessLevel(AccessLevel $accessLevel): Response
+    public function getAccessLevel($id, AccessLevelRepository $accessLevelRepository): Response
     {
-        return $this->render('access_level/show.html.twig', [
-            'access_level' => $accessLevel,
-        ]);
+        $accessLevel = $accessLevelRepository->find($id);
+        if (!$accessLevel) {
+            
+            return new JsonResponse(['error' => '404 not found.'], 404);
+        }
+        return $this->json($accessLevel, Response::HTTP_OK, [], ['groups' => 'access_level']);
     }
 
     /**

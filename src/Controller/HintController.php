@@ -13,6 +13,7 @@ use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
  * @Route("/api/hint")
@@ -55,11 +56,14 @@ class HintController extends AbstractController
     /**
      * @Route("/{id}", name="hint_show", methods={"GET"})
      */
-    public function getHint(Hint $hint): Response
+    public function getHint($id, HintRepository $hintRepository): Response
     {
-        return $this->render('hint/show.html.twig', [
-            'hint' => $hint,
-        ]);
+        $hint = $hintRepository->find($id);
+        if (!$hint) {
+            
+            return new JsonResponse(['error' => '404 not found.'], 404);
+        }
+        return $this->json($hint, Response::HTTP_OK, [], ['groups' => 'hint']);
     }
 
     /**

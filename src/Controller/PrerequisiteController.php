@@ -6,6 +6,7 @@ use App\Entity\Prerequisite;
 use App\Form\PrerequisiteType;
 use App\Repository\PrerequisiteRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -54,11 +55,14 @@ class PrerequisiteController extends AbstractController
     /**
      * @Route("/{id}", name="prerequisite_show", methods={"GET"})
      */
-    public function getPrerequisite(Prerequisite $prerequisite): Response
+    public function getPrerequisite($id, PrerequisiteRepository $prerequisiteRepository): Response
     {
-        return $this->render('prerequisite/show.html.twig', [
-            'prerequisite' => $prerequisite,
-        ]);
+        $prerequisite = $prerequisiteRepository->find($id);
+        if (!$prerequisite) {
+            
+            return new JsonResponse(['error' => '404 not found.'], 404);
+        }
+        return $this->json($prerequisite, Response::HTTP_OK, [], ['groups' => 'prerequisite']);
     }
 
     /**
