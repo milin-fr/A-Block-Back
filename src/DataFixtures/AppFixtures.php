@@ -2,8 +2,7 @@
 
 namespace App\DataFixtures;
 
-use Faker;
-use Faker\Factory;
+use App\DataFixtures\Provider\AblocProvider;
 use App\Entity\Hint;
 use App\Entity\User;
 use App\Entity\Program;
@@ -14,8 +13,9 @@ use App\Entity\Prerequisite;
 use Faker\Provider\DateTime;
 use App\Entity\ProgramComment;
 use App\Entity\ExerciseComment;
+use Faker;
+use Faker\Factory;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use App\DataFixtures\Provider\AblocProvider;
 use Doctrine\Common\Persistence\ObjectManager;
 
 class AppFixtures extends Fixture
@@ -50,24 +50,6 @@ class AppFixtures extends Fixture
             $masteryLevel->setCreatedAt(new \DateTime);
             $masteryLevelsList[] = $masteryLevel;
             $manager->persist($masteryLevel);
-        }
-
-        // Liste de Users
-        $UsersList = [];
-        // Création de 5 Users
-        for ($i = 0; $i < 5; $i++) {
-            $user = new User();
-            $user->setPassword("123");
-            $user->setAccountName($faker->unique()->firstName());
-            $user->setEmail("$faker->firstName.$faker->lastName@mail.fr");
-            $user->setScore("0");
-            $user->setCreatedAt(new \DateTime);
-            shuffle($AccessLevelsList);
-            $user->setAccessLevel($AccessLevelsList[0]);
-            shuffle($masteryLevelsList);
-            $user->setMasteryLevel($masteryLevelsList[0]);
-            $UsersList[] = $user;
-            $manager->persist($user);
         }
 
         // Liste des Hints
@@ -124,6 +106,27 @@ class AppFixtures extends Fixture
             $ProgramsList[] = $program;
             $manager->persist($program);
         }
+
+        // Liste de Users
+        $UsersList = [];
+        // Création de 5 Users
+        for ($i = 0; $i < 5; $i++) {
+            $user = new User();
+            $user->setPassword("1234");
+            $user->setAccountName($faker->unique()->firstName());
+            $user->setEmail("$faker->firstName.$faker->lastName@mail.fr");
+            $user->setScore("0");
+            $user->setCreatedAt(new \DateTime);
+            shuffle($AccessLevelsList);
+            $user->setAccessLevel($AccessLevelsList[0]);
+            shuffle($masteryLevelsList);
+            $user->setMasteryLevel($masteryLevelsList[0]);
+            $user->addExerciseBookmark($ExercisesList[0]);
+            $user->addProgramBookmark($ProgramsList[0]);
+            $UsersList[] = $user;
+            $manager->persist($user);
+        }
+
         // Liste des Commentaires sur Exercices
         $exerciseCommentsList = [];
         //Création de 20 commentaires sur Exercices
@@ -147,7 +150,8 @@ class AppFixtures extends Fixture
             $programComment->setUser($UsersList[0]);
             $programComment->setProgram($ProgramsList[0]);
             $manager->persist($programComment);
-        }        
+        }
+
         $manager->flush();
         
     }
