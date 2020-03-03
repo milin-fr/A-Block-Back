@@ -85,7 +85,7 @@ class AblocProvider extends Base
         'Une poutre d\'entraienemnt',
         'Du fingertape',
         'Des gants',
-        'Du fingertape',
+        'Des lunettes',
         'Un tapis de sport',
         'Du grip',
         'Un chronomètre',

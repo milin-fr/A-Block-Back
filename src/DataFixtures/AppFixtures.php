@@ -46,7 +46,7 @@ class AppFixtures extends Fixture
         //Création de 5 MasteryLevel
         for ($i = 0; $i < 5; $i++) {
             $masteryLevel = new MasteryLevel();
-            $masteryLevel->setTitle($faker->masteryLevelTitle());
+            $masteryLevel->setTitle($faker->unique()->masteryLevelTitle());
             $masteryLevel->setCreatedAt(new \DateTime);
             $masteryLevelsList[] = $masteryLevel;
             $manager->persist($masteryLevel);
@@ -75,7 +75,7 @@ class AppFixtures extends Fixture
         //Création de 5 Hints
         for ($i = 0; $i < 5; $i++) {
             $hint = new Hint();
-            $hint->setText($faker->hintText());
+            $hint->setText($faker->unique()->hintText());
             $hint->setCreatedAt(new \DateTime);
             $HintsList[] = $hint;
             $manager->persist($hint);
@@ -86,7 +86,7 @@ class AppFixtures extends Fixture
         //Création de 10 Prerequisites
         for ($i = 0; $i < 10; $i++) {
             $prerequisite = new Prerequisite();
-            $prerequisite->setDescription($faker->prerequisiteDescription());
+            $prerequisite->setDescription($faker->unique()->prerequisiteDescription());
             $prerequisite->setCreatedAt(new \DateTime);
             $PrerequisitesList[] = $prerequisite;
             $manager->persist($prerequisite);
@@ -101,7 +101,11 @@ class AppFixtures extends Fixture
             $exercise->setTime(random_int(10, 30));
             $exercise->setCreatedAt(new \DateTime);
             $exercise->addHint($HintsList[0]);
+            $exercise->addHint($HintsList[1]);
+            $exercise->addHint($HintsList[2]);
             $exercise->addPrerequisite($PrerequisitesList[0]);
+            $exercise->addPrerequisite($PrerequisitesList[1]);
+            $exercise->addPrerequisite($PrerequisitesList[2]);
             $ExercisesList[] = $exercise;
             $manager->persist($exercise);
         }
@@ -122,8 +126,8 @@ class AppFixtures extends Fixture
         }
         // Liste des Commentaires sur Exercices
         $exerciseCommentsList = [];
-        //Création de 5 commentaires sur Exercices
-        for ($i = 0; $i < 5; $i++) {
+        //Création de 20 commentaires sur Exercices
+        for ($i = 0; $i < 20; $i++) {
             $exerciseComment = new ExerciseComment();
             $exerciseComment->setText($faker->exerciseCommentText());
             shuffle($UsersList);
@@ -134,8 +138,8 @@ class AppFixtures extends Fixture
         }
         // Liste des Commentaires sur Programmes
         $programCommentsList = [];
-        //Création de 5 commentaires sur Programmes
-        for ($i = 0; $i < 5; $i++) {
+        //Création de 10 commentaires sur Programmes
+        for ($i = 0; $i < 10; $i++) {
             $programComment = new ProgramComment();
             $programComment->setText($faker->programCommentText());
             shuffle($UsersList);
