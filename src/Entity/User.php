@@ -93,6 +93,11 @@ class User
      */
     private $access_level;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\MasteryLevel")
+     */
+    private $mastery_level;
+
     public function __construct()
     {
         $this->program_bookmarks = new ArrayCollection();
@@ -351,6 +356,18 @@ class User
     public function setAccessLevel(?AccessLevel $access_level): self
     {
         $this->access_level = $access_level;
+
+        return $this;
+    }
+
+    public function getMasteryLevel(): ?MasteryLevel
+    {
+        return $this->mastery_level;
+    }
+
+    public function setMasteryLevel(?MasteryLevel $mastery_level): self
+    {
+        $this->mastery_level = $mastery_level;
 
         return $this;
     }
