@@ -26,20 +26,7 @@ class ExerciseController extends AbstractController
     {
         $exercises = $exerciseRepository->findAll();
 
-        $encoders = [new JsonEncoder()];
-        
-        $normalizers = array(new DateTimeNormalizer(), new ObjectNormalizer());
-
-        $serializer = new Serializer($normalizers, $encoders);
-
-        $jsonContent = $serializer->serialize($exercises, 'json', [
-            'circular_reference_handler' => function($objet){
-                return $objet->getId();
-            }
-        ]);
-        $response = new Response($jsonContent);
-        $response->headers->set('Content-Type', 'application/json');
-        return $response;
+        return $this->json($exercises, Response::HTTP_OK, [], ['groups' => 'exercise']);
     }
 
     /**

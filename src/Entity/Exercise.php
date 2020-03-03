@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ExerciseRepository")
@@ -20,6 +21,7 @@ class Exercise
 
     /**
      * @ORM\Column(type="string", length=64)
+     * @Groups("exercise")
      */
     private $title;
 
@@ -35,6 +37,7 @@ class Exercise
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @Groups("exercise")
      */
     private $description;
 
@@ -45,21 +48,25 @@ class Exercise
 
     /**
      * @ORM\Column(type="datetime")
+     * @Groups("exercise")
      */
     private $created_at;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     * @Groups("exercise")
      */
     private $updated_at;
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Hint")
+     * @Groups("exercise")
      */
     private $hints;
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Prerequisite", inversedBy="exercises")
+     * @Groups("exercise")
      */
     private $prerequisites;
 

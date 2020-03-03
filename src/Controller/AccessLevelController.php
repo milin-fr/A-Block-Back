@@ -24,22 +24,9 @@ class AccessLevelController extends AbstractController
      */
     public function getAcessLevels(AccessLevelRepository $accessLevelRepository): Response
     {
-        $access_levels = $accessLevelRepository->findAll();
+        $accessLevel = $accessLevelRepository->findAll();
 
-        $encoders = [new JsonEncoder()];
-
-        $normalizers = array(new DateTimeNormalizer(), new ObjectNormalizer());
-
-        $serializer = new Serializer($normalizers, $encoders);
-
-        $jsonContent = $serializer->serialize($access_levels, 'json', [
-            'circular_reference_handler' => function($objet){
-                return $objet->getId();
-            }
-        ]);
-        $response = new Response($jsonContent);
-        $response->headers->set('Content-Type', 'application/json');
-        return $response;
+        return $this->json($accessLevel, Response::HTTP_OK, [], ['groups' => 'access_level']);
     }
 
     /**

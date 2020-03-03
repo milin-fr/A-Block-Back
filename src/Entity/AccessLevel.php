@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\AccessLevelRepository")
@@ -13,21 +14,25 @@ class AccessLevel
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups("access_level")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=64)
+     * @Groups("access_level")
      */
     private $title;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Groups("access_level")
      */
     private $created_at;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     * @Groups("access_level")
      */
     private $updated_at;
 

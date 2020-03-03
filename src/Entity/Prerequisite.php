@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\PrerequisiteRepository")
@@ -20,16 +21,19 @@ class Prerequisite
 
     /**
      * @ORM\Column(type="text")
+     * @Groups("exercise")
      */
     private $description;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Groups("exercise")
      */
     private $created_at;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     * @Groups("exercise")
      */
     private $updated_at;
 
