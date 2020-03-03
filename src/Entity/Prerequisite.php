@@ -16,13 +16,13 @@ class Prerequisite
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups({"exercise", "prerequisite"})
+     * @Groups({"exercise", "prerequisite", "program"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="text")
-     * @Groups({"exercise", "prerequisite"})
+     * @Groups({"exercise", "prerequisite", "program"})
      */
     private $description;
 

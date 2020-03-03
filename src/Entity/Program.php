@@ -16,48 +16,55 @@ class Program
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups("exercise")
+     * @Groups({"exercise", "program"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=64)
-     * @Groups("exercise")
+     * @Groups({"exercise", "program"})
      */
     private $title;
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @Groups("program")
      */
     private $description;
 
     /**
      * @ORM\Column(type="smallint")
+     * @Groups("program")
      */
     private $time;
 
     /**
      * @ORM\Column(type="string", length=64, nullable=true)
+     * @Groups("program")
      */
     private $img_path;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Groups("program")
      */
     private $created_at;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     * @Groups("program")
      */
     private $updated_at;
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Exercise", inversedBy="programs")
+     * @Groups("program")
      */
     private $exercises;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\ProgramComment", mappedBy="program", orphanRemoval=true)
+     * @Groups("program")
      */
     private $comments;
 

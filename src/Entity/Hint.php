@@ -14,13 +14,13 @@ class Hint
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups({"exercise", "hint"})
+     * @Groups({"exercise", "hint", "program"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="text")
-     * @Groups({"exercise", "hint"})
+     * @Groups({"exercise", "hint", "program"})
      */
     private $text;
 

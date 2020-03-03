@@ -16,19 +16,19 @@ class Exercise
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups({"exercise", "prerequisite"})
+     * @Groups({"exercise", "prerequisite", "program"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=64)
-     * @Groups({"exercise", "prerequisite"})
+     * @Groups({"exercise", "prerequisite", "program"})
      */
     private $title;
 
     /**
      * @ORM\Column(type="smallint")
-     * @Groups("exercise")
+     * @Groups({"exercise", "program"})
      */
     private $time;
 
@@ -46,7 +46,7 @@ class Exercise
 
     /**
      * @ORM\Column(type="smallint", nullable=true)
-     * @Groups("exercise")
+     * @Groups({"exercise", "program"})
      */
     private $score;
 
@@ -64,13 +64,13 @@ class Exercise
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Hint")
-     * @Groups("exercise")
+     * @Groups({"exercise", "program"})
      */
     private $hints;
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Prerequisite", inversedBy="exercises")
-     * @Groups("exercise")
+     * @Groups({"exercise", "program"})
      */
     private $prerequisites;
 

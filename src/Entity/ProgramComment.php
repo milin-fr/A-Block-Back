@@ -14,11 +14,13 @@ class ProgramComment
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups("program")
      */
     private $id;
 
     /**
      * @ORM\Column(type="text")
+     * @Groups("program")
      */
     private $text;
 
