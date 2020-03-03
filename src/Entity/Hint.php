@@ -14,23 +14,25 @@ class Hint
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups("exercise")
+     * @Groups({"exercise", "hint"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="text")
-     * @Groups("exercise")
+     * @Groups({"exercise", "hint"})
      */
     private $text;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Groups("hint")
      */
     private $created_at;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     * @Groups("hint")
      */
     private $updated_at;
 

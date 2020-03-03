@@ -26,20 +26,7 @@ class HintController extends AbstractController
     {
         $hints = $hintRepository->findAll();
 
-        $encoders = [new JsonEncoder()];
-
-        $normalizers = array(new DateTimeNormalizer(), new ObjectNormalizer());
-
-        $serializer = new Serializer($normalizers, $encoders);
-
-        $jsonContent = $serializer->serialize($hints, 'json', [
-            'circular_reference_handler' => function($objet){
-                return $objet->getId();
-            }
-        ]);
-        $response = new Response($jsonContent);
-        $response->headers->set('Content-Type', 'application/json');
-        return $response;
+        return $this->json($hints, Response::HTTP_OK, [], ['groups' => 'hint']);
     }
 
     /**
