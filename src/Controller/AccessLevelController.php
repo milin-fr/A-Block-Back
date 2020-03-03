@@ -5,10 +5,13 @@ namespace App\Controller;
 use App\Entity\AccessLevel;
 use App\Form\AccessLevelType;
 use App\Repository\AccessLevelRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
  * @Route("/api/access_level")
@@ -20,9 +23,22 @@ class AccessLevelController extends AbstractController
      */
     public function getAcessLevels(AccessLevelRepository $accessLevelRepository): Response
     {
-        return $this->render('access_level/index.html.twig', [
-            'access_levels' => $accessLevelRepository->findAll(),
+        $access_levels = $accessLevelRepository->findAll();
+
+        $encoders = [new JsonEncoder()];
+
+        $normalizers = [new ObjectNormalizer()];
+
+        $serializer = new Serializer($normalizers, $encoders);
+
+        $jsonContent = $serializer->serialize($access_levels, 'json', [
+            'circular_reference_handler' => function($objet){
+                return $objet->getId();
+            }
         ]);
+        $response = new Response($jsonContent);
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
     }
 
     /**
