@@ -14,11 +14,13 @@ class Hint
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups("exercise")
      */
     private $id;
 
     /**
      * @ORM\Column(type="text")
+     * @Groups("exercise")
      */
     private $text;
 

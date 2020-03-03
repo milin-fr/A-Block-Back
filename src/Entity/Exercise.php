@@ -16,6 +16,7 @@ class Exercise
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups("exercise")
      */
     private $id;
 
@@ -27,11 +28,13 @@ class Exercise
 
     /**
      * @ORM\Column(type="smallint")
+     * @Groups("exercise")
      */
     private $time;
 
     /**
      * @ORM\Column(type="string", length=64, nullable=true)
+     * @Groups("exercise")
      */
     private $img_path;
 
@@ -43,6 +46,7 @@ class Exercise
 
     /**
      * @ORM\Column(type="smallint", nullable=true)
+     * @Groups("exercise")
      */
     private $score;
 
@@ -72,11 +76,13 @@ class Exercise
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Program", mappedBy="exercises")
+     * @Groups("exercise")
      */
     private $programs;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\ExerciseComment", mappedBy="exercise", orphanRemoval=true)
+     * @Groups("exercise")
      */
     private $comments;
 

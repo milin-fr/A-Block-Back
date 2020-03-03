@@ -16,6 +16,7 @@ class Prerequisite
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups("exercise")
      */
     private $id;
 
@@ -27,13 +28,11 @@ class Prerequisite
 
     /**
      * @ORM\Column(type="datetime")
-     * @Groups("exercise")
      */
     private $created_at;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
-     * @Groups("exercise")
      */
     private $updated_at;
 
