@@ -23,22 +23,9 @@ class PrerequisiteController extends AbstractController
      */
     public function getPrerequisites(PrerequisiteRepository $prerequisiteRepository): Response
     {
-        $prerequisites = $prerequisiteRepository->findAll();
+        $prerequisite = $prerequisiteRepository->findAll();
 
-        $encoders = [new JsonEncoder()];
-
-        $normalizers = [new ObjectNormalizer()];
-
-        $serializer = new Serializer($normalizers, $encoders);
-
-        $jsonContent = $serializer->serialize($prerequisites, 'json', [
-            'circular_reference_handler' => function($objet){
-                return $objet->getId();
-            }
-        ]);
-        $response = new Response($jsonContent);
-        $response->headers->set('Content-Type', 'application/json');
-        return $response;
+        return $this->json($prerequisite, Response::HTTP_OK, [], ['groups' => 'prerequisite']);
     }
 
     /**

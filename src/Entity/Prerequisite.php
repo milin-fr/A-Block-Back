@@ -16,28 +16,31 @@ class Prerequisite
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups("exercise")
+     * @Groups({"exercise", "prerequisite"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="text")
-     * @Groups("exercise")
+     * @Groups({"exercise", "prerequisite"})
      */
     private $description;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Groups("prerequisite")
      */
     private $created_at;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     * @Groups("prerequisite")
      */
     private $updated_at;
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Exercise", mappedBy="prerequisites")
+     * @Groups("prerequisite")
      */
     private $exercises;
 
