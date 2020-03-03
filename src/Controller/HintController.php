@@ -11,14 +11,14 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/hint")
+ * @Route("/api/hint")
  */
 class HintController extends AbstractController
 {
     /**
-     * @Route("/", name="hint_index", methods={"GET"})
+     * @Route("/", name="hint_list", methods={"GET"})
      */
-    public function index(HintRepository $hintRepository): Response
+    public function getHints(HintRepository $hintRepository): Response
     {
         return $this->render('hint/index.html.twig', [
             'hints' => $hintRepository->findAll(),
@@ -26,9 +26,9 @@ class HintController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="hint_new", methods={"GET","POST"})
+     * @Route("/", name="hint_new", methods={"POST"})
      */
-    public function new(Request $request): Response
+    public function postHint(Request $request): Response
     {
         $hint = new Hint();
         $form = $this->createForm(HintType::class, $hint);
@@ -51,7 +51,7 @@ class HintController extends AbstractController
     /**
      * @Route("/{id}", name="hint_show", methods={"GET"})
      */
-    public function show(Hint $hint): Response
+    public function getHint(Hint $hint): Response
     {
         return $this->render('hint/show.html.twig', [
             'hint' => $hint,
@@ -59,9 +59,9 @@ class HintController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="hint_edit", methods={"GET","POST"})
+     * @Route("/{id}/edit", name="hint_edit", methods={"PUT"})
      */
-    public function edit(Request $request, Hint $hint): Response
+    public function putHint(Request $request, Hint $hint): Response
     {
         $form = $this->createForm(HintType::class, $hint);
         $form->handleRequest($request);
@@ -81,7 +81,7 @@ class HintController extends AbstractController
     /**
      * @Route("/{id}", name="hint_delete", methods={"DELETE"})
      */
-    public function delete(Request $request, Hint $hint): Response
+    public function deleteHint(Request $request, Hint $hint): Response
     {
         if ($this->isCsrfTokenValid('delete'.$hint->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();

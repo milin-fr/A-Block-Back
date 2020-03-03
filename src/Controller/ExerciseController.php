@@ -11,14 +11,14 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/exercise")
+ * @Route("/api/exercise")
  */
 class ExerciseController extends AbstractController
 {
     /**
-     * @Route("/", name="exercise_index", methods={"GET"})
+     * @Route("/", name="exercise_list", methods={"GET"})
      */
-    public function index(ExerciseRepository $exerciseRepository): Response
+    public function getExercises(ExerciseRepository $exerciseRepository): Response
     {
         return $this->render('exercise/index.html.twig', [
             'exercises' => $exerciseRepository->findAll(),
@@ -26,9 +26,9 @@ class ExerciseController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="exercise_new", methods={"GET","POST"})
+     * @Route("/", name="exercise_new", methods={"POST"})
      */
-    public function new(Request $request): Response
+    public function postExercise(Request $request): Response
     {
         $exercise = new Exercise();
         $form = $this->createForm(ExerciseType::class, $exercise);
@@ -51,7 +51,7 @@ class ExerciseController extends AbstractController
     /**
      * @Route("/{id}", name="exercise_show", methods={"GET"})
      */
-    public function show(Exercise $exercise): Response
+    public function getExercise(Exercise $exercise): Response
     {
         return $this->render('exercise/show.html.twig', [
             'exercise' => $exercise,
@@ -59,9 +59,9 @@ class ExerciseController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="exercise_edit", methods={"GET","POST"})
+     * @Route("/{id}/edit", name="exercise_edit", methods={"PUT"})
      */
-    public function edit(Request $request, Exercise $exercise): Response
+    public function putExercise(Request $request, Exercise $exercise): Response
     {
         $form = $this->createForm(ExerciseType::class, $exercise);
         $form->handleRequest($request);
@@ -81,7 +81,7 @@ class ExerciseController extends AbstractController
     /**
      * @Route("/{id}", name="exercise_delete", methods={"DELETE"})
      */
-    public function delete(Request $request, Exercise $exercise): Response
+    public function deleteExercise(Request $request, Exercise $exercise): Response
     {
         if ($this->isCsrfTokenValid('delete'.$exercise->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();

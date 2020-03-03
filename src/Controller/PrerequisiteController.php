@@ -11,14 +11,14 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/prerequisite")
+ * @Route("/api/prerequisite")
  */
 class PrerequisiteController extends AbstractController
 {
     /**
-     * @Route("/", name="prerequisite_index", methods={"GET"})
+     * @Route("/", name="prerequisite_list", methods={"GET"})
      */
-    public function index(PrerequisiteRepository $prerequisiteRepository): Response
+    public function getPrerequisites(PrerequisiteRepository $prerequisiteRepository): Response
     {
         return $this->render('prerequisite/index.html.twig', [
             'prerequisites' => $prerequisiteRepository->findAll(),
@@ -26,9 +26,9 @@ class PrerequisiteController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="prerequisite_new", methods={"GET","POST"})
+     * @Route("/", name="prerequisite_new", methods={"POST"})
      */
-    public function new(Request $request): Response
+    public function postPrerequisite(Request $request): Response
     {
         $prerequisite = new Prerequisite();
         $form = $this->createForm(PrerequisiteType::class, $prerequisite);
@@ -51,7 +51,7 @@ class PrerequisiteController extends AbstractController
     /**
      * @Route("/{id}", name="prerequisite_show", methods={"GET"})
      */
-    public function show(Prerequisite $prerequisite): Response
+    public function getPrerequisite(Prerequisite $prerequisite): Response
     {
         return $this->render('prerequisite/show.html.twig', [
             'prerequisite' => $prerequisite,
@@ -59,9 +59,9 @@ class PrerequisiteController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="prerequisite_edit", methods={"GET","POST"})
+     * @Route("/{id}/edit", name="prerequisite_edit", methods={"PUT"})
      */
-    public function edit(Request $request, Prerequisite $prerequisite): Response
+    public function putPrerequisite(Request $request, Prerequisite $prerequisite): Response
     {
         $form = $this->createForm(PrerequisiteType::class, $prerequisite);
         $form->handleRequest($request);
@@ -81,7 +81,7 @@ class PrerequisiteController extends AbstractController
     /**
      * @Route("/{id}", name="prerequisite_delete", methods={"DELETE"})
      */
-    public function delete(Request $request, Prerequisite $prerequisite): Response
+    public function deletePrerequisite(Request $request, Prerequisite $prerequisite): Response
     {
         if ($this->isCsrfTokenValid('delete'.$prerequisite->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();

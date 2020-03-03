@@ -11,14 +11,14 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/program")
+ * @Route("/api/program")
  */
 class ProgramController extends AbstractController
 {
     /**
-     * @Route("/", name="program_index", methods={"GET"})
+     * @Route("/", name="program_list", methods={"GET"})
      */
-    public function index(ProgramRepository $programRepository): Response
+    public function getPrograms(ProgramRepository $programRepository): Response
     {
         return $this->render('program/index.html.twig', [
             'programs' => $programRepository->findAll(),
@@ -26,9 +26,9 @@ class ProgramController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="program_new", methods={"GET","POST"})
+     * @Route("/", name="program_new", methods={"POST"})
      */
-    public function new(Request $request): Response
+    public function postProgram(Request $request): Response
     {
         $program = new Program();
         $form = $this->createForm(ProgramType::class, $program);
@@ -51,7 +51,7 @@ class ProgramController extends AbstractController
     /**
      * @Route("/{id}", name="program_show", methods={"GET"})
      */
-    public function show(Program $program): Response
+    public function getProgram(Program $program): Response
     {
         return $this->render('program/show.html.twig', [
             'program' => $program,
@@ -59,9 +59,9 @@ class ProgramController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="program_edit", methods={"GET","POST"})
+     * @Route("/{id}/edit", name="program_edit", methods={"PUT"})
      */
-    public function edit(Request $request, Program $program): Response
+    public function putProgram(Request $request, Program $program): Response
     {
         $form = $this->createForm(ProgramType::class, $program);
         $form->handleRequest($request);
@@ -81,7 +81,7 @@ class ProgramController extends AbstractController
     /**
      * @Route("/{id}", name="program_delete", methods={"DELETE"})
      */
-    public function delete(Request $request, Program $program): Response
+    public function deleteProgram(Request $request, Program $program): Response
     {
         if ($this->isCsrfTokenValid('delete'.$program->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();

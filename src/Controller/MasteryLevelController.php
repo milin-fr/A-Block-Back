@@ -11,14 +11,14 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/mastery/level")
+ * @Route("/api/mastery_level")
  */
 class MasteryLevelController extends AbstractController
 {
     /**
-     * @Route("/", name="mastery_level_index", methods={"GET"})
+     * @Route("/", name="mastery_level_list", methods={"GET"})
      */
-    public function index(MasteryLevelRepository $masteryLevelRepository): Response
+    public function getMasteryLevels(MasteryLevelRepository $masteryLevelRepository): Response
     {
         return $this->render('mastery_level/index.html.twig', [
             'mastery_levels' => $masteryLevelRepository->findAll(),
@@ -26,9 +26,9 @@ class MasteryLevelController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="mastery_level_new", methods={"GET","POST"})
+     * @Route("/", name="mastery_level_new", methods={"POST"})
      */
-    public function new(Request $request): Response
+    public function postMasteryLevel(Request $request): Response
     {
         $masteryLevel = new MasteryLevel();
         $form = $this->createForm(MasteryLevelType::class, $masteryLevel);
@@ -51,7 +51,7 @@ class MasteryLevelController extends AbstractController
     /**
      * @Route("/{id}", name="mastery_level_show", methods={"GET"})
      */
-    public function show(MasteryLevel $masteryLevel): Response
+    public function getMasterLevel(MasteryLevel $masteryLevel): Response
     {
         return $this->render('mastery_level/show.html.twig', [
             'mastery_level' => $masteryLevel,
@@ -59,9 +59,9 @@ class MasteryLevelController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="mastery_level_edit", methods={"GET","POST"})
+     * @Route("/{id}/edit", name="mastery_level_edit", methods={"PUT"})
      */
-    public function edit(Request $request, MasteryLevel $masteryLevel): Response
+    public function putMasterLevel(Request $request, MasteryLevel $masteryLevel): Response
     {
         $form = $this->createForm(MasteryLevelType::class, $masteryLevel);
         $form->handleRequest($request);
@@ -81,7 +81,7 @@ class MasteryLevelController extends AbstractController
     /**
      * @Route("/{id}", name="mastery_level_delete", methods={"DELETE"})
      */
-    public function delete(Request $request, MasteryLevel $masteryLevel): Response
+    public function deleteMasteryLevel(Request $request, MasteryLevel $masteryLevel): Response
     {
         if ($this->isCsrfTokenValid('delete'.$masteryLevel->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
