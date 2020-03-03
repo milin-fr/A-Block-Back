@@ -13,50 +13,51 @@ class MainController extends AbstractController
     public function home()
     {
         $apiData = [
-            "/api/access_level" => [
-                "GET" => "la liste des access_level"
+            "api/access_level" => [
+                "GET" => "les access_levels"
             ],
-            "/api/access_level/id" => [
-                "GET" => "l'access_level trouvé par id"
+            "api/access_level/id" => [
+                "GET" => "l'access_level par id"
             ],
-            "/api/exercise" => [
-                "GET" => "la liste des exercise"
+            "api/exercise" => [
+                "GET" => "les exercises"
             ],
-            "/api/exercise/id" => [
-                "GET" => "l'exercise trouvé par id"
+            "api/exercise/id" => [
+                "GET" => "l'exercise par id"
             ],
-            "/api/hint" => [
-                "GET" => "la liste des hint"
+            "api/hint" => [
+                "GET" => "les hints"
             ],
-            "/api/hint/id" => [
-                "GET" => "l'hint trouvé par id"
+            "api/hint/id" => [
+                "GET" => "le hint par id"
             ],
-            "/api/mastery_level" => [
-                "GET" => "la liste des mastery_level"
+            "api/mastery_level" => [
+                "GET" => "les mastery_levels"
             ],
-            "/api/mastery_level/id" => [
-                "GET" => "l'mastery_level trouvé par id"
+            "api/mastery_level/id" => [
+                "GET" => "le mastery_level par id"
             ],
-            "/api/prerequisite" => [
-                "GET" => "la liste des prerequisite"
+            "api/prerequisite" => [
+                "GET" => "les prerequisites"
             ],
-            "/api/prerequisite/id" => [
-                "GET" => "l'prerequisite trouvé par id"
+            "api/prerequisite/id" => [
+                "GET" => "le prerequisite par id"
             ],
-            "/api/access_level" => [
-                "GET" => "la liste des access_level"
+            "api/program" => [
+                "GET" => "les programs"
             ],
-            "/api/access_level/id" => [
-                "GET" => "l'access_level trouvé par id"
+            "api/program/id" => [
+                "GET" => "le program par id"
             ],
-            "/api/access_level" => [
-                "GET" => "la liste des access_level"
+            "api/user" => [
+                "GET" => "les users"
             ],
-            "/api/access_level/id" => [
-                "GET" => "l'access_level trouvé par id"
+            "api/user/id" => [
+                "GET" => "l'user par id"
             ],
         ];
-        return $this->render('base.html.twig', [
+
+        return $this->render('home\api_data.html.twig', [
             'api_data' => $apiData,
         ]);
     }
