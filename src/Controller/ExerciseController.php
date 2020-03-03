@@ -28,7 +28,7 @@ class ExerciseController extends AbstractController
 
         $encoders = [new JsonEncoder()];
         
-        $normalizers = [new ObjectNormalizer()];
+        $normalizers = array(new DateTimeNormalizer(), new ObjectNormalizer());
 
         $serializer = new Serializer($normalizers, $encoders);
 

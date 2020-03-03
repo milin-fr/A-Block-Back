@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
@@ -27,7 +28,7 @@ class HintController extends AbstractController
 
         $encoders = [new JsonEncoder()];
 
-        $normalizers = [new ObjectNormalizer()];
+        $normalizers = array(new DateTimeNormalizer(), new ObjectNormalizer());
 
         $serializer = new Serializer($normalizers, $encoders);
 
