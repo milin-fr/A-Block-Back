@@ -18,7 +18,7 @@ class UserController extends AbstractController
     /**
      * @Route("/", name="user_list", methods={"GET"})
      */
-    public function getUsers(UserRepository $userRepository): Response
+    public function getAblocUsers(UserRepository $userRepository): Response
     {
         return $this->render('user/index.html.twig', [
             'users' => $userRepository->findAll(),
@@ -28,7 +28,7 @@ class UserController extends AbstractController
     /**
      * @Route("/", name="user_new", methods={"POST"})
      */
-    public function postUser(Request $request): Response
+    public function postAblocUser(Request $request): Response
     {
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
@@ -51,7 +51,7 @@ class UserController extends AbstractController
     /**
      * @Route("/{id}", name="user_show", methods={"GET"})
      */
-    public function getUser(User $user): Response
+    public function getAblocUser(User $user): Response
     {
         return $this->render('user/show.html.twig', [
             'user' => $user,
@@ -61,7 +61,7 @@ class UserController extends AbstractController
     /**
      * @Route("/{id}/edit", name="user_edit", methods={"PUT"})
      */
-    public function putUser(Request $request, User $user): Response
+    public function putAblocUser(Request $request, User $user): Response
     {
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
@@ -81,7 +81,7 @@ class UserController extends AbstractController
     /**
      * @Route("/{id}", name="user_delete", methods={"DELETE"})
      */
-    public function deleteUser(Request $request, User $user): Response
+    public function deleteAblocUser(Request $request, User $user): Response
     {
         if ($this->isCsrfTokenValid('delete'.$user->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
