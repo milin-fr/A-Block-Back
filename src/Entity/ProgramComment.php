@@ -14,13 +14,13 @@ class ProgramComment
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups("program")
+     * @Groups({"program", "abloc_user"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="text")
-     * @Groups("program")
+     * @Groups({"program", "abloc_user"})
      */
     private $text;
 

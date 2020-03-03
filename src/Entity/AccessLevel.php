@@ -14,13 +14,13 @@ class AccessLevel
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups("access_level")
+     * @Groups({"access_level", "abloc_user"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=64)
-     * @Groups("access_level")
+     * @Groups({"access_level", "abloc_user"})
      */
     private $title;
 

@@ -14,13 +14,13 @@ class MasteryLevel
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups("mastery_level")
+     * @Groups({"mastery_level", "abloc_user"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=64)
-     * @Groups("mastery_level")
+     * @Groups({"mastery_level", "abloc_user"})
      */
     private $title;
 

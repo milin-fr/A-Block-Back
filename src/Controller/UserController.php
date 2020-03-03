@@ -25,20 +25,7 @@ class UserController extends AbstractController
     {
         $ablocUsers = $userRepository->findAll();
 
-        $encoders = [new JsonEncoder()];
-
-        $normalizers = [new ObjectNormalizer()];
-
-        $serializer = new Serializer($normalizers, $encoders);
-
-        $jsonContent = $serializer->serialize($ablocUsers, 'json', [
-            'circular_reference_handler' => function($objet){
-                return $objet->getId();
-            }
-        ]);
-        $response = new Response($jsonContent);
-        $response->headers->set('Content-Type', 'application/json');
-        return $response;
+        return $this->json($ablocUsers, Response::HTTP_OK, [], ['groups' => 'abloc_user']);
     }
 
     /**

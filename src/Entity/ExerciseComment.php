@@ -14,13 +14,13 @@ class ExerciseComment
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups("exercise")
+     * @Groups({"exercise", "abloc_user"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="text")
-     * @Groups("exercise")
+     * @Groups({"exercise", "abloc_user"})
      */
     private $text;
 
