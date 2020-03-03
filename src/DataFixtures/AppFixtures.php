@@ -113,6 +113,10 @@ class AppFixtures extends Fixture
             $program->setTitle($faker->programTitle());
             $program->setTime(random_int(10, 30));
             $program->setCreatedAt(new \DateTime);
+            shuffle($ExercisesList);
+            $program->addExercise($ExercisesList[0]);
+            $program->addExercise($ExercisesList[1]);
+            $program->addExercise($ExercisesList[2]);
             $ProgramsList[] = $program;
             $manager->persist($program);
         }
