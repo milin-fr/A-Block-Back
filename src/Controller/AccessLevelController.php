@@ -11,14 +11,14 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/access/level")
+ * @Route("/api/access_level")
  */
 class AccessLevelController extends AbstractController
 {
     /**
-     * @Route("/", name="access_level_index", methods={"GET"})
+     * @Route("/", name="access_level_list", methods={"GET"})
      */
-    public function index(AccessLevelRepository $accessLevelRepository): Response
+    public function getAcessLevels(AccessLevelRepository $accessLevelRepository): Response
     {
         return $this->render('access_level/index.html.twig', [
             'access_levels' => $accessLevelRepository->findAll(),
@@ -26,9 +26,9 @@ class AccessLevelController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="access_level_new", methods={"GET","POST"})
+     * @Route("/", name="access_level_new", methods={"POST"})
      */
-    public function new(Request $request): Response
+    public function postAccessLevel(Request $request): Response
     {
         $accessLevel = new AccessLevel();
         $form = $this->createForm(AccessLevelType::class, $accessLevel);
@@ -51,7 +51,7 @@ class AccessLevelController extends AbstractController
     /**
      * @Route("/{id}", name="access_level_show", methods={"GET"})
      */
-    public function show(AccessLevel $accessLevel): Response
+    public function getAccessLevel(AccessLevel $accessLevel): Response
     {
         return $this->render('access_level/show.html.twig', [
             'access_level' => $accessLevel,
@@ -59,9 +59,9 @@ class AccessLevelController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="access_level_edit", methods={"GET","POST"})
+     * @Route("/{id}", name="access_level_edit", methods={"PUT"})
      */
-    public function edit(Request $request, AccessLevel $accessLevel): Response
+    public function putAccessLevel(Request $request, AccessLevel $accessLevel): Response
     {
         $form = $this->createForm(AccessLevelType::class, $accessLevel);
         $form->handleRequest($request);
@@ -81,7 +81,7 @@ class AccessLevelController extends AbstractController
     /**
      * @Route("/{id}", name="access_level_delete", methods={"DELETE"})
      */
-    public function delete(Request $request, AccessLevel $accessLevel): Response
+    public function deleteAccessLevel(Request $request, AccessLevel $accessLevel): Response
     {
         if ($this->isCsrfTokenValid('delete'.$accessLevel->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();

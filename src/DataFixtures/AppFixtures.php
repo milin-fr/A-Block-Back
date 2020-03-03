@@ -147,7 +147,8 @@ class AppFixtures extends Fixture
             $programComment->setUser($UsersList[0]);
             $programComment->setProgram($ProgramsList[0]);
             $manager->persist($programComment);
-        }  
+        }        
         $manager->flush();
+        
     }
 }
