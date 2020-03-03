@@ -57,9 +57,9 @@ class AppFixtures extends Fixture
         // Création de 5 Users
         for ($i = 0; $i < 5; $i++) {
             $user = new User();
-            $user->setEmail("123@test.fr");
             $user->setPassword("123");
-            $user->setAccountName($faker->firstName());
+            $user->setAccountName($faker->unique()->firstName());
+            $user->setEmail("$faker->firstName.$faker->lastName@mail.fr");
             $user->setScore("0");
             $user->setCreatedAt(new \DateTime);
             shuffle($AccessLevelsList);
