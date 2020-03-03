@@ -24,22 +24,9 @@ class MasteryLevelController extends AbstractController
      */
     public function getMasteryLevels(MasteryLevelRepository $masteryLevelRepository): Response
     {
-        $mastery_levels = $masteryLevelRepository->findAll();
+        $masteryLevel = $masteryLevelRepository->findAll();
 
-        $encoders = [new JsonEncoder()];
-
-        $normalizers = array(new DateTimeNormalizer(), new ObjectNormalizer());
-
-        $serializer = new Serializer($normalizers, $encoders);
-
-        $jsonContent = $serializer->serialize($mastery_levels, 'json', [
-            'circular_reference_handler' => function($objet){
-                return $objet->getId();
-            }
-        ]);
-        $response = new Response($jsonContent);
-        $response->headers->set('Content-Type', 'application/json');
-        return $response;
+        return $this->json($masteryLevel, Response::HTTP_OK, [], ['groups' => 'mastery_level']);
     }
 
     /**

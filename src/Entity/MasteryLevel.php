@@ -14,21 +14,25 @@ class MasteryLevel
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups("mastery_level")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=64)
+     * * @Groups("mastery_level")
      */
     private $title;
 
     /**
      * @ORM\Column(type="datetime")
+     * * @Groups("mastery_level")
      */
     private $created_at;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     * * @Groups("mastery_level")
      */
     private $updated_at;
 
