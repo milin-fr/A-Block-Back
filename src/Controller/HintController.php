@@ -13,6 +13,7 @@ use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
  * @Route("/api/hint")
@@ -26,20 +27,7 @@ class HintController extends AbstractController
     {
         $hints = $hintRepository->findAll();
 
-        $encoders = [new JsonEncoder()];
-
-        $normalizers = array(new DateTimeNormalizer(), new ObjectNormalizer());
-
-        $serializer = new Serializer($normalizers, $encoders);
-
-        $jsonContent = $serializer->serialize($hints, 'json', [
-            'circular_reference_handler' => function($objet){
-                return $objet->getId();
-            }
-        ]);
-        $response = new Response($jsonContent);
-        $response->headers->set('Content-Type', 'application/json');
-        return $response;
+        return $this->json($hints, Response::HTTP_OK, [], ['groups' => 'hint']);
     }
 
     /**
@@ -68,11 +56,14 @@ class HintController extends AbstractController
     /**
      * @Route("/{id}", name="hint_show", methods={"GET"})
      */
-    public function getHint(Hint $hint): Response
+    public function getHint($id, HintRepository $hintRepository): Response
     {
-        return $this->render('hint/show.html.twig', [
-            'hint' => $hint,
-        ]);
+        $hint = $hintRepository->find($id);
+        if (!$hint) {
+            
+            return new JsonResponse(['error' => '404 not found.'], 404);
+        }
+        return $this->json($hint, Response::HTTP_OK, [], ['groups' => 'hint']);
     }
 
     /**

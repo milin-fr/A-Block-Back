@@ -13,6 +13,7 @@ use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
  * @Route("/api/mastery_level")
@@ -24,22 +25,9 @@ class MasteryLevelController extends AbstractController
      */
     public function getMasteryLevels(MasteryLevelRepository $masteryLevelRepository): Response
     {
-        $mastery_levels = $masteryLevelRepository->findAll();
+        $masteryLevel = $masteryLevelRepository->findAll();
 
-        $encoders = [new JsonEncoder()];
-
-        $normalizers = array(new DateTimeNormalizer(), new ObjectNormalizer());
-
-        $serializer = new Serializer($normalizers, $encoders);
-
-        $jsonContent = $serializer->serialize($mastery_levels, 'json', [
-            'circular_reference_handler' => function($objet){
-                return $objet->getId();
-            }
-        ]);
-        $response = new Response($jsonContent);
-        $response->headers->set('Content-Type', 'application/json');
-        return $response;
+        return $this->json($masteryLevel, Response::HTTP_OK, [], ['groups' => 'mastery_level']);
     }
 
     /**
@@ -68,11 +56,14 @@ class MasteryLevelController extends AbstractController
     /**
      * @Route("/{id}", name="mastery_level_show", methods={"GET"})
      */
-    public function getMasterLevel(MasteryLevel $masteryLevel): Response
+    public function getMasterLevel($id, MasteryLevelRepository $masteryLevelRepository): Response
     {
-        return $this->render('mastery_level/show.html.twig', [
-            'mastery_level' => $masteryLevel,
-        ]);
+        $masteryLevel = $masteryLevelRepository->find($id);
+        if (!$masteryLevel) {
+            
+            return new JsonResponse(['error' => '404 not found.'], 404);
+        }
+        return $this->json($masteryLevel, Response::HTTP_OK, [], ['groups' => 'mastery_level']);
     }
 
     /**

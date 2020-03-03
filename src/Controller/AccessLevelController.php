@@ -13,6 +13,7 @@ use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
  * @Route("/api/access_level")
@@ -24,22 +25,9 @@ class AccessLevelController extends AbstractController
      */
     public function getAcessLevels(AccessLevelRepository $accessLevelRepository): Response
     {
-        $access_levels = $accessLevelRepository->findAll();
+        $accessLevels = $accessLevelRepository->findAll();
 
-        $encoders = [new JsonEncoder()];
-
-        $normalizers = array(new DateTimeNormalizer(), new ObjectNormalizer());
-
-        $serializer = new Serializer($normalizers, $encoders);
-
-        $jsonContent = $serializer->serialize($access_levels, 'json', [
-            'circular_reference_handler' => function($objet){
-                return $objet->getId();
-            }
-        ]);
-        $response = new Response($jsonContent);
-        $response->headers->set('Content-Type', 'application/json');
-        return $response;
+        return $this->json($accessLevels, Response::HTTP_OK, [], ['groups' => 'access_level']);
     }
 
     /**
@@ -68,11 +56,14 @@ class AccessLevelController extends AbstractController
     /**
      * @Route("/{id}", name="access_level_show", methods={"GET"})
      */
-    public function getAccessLevel(AccessLevel $accessLevel): Response
+    public function getAccessLevel($id, AccessLevelRepository $accessLevelRepository): Response
     {
-        return $this->render('access_level/show.html.twig', [
-            'access_level' => $accessLevel,
-        ]);
+        $accessLevel = $accessLevelRepository->find($id);
+        if (!$accessLevel) {
+            
+            return new JsonResponse(['error' => '404 not found.'], 404);
+        }
+        return $this->json($accessLevel, Response::HTTP_OK, [], ['groups' => 'access_level']);
     }
 
     /**

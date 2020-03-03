@@ -13,6 +13,7 @@ use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
  * @Route("/api/exercise")
@@ -26,20 +27,7 @@ class ExerciseController extends AbstractController
     {
         $exercises = $exerciseRepository->findAll();
 
-        $encoders = [new JsonEncoder()];
-        
-        $normalizers = array(new DateTimeNormalizer(), new ObjectNormalizer());
-
-        $serializer = new Serializer($normalizers, $encoders);
-
-        $jsonContent = $serializer->serialize($exercises, 'json', [
-            'circular_reference_handler' => function($objet){
-                return $objet->getId();
-            }
-        ]);
-        $response = new Response($jsonContent);
-        $response->headers->set('Content-Type', 'application/json');
-        return $response;
+        return $this->json($exercises, Response::HTTP_OK, [], ['groups' => 'exercise']);
     }
 
     /**
@@ -68,11 +56,14 @@ class ExerciseController extends AbstractController
     /**
      * @Route("/{id}", name="exercise_show", methods={"GET"})
      */
-    public function getExercise(Exercise $exercise): Response
+    public function getExercise($id, ExerciseRepository $exerciseRepository): Response
     {
-        return $this->render('exercise/show.html.twig', [
-            'exercise' => $exercise,
-        ]);
+        $exercise = $exerciseRepository->find($id);
+        if (!$exercise) {
+            
+            return new JsonResponse(['error' => '404 not found.'], 404);
+        }
+        return $this->json($exercise, Response::HTTP_OK, [], ['groups' => 'exercise']);
     }
 
     /**

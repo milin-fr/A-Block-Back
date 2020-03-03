@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\HintRepository")
@@ -13,21 +14,25 @@ class Hint
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups({"exercise", "hint", "program"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="text")
+     * @Groups({"exercise", "hint", "program"})
      */
     private $text;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Groups("hint")
      */
     private $created_at;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     * @Groups("hint")
      */
     private $updated_at;
 

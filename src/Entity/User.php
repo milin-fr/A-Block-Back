@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\JoinTable;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
@@ -16,85 +17,101 @@ class User
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups("abloc_user")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=100)
+     * @Groups("abloc_user")
      */
     private $email;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups("abloc_user")
      */
     private $password;
 
     /**
      * @ORM\Column(type="string", length=64)
+     * @Groups("abloc_user")
      */
     private $account_name;
 
     /**
      * @ORM\Column(type="string", length=64, nullable=true)
+     * @Groups("abloc_user")
      */
     private $img_path;
 
     /**
      * @ORM\Column(type="smallint", nullable=true)
+     * @Groups("abloc_user")
      */
     private $available_time;
 
     /**
      * @ORM\Column(type="integer")
+     * @Groups("abloc_user")
      */
     private $score;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Groups("abloc_user")
      */
     private $created_at;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     * @Groups("abloc_user")
      */
     private $updated_at;
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Program")
      * @JoinTable(name="program_bookmark")
+     * @Groups("abloc_user")
      */
     private $program_bookmarks;
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Exercise")
      * @JoinTable(name="exercise_bookmark")
+     * @Groups("abloc_user")
      */
     private $exercise_bookmarks;
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Program")
      * @JoinTable(name="followed_program_bookmark")
+     * @Groups("abloc_user")
      */
     private $followed_programs;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\ExerciseComment", mappedBy="user", orphanRemoval=true)
+     * @Groups("abloc_user")
      */
     private $exercise_comments;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\ProgramComment", mappedBy="user", orphanRemoval=true)
+     * @Groups("abloc_user")
      */
     private $program_comments;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\AccessLevel")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups("abloc_user")
      */
     private $access_level;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\MasteryLevel")
+     * @Groups("abloc_user")
      */
     private $mastery_level;
 

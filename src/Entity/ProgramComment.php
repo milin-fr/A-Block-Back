@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ProgramCommentRepository")
@@ -13,11 +14,13 @@ class ProgramComment
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups({"program", "abloc_user"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="text")
+     * @Groups({"program", "abloc_user"})
      */
     private $text;
 

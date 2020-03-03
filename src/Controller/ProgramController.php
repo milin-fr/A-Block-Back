@@ -6,6 +6,7 @@ use App\Entity\Program;
 use App\Form\ProgramType;
 use App\Repository\ProgramRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -25,20 +26,7 @@ class ProgramController extends AbstractController
     {
         $programs = $programRepository->findAll();
 
-        $encoders = [new JsonEncoder()];
-
-        $normalizers = [new ObjectNormalizer()];
-
-        $serializer = new Serializer($normalizers, $encoders);
-
-        $jsonContent = $serializer->serialize($programs, 'json', [
-            'circular_reference_handler' => function($objet){
-                return $objet->getId();
-            }
-        ]);
-        $response = new Response($jsonContent);
-        $response->headers->set('Content-Type', 'application/json');
-        return $response;
+        return $this->json($programs, Response::HTTP_OK, [], ['groups' => 'program']);
     }
 
     /**
@@ -67,11 +55,14 @@ class ProgramController extends AbstractController
     /**
      * @Route("/{id}", name="program_show", methods={"GET"})
      */
-    public function getProgram(Program $program): Response
+    public function getProgram($id, ProgramRepository $programRepository): Response
     {
-        return $this->render('program/show.html.twig', [
-            'program' => $program,
-        ]);
+        $program = $programRepository->find($id);
+        if (!$program) {
+            
+            return new JsonResponse(['error' => '404 not found.'], 404);
+        }
+        return $this->json($program, Response::HTTP_OK, [], ['groups' => 'program']);
     }
 
     /**

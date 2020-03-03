@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}La liste des access api{% endblock %}
+
+{% block body %}
+    <h1>Liste des access api</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>route</th>
+                <th>methode</th>
+                <th>usage</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for key, line in api_data %}
+            <tr>
+                <td>{{ key }}</td>
+                {% for method, description in line %}
+                    <td>{{ method }}</td>
+                    <td>{{ description }}</td>
+                {% endfor %}
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

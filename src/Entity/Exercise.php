@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ExerciseRepository")
@@ -15,61 +16,73 @@ class Exercise
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups({"exercise", "prerequisite", "program", "abloc_user"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=64)
+     * @Groups({"exercise", "prerequisite", "program", "abloc_user"})
      */
     private $title;
 
     /**
      * @ORM\Column(type="smallint")
+     * @Groups({"exercise", "program"})
      */
     private $time;
 
     /**
      * @ORM\Column(type="string", length=64, nullable=true)
+     * @Groups("exercise")
      */
     private $img_path;
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @Groups("exercise")
      */
     private $description;
 
     /**
      * @ORM\Column(type="smallint", nullable=true)
+     * @Groups({"exercise", "program"})
      */
     private $score;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Groups("exercise")
      */
     private $created_at;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     * @Groups("exercise")
      */
     private $updated_at;
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Hint")
+     * @Groups({"exercise", "program"})
      */
     private $hints;
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Prerequisite", inversedBy="exercises")
+     * @Groups({"exercise", "program"})
      */
     private $prerequisites;
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Program", mappedBy="exercises")
+     * @Groups("exercise")
      */
     private $programs;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\ExerciseComment", mappedBy="exercise", orphanRemoval=true)
+     * @Groups("exercise")
      */
     private $comments;
 
