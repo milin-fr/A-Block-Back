@@ -33,6 +33,13 @@ class AccessLevelController extends AbstractController
      */
     public function postAccessLevel(Request $request, SerializerInterface $serializer, ValidatorInterface $validator): Response
     {
+
+        /*
+            {
+                "title": "access level test",
+            }
+        */
+
         // get payload content and convert it to object, so we can acess it's properties
         $contentObject = json_decode($request->getContent());
         $accessLevelTitle = $contentObject->title;
@@ -42,7 +49,7 @@ class AccessLevelController extends AbstractController
         $validationsErrors = [];
         
         if($accessLevelTitle === ""){
-            $validationsErrors[] = "Title can't be blank";
+            $validationsErrors[] = "Title, blank";
         }
 
         if(strlen($accessLevelTitle) > 64){
