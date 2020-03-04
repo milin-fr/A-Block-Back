@@ -11,15 +11,14 @@
                 <th>route</th>
                 <th>methode</th>
                 <th>usage</th>
+                <th>JSON to send</th>
             </tr>
         </thead>
         <tbody>
-        {% for key, line in api_data %}
+        {% for line in api_data %}
             <tr>
-                <td>{{ key }}</td>
-                {% for method, description in line %}
-                    <td>{{ method }}</td>
-                    <td>{{ description }}</td>
+                {% for info in line %}
+                    <td>{{ info }}</td>
                 {% endfor %}
             </tr>
         {% else %}
