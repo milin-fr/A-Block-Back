@@ -35,22 +35,40 @@ class HintController extends AbstractController
      */
     public function postHint(Request $request): Response
     {
-        $hint = new Hint();
-        $form = $this->createForm(HintType::class, $hint);
-        $form->handleRequest($request);
+        /*
+            {
+                "text": "hint test",
+            }
+        */
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($hint);
-            $entityManager->flush();
+        // get payload content and convert it to object, so we can acess it's properties
+        $contentObject = json_decode($request->getContent());
+        $hintText = $contentObject->text;
 
-            return $this->redirectToRoute('hint_index');
+        // payload validation
+        $validationsErrors = [];
+        
+        if($hintText === ""){
+            $validationsErrors[] = "text, blank";
         }
 
-        return $this->render('hint/new.html.twig', [
-            'hint' => $hint,
-            'form' => $form->createView(),
-        ]);
+        if(strlen($hintText) > 999){
+            $validationsErrors[] = "text, length, max, 999";
+        }
+
+        if (count($validationsErrors) !== 0) {
+            return $this->json($validationsErrors, Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+
+        $hint = new Hint();
+        
+        $hint->setText($hintText);
+        $hint->setCreatedAt(new \DateTime());
+
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($hint);
+        $em->flush();
+        return $this->redirectToRoute('hint_show', ['id' => $hint->getId()], Response::HTTP_CREATED);
     }
 
     /**
