@@ -34,22 +34,40 @@ class PrerequisiteController extends AbstractController
      */
     public function postPrerequisite(Request $request): Response
     {
-        $prerequisite = new Prerequisite();
-        $form = $this->createForm(PrerequisiteType::class, $prerequisite);
-        $form->handleRequest($request);
+        /*
+            {
+                "description": "hint test",
+            }
+        */
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($prerequisite);
-            $entityManager->flush();
+        // get payload content and convert it to object, so we can acess it's properties
+        $contentObject = json_decode($request->getContent());
+        $prerequisiteDescription = $contentObject->description;
 
-            return $this->redirectToRoute('prerequisite_index');
+        // payload validation
+        $validationsErrors = [];
+        
+        if($prerequisiteDescription === ""){
+            $validationsErrors[] = "description, blank";
         }
 
-        return $this->render('prerequisite/new.html.twig', [
-            'prerequisite' => $prerequisite,
-            'form' => $form->createView(),
-        ]);
+        if(strlen($prerequisiteDescription) > 999){
+            $validationsErrors[] = "description, length, max, 999";
+        }
+
+        if (count($validationsErrors) !== 0) {
+            return $this->json($validationsErrors, Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+
+        $prerequisite = new Prerequisite();
+        
+        $prerequisite->setDescription($prerequisiteDescription);
+        $prerequisite->setCreatedAt(new \DateTime());
+
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($prerequisite);
+        $em->flush();
+        return $this->redirectToRoute('prerequisite_show', ['id' => $prerequisite->getId()], Response::HTTP_CREATED);
     }
 
     /**

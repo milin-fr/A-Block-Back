@@ -35,22 +35,41 @@ class MasteryLevelController extends AbstractController
      */
     public function postMasteryLevel(Request $request): Response
     {
-        $masteryLevel = new MasteryLevel();
-        $form = $this->createForm(MasteryLevelType::class, $masteryLevel);
-        $form->handleRequest($request);
+    /*
+            {
+                "title": "mastery level test",
+            }
+        */
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($masteryLevel);
-            $entityManager->flush();
+        // get payload content and convert it to object, so we can acess it's properties
+        $contentObject = json_decode($request->getContent());
+        $masteryLevelTitle = $contentObject->title;
 
-            return $this->redirectToRoute('mastery_level_index');
+
+        // payload validation
+        $validationsErrors = [];
+        
+        if($masteryLevelTitle === ""){
+            $validationsErrors[] = "Title, blank";
         }
 
-        return $this->render('mastery_level/new.html.twig', [
-            'mastery_level' => $masteryLevel,
-            'form' => $form->createView(),
-        ]);
+        if(strlen($masteryLevelTitle) > 64){
+            $validationsErrors[] = "title, length, max, 64";
+        }
+
+        if (count($validationsErrors) !== 0) {
+            return $this->json($validationsErrors, Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+
+        $masteryLevel = new MasteryLevel();
+        
+        $masteryLevel->setTitle($masteryLevelTitle);
+        $masteryLevel->setCreatedAt(new \DateTime());
+
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($masteryLevel);
+        $em->flush();
+        return $this->redirectToRoute('mastery_level_show', ['id' => $masteryLevel->getId()], Response::HTTP_CREATED);
     }
 
     /**
