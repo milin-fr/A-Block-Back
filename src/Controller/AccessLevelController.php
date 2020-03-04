@@ -5,15 +5,13 @@ namespace App\Controller;
 use App\Entity\AccessLevel;
 use App\Form\AccessLevelType;
 use App\Repository\AccessLevelRepository;
-use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Serializer\Encoder\JsonEncoder;
-use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
-use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
  * @Route("/api/access_level")
@@ -33,24 +31,37 @@ class AccessLevelController extends AbstractController
     /**
      * @Route("/", name="access_level_new", methods={"POST"})
      */
-    public function postAccessLevel(Request $request): Response
+    public function postAccessLevel(Request $request, SerializerInterface $serializer, ValidatorInterface $validator): Response
     {
-        $accessLevel = new AccessLevel();
-        $form = $this->createForm(AccessLevelType::class, $accessLevel);
-        $form->handleRequest($request);
+        // get payload content and convert it to object, so we can acess it's properties
+        $contentObject = json_decode($request->getContent());
+        $accessLevelTitle = $contentObject->title;
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($accessLevel);
-            $entityManager->flush();
 
-            return $this->redirectToRoute('access_level_index');
+        // payload validation
+        $validationsErrors = [];
+        
+        if($accessLevelTitle === ""){
+            $validationsErrors[] = "Title can't be blank";
         }
 
-        return $this->render('access_level/new.html.twig', [
-            'access_level' => $accessLevel,
-            'form' => $form->createView(),
-        ]);
+        if(strlen($accessLevelTitle) > 64){
+            $validationsErrors[] = "title, length, max, 64";
+        }
+
+        if (count($validationsErrors) !== 0) {
+            return $this->json($validationsErrors, Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+
+        $accessLevel = new AccessLevel();
+        
+        $accessLevel->setTitle($accessLevelTitle);
+        $accessLevel->setCreatedAt(new \DateTime());
+
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($accessLevel);
+        $em->flush();
+        return $this->redirectToRoute('access_level_show', ['id' => $accessLevel->getId()], Response::HTTP_CREATED);
     }
 
     /**
