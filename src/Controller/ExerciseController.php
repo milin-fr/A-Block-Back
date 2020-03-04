@@ -91,6 +91,18 @@ class ExerciseController extends AbstractController
                 $exerciseHints[$key] = "";
             }
         }
+
+        foreach($exercisePrerequisites as $key => $id){
+            if(gettype($id) !== "integer"){
+                $exercisePrerequisites[$key] = "";
+            }
+        }
+
+        foreach($exercisePrograms as $key => $id){
+            if(gettype($id) !== "integer"){
+                $exercisePrograms[$key] = "";
+            }
+        }
         
         // payload validation
         $validationsErrors = [];

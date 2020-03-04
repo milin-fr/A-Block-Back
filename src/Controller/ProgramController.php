@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Program;
 use App\Form\ProgramType;
+use App\Repository\ExerciseRepository;
 use App\Repository\ProgramRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -32,24 +33,105 @@ class ProgramController extends AbstractController
     /**
      * @Route("/", name="program_new", methods={"POST"})
      */
-    public function postProgram(Request $request): Response
+    public function postProgram(Request $request, ExerciseRepository $exerciseRepository): Response
     {
-        $program = new Program();
-        $form = $this->createForm(ProgramType::class, $program);
-        $form->handleRequest($request);
+        /*
+            {
+                "title": "program test",
+                "time": 10,
+                "imgPath": "image_program_1.png",
+                "description": "description program 1",
+                "exercises":[1, 20]
+            }
+        */
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($program);
-            $entityManager->flush();
+        // get payload content and convert it to object, so we can acess it's properties
+        $contentObject = json_decode($request->getContent());
+        $programTitle = $contentObject->title;
+        $programTime = $contentObject->time; // type integer
+        $programImgPath = $contentObject->imgPath;
+        $programDescription = $contentObject->description;
+        $programExercises = $contentObject->exercises; // array of ids of exercises
 
-            return $this->redirectToRoute('program_index');
+
+        if($programTime === ""){
+            $programTime = 0;
         }
 
-        return $this->render('program/new.html.twig', [
-            'program' => $program,
-            'form' => $form->createView(),
-        ]);
+        if(gettype($programExercises) !== "array"){
+            $programExercises = [];
+        }
+
+        foreach($programExercises as $key => $id){
+            if(gettype($id) !== "integer"){
+                $programExercises[$key] = "";
+            }
+        }
+        
+        // payload validation
+        $validationsErrors = [];
+        
+        if($programTitle === ""){
+            $validationsErrors[] = "title, blank";
+        }
+
+        if(strlen($programTitle) > 64){
+            $validationsErrors[] = "title, length, max, 64";
+        }
+
+        if(gettype($programTime) !== "integer"){
+            $validationsErrors[] = "time, not integer";
+        }
+
+        if($programTime < 0){
+            $validationsErrors[] = "time, value, min, 0";
+        }
+
+        if($programTime > 999){
+            $validationsErrors[] = "time, value, max, 999";
+        }
+
+        if(strlen($programImgPath) > 64){
+            $validationsErrors[] = "imgPath, length, max, 64";
+        }
+
+        if($programDescription === ""){
+            $validationsErrors[] = "description, blank";
+        }
+
+        if(strlen($programDescription) > 999){
+            $validationsErrors[] = "description, length, max, 999";
+        }
+
+        if (count($validationsErrors) !== 0) {
+            return $this->json($validationsErrors, Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+
+
+        $program = new Program();
+        $program->setTitle($programTitle);
+        $program->setCreatedAt(new \DateTime());
+        $program->setTime($programTime);
+
+        if($programImgPath === ""){
+            $programImgPath = "default_program.png";
+        }
+
+        $program->setImgPath($programImgPath);
+        $program->setDescription($programDescription);
+
+        foreach($programExercises as $id){
+            $exercise = $exerciseRepository->find($id);
+            if($exercise){
+                $program->addExercise($exercise);
+            }
+        }
+        
+
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($program);
+        $em->flush();
+        return $this->redirectToRoute('program_show', ['id' => $program->getId()], Response::HTTP_CREATED);
     }
 
     /**
