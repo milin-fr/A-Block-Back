@@ -120,13 +120,32 @@ class ProgramController extends AbstractController
         $program->setImgPath($programImgPath);
         $program->setDescription($programDescription);
 
+        // identify the most frequent mastery level among exercises related to this program
+        $masteryLevelIdList = []; // list of mastery ids
+        $masteryLevelList = []; // list of mastery objects
+
         foreach($programExercises as $id){
             $exercise = $exerciseRepository->find($id);
-            if($exercise){
+            if($exercise){ // checking if exercise id, provided from front, exists in bdd
                 $program->addExercise($exercise);
+                $masteryLevelId = $exercise->getMasteryLevel()->getId();
+                $masteryLevelIdList[] = $masteryLevelId;
+                $masteryLevelList[$masteryLevelId] = $exercise->getMasteryLevel(); // storing mastery objects by id for later use
             }
         }
         
+        if(!empty($masteryLevelIdList)){ // checking if there were at least 1 bdd match for mastery
+            $idFrequencies = array_count_values($masteryLevelIdList); // getting a list with ids as keys and number of id as value
+            $mostFrequentMasteryId = $masteryLevelIdList[0]; // assuming that the most frequent id is the first one
+            foreach($idFrequencies as $id => $frequencie){
+                if($idFrequencies[$mostFrequentMasteryId] < $frequencie){ // checking if assumption was right, if not updating the id
+                    $mostFrequentMasteryId = $id;
+                }
+            }
+    
+            $program->setMasteryLevel($masteryLevelList[$mostFrequentMasteryId]); // pulling mastery object by most frequent id and adding it to program
+        }
+        // end of mastery level treatment
 
         $em = $this->getDoctrine()->getManager();
         $em->persist($program);
