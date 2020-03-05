@@ -90,6 +90,7 @@ class AppFixtures extends Fixture
             $exercise->addPrerequisite($PrerequisitesList[1]);
             $exercise->addPrerequisite($PrerequisitesList[2]);
             $exercise->setMasteryLevel($masteryLevelsList[$i % 5]);
+            $exercise->setImgPath('exercise_image_default.png');
             $ExercisesList[] = $exercise;
             $manager->persist($exercise);
         }
@@ -105,6 +106,7 @@ class AppFixtures extends Fixture
             $program->addExercise($ExercisesList[0]);
             $program->addExercise($ExercisesList[1]);
             $program->addExercise($ExercisesList[2]);
+            $program->setImgPath('program_image_default.png');
             $ProgramsList[] = $program;
             $manager->persist($program);
         }
@@ -125,6 +127,7 @@ class AppFixtures extends Fixture
             $user->setMasteryLevel($masteryLevelsList[0]);
             $user->addExerciseBookmark($ExercisesList[0]);
             $user->addProgramBookmark($ProgramsList[0]);
+            $user->setImgPath('user_image_default.png');
             $UsersList[] = $user;
             $manager->persist($user);
         }
