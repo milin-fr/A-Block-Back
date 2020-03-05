@@ -38,13 +38,18 @@ class MasteryLevelController extends AbstractController
     /*
             {
                 "title": "mastery level test",
+                "levelIndex": integer
             }
         */
 
         // get payload content and convert it to object, so we can acess it's properties
         $contentObject = json_decode($request->getContent());
         $masteryLevelTitle = $contentObject->title;
-
+        $masteryLevelIndex = $contentObject->levelIndex;
+        
+        if($masteryLevelIndex === ""){
+            $masteryLevelIndex = 0;
+        }
 
         // payload validation
         $validationsErrors = [];
@@ -57,6 +62,19 @@ class MasteryLevelController extends AbstractController
             $validationsErrors[] = "title, length, max, 64";
         }
 
+        if(gettype($masteryLevelIndex) !== "integer"){
+            $validationsErrors[] = "levelIndex, not integer";
+        }
+
+        if($masteryLevelIndex < 0){
+            $validationsErrors[] = "levelIndex, value, min, 0";
+        }
+
+        if($masteryLevelIndex > 99){
+            $validationsErrors[] = "levelIndex, value, max, 99";
+        }
+
+
         if (count($validationsErrors) !== 0) {
             return $this->json($validationsErrors, Response::HTTP_UNPROCESSABLE_ENTITY);
         }
@@ -65,7 +83,7 @@ class MasteryLevelController extends AbstractController
         
         $masteryLevel->setTitle($masteryLevelTitle);
         $masteryLevel->setCreatedAt(new \DateTime());
-
+        $masteryLevel->setLevelIndex($masteryLevelIndex);
         $em = $this->getDoctrine()->getManager();
         $em->persist($masteryLevel);
         $em->flush();

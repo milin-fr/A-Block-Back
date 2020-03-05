@@ -16,13 +16,13 @@ class Program
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups({"exercise", "program", "abloc_user"})
+     * @Groups({"exercise", "program", "abloc_user", "mastery_level"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=64)
-     * @Groups({"exercise", "program", "abloc_user"})
+     * @Groups({"exercise", "program", "abloc_user", "mastery_level"})
      */
     private $title;
 
@@ -67,6 +67,12 @@ class Program
      * @Groups("program")
      */
     private $comments;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\MasteryLevel", inversedBy="programs")
+     * @Groups("program")
+     */
+    private $mastery_level;
 
     public function __construct()
     {
@@ -204,6 +210,18 @@ class Program
                 $comment->setProgram(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getMasteryLevel(): ?MasteryLevel
+    {
+        return $this->mastery_level;
+    }
+
+    public function setMasteryLevel(?MasteryLevel $mastery_level): self
+    {
+        $this->mastery_level = $mastery_level;
 
         return $this;
     }

@@ -7,6 +7,7 @@ use App\Form\ExerciseType;
 use App\Repository\ExerciseCommentRepository;
 use App\Repository\ExerciseRepository;
 use App\Repository\HintRepository;
+use App\Repository\MasteryLevelRepository;
 use App\Repository\PrerequisiteRepository;
 use App\Repository\ProgramCommentRepository;
 use App\Repository\ProgramRepository;
@@ -38,7 +39,7 @@ class ExerciseController extends AbstractController
     /**
      * @Route("/", name="exercise_new", methods={"POST"})
      */
-    public function postExercise(Request $request, HintRepository $hintRepository, PrerequisiteRepository $prerequisiteRepository, ProgramRepository $programRepository): Response
+    public function postExercise(Request $request, HintRepository $hintRepository, PrerequisiteRepository $prerequisiteRepository, ProgramRepository $programRepository, MasteryLevelRepository $masteryLevelRepository): Response
     {
 
         /*
@@ -50,7 +51,8 @@ class ExerciseController extends AbstractController
                 "score": 10,
                 "hints": [6],
                 "prerequisites": [11, 12, 1000],
-                "programs": [6, 7]
+                "programs": [6, 7],
+                "masteryLevel": 1
             }
         */
 
@@ -64,6 +66,7 @@ class ExerciseController extends AbstractController
         $exerciseHints = $contentObject->hints; // id of hint
         $exercisePrerequisites = $contentObject->prerequisites; // array of ids of prerequisite
         $exercisePrograms = $contentObject->programs; // array of ids of programs
+        $exerciseMasteryLevel = $contentObject->masteryLevel; // id of masteryLevel
 
 
         if($exerciseTime === ""){
@@ -106,7 +109,12 @@ class ExerciseController extends AbstractController
         
         // payload validation
         $validationsErrors = [];
-        
+
+        $masteryLevel = $masteryLevelRepository->find($exerciseMasteryLevel);
+        if(!$masteryLevel){
+            $validationsErrors[] = "masteryLevel, does not exist";
+        }
+
         if($exerciseTitle === ""){
             $validationsErrors[] = "title, blank";
         }
@@ -151,6 +159,14 @@ class ExerciseController extends AbstractController
             $validationsErrors[] = "score, value, max, 9999";
         }
 
+        if(gettype($exerciseMasteryLevel) !== "integer"){
+            $validationsErrors[] = "masteryLevel, not integer";
+        }
+
+        if($exerciseMasteryLevel < 0){
+            $validationsErrors[] = "masteryLevel, value, min, 0";
+        }
+
         if (count($validationsErrors) !== 0) {
             return $this->json($validationsErrors, Response::HTTP_UNPROCESSABLE_ENTITY);
         }
@@ -190,6 +206,7 @@ class ExerciseController extends AbstractController
             }
         }
         
+        $exercise->setMasteryLevel($masteryLevel);
 
         $em = $this->getDoctrine()->getManager();
         $em->persist($exercise);

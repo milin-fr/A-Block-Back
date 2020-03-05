@@ -16,13 +16,13 @@ class Exercise
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups({"exercise", "prerequisite", "program", "abloc_user"})
+     * @Groups({"exercise", "prerequisite", "program", "abloc_user", "mastery_level"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=64)
-     * @Groups({"exercise", "prerequisite", "program", "abloc_user"})
+     * @Groups({"exercise", "prerequisite", "program", "abloc_user", "mastery_level"})
      */
     private $title;
 
@@ -85,6 +85,13 @@ class Exercise
      * @Groups("exercise")
      */
     private $comments;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\MasteryLevel", inversedBy="exercises")
+     * @ORM\JoinColumn(nullable=false)
+     * @Groups("exercise")
+     */
+    private $mastery_level;
 
     public function __construct()
     {
@@ -290,6 +297,18 @@ class Exercise
                 $comment->setExercise(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getMasteryLevel(): ?MasteryLevel
+    {
+        return $this->mastery_level;
+    }
+
+    public function setMasteryLevel(?MasteryLevel $mastery_level): self
+    {
+        $this->mastery_level = $mastery_level;
 
         return $this;
     }
