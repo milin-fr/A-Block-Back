@@ -47,6 +47,7 @@ class AppFixtures extends Fixture
         for ($i = 0; $i < 5; $i++) {
             $masteryLevel = new MasteryLevel();
             $masteryLevel->setTitle($faker->unique()->masteryLevelTitle());
+            $masteryLevel->setLevelIndex($i);
             $masteryLevel->setCreatedAt(new \DateTime);
             $masteryLevelsList[] = $masteryLevel;
             $manager->persist($masteryLevel);
@@ -88,6 +89,7 @@ class AppFixtures extends Fixture
             $exercise->addPrerequisite($PrerequisitesList[0]);
             $exercise->addPrerequisite($PrerequisitesList[1]);
             $exercise->addPrerequisite($PrerequisitesList[2]);
+            $exercise->setMasteryLevel($masteryLevelsList[$i % 5]);
             $ExercisesList[] = $exercise;
             $manager->persist($exercise);
         }
