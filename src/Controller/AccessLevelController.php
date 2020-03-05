@@ -14,7 +14,7 @@ use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
- * @Route("/api/access_level")
+ * @Route("/api/access-level")
  */
 class AccessLevelController extends AbstractController
 {
@@ -40,29 +40,27 @@ class AccessLevelController extends AbstractController
             }
         */
 
-        // get payload content and convert it to object, so we can acess it's properties
-        $contentObject = json_decode($request->getContent());
-        $accessLevelTitle = $contentObject->title;
+        $jsonString = $request->getContent();
 
-
-        // payload validation
-        $validationsErrors = [];
-        
-        if($accessLevelTitle === ""){
-            $validationsErrors[] = "Title, blank";
+        if (json_decode($jsonString) === null) {
+            return $this->json([
+                'error' => 'Format de données érroné.'
+            ], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
-        if(strlen($accessLevelTitle) > 64){
-            $validationsErrors[] = "title, length, max, 64";
+        $accessLevel = $serializer->deserialize($jsonString, AccessLevel::class, 'json');
+        $errors = $validator->validate($accessLevel);
+        if (count($errors) !== 0) {
+            $jsonErrors = [];
+            foreach ($errors as $error) {
+                $jsonErrors[] = [
+                    'field' => $error->getPropertyPath(),
+                    'message' => $error->getMessage(),
+                ];
+            }
+            return $this->json($jsonErrors, Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
-        if (count($validationsErrors) !== 0) {
-            return $this->json($validationsErrors, Response::HTTP_UNPROCESSABLE_ENTITY);
-        }
-
-        $accessLevel = new AccessLevel();
-        
-        $accessLevel->setTitle($accessLevelTitle);
         $accessLevel->setCreatedAt(new \DateTime());
 
         $em = $this->getDoctrine()->getManager();

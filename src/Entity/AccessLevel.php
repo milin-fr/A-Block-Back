@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\AccessLevelRepository")
@@ -21,6 +22,8 @@ class AccessLevel
     /**
      * @ORM\Column(type="string", length=64)
      * @Groups({"access_level", "abloc_user"})
+     * @Assert\NotBlank
+     * @Assert\Length(max=64)
      */
     private $title;
 
