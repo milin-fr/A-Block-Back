@@ -36,7 +36,7 @@ class AccessLevelController extends AbstractController
 
         /*
             {
-                "title": "access level test",
+                "title": "access level test"
             }
         */
 
@@ -87,21 +87,44 @@ class AccessLevelController extends AbstractController
     /**
      * @Route("/{id}", name="access_level_edit", methods={"PUT"})
      */
-    public function putAccessLevel(Request $request, AccessLevel $accessLevel): Response
+    public function putAccessLevel(Request $request, $id, AccessLevelRepository $accessLevelRepository): Response
     {
-        $form = $this->createForm(AccessLevelType::class, $accessLevel);
-        $form->handleRequest($request);
+        /*
+            {
+                "title": "access level test"
+            }
+        */
+        
+        $accessLevel = $accessLevelRepository->find($id);
+        if (!$accessLevel) {
+            return new JsonResponse(['error' => '404 not found.'], 404);
+        }
+        $contentObject = json_decode($request->getContent());
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+        $accessLevelTitle = $contentObject->title;
 
-            return $this->redirectToRoute('access_level_index');
+
+        // payload validation
+        $validationsErrors = [];
+        
+        if($accessLevelTitle === ""){
+            $validationsErrors[] = "Title, blank";
         }
 
-        return $this->render('access_level/edit.html.twig', [
-            'access_level' => $accessLevel,
-            'form' => $form->createView(),
-        ]);
+        if(strlen($accessLevelTitle) > 64){
+            $validationsErrors[] = "title, length, max, 64";
+        }
+
+        if (count($validationsErrors) !== 0) {
+            return $this->json($validationsErrors, Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+
+        $accessLevel->setTitle($accessLevelTitle);
+        $accessLevel->setUpdatedAt(new \DateTime());
+
+        $em = $this->getDoctrine()->getManager();
+        $em->flush();
+        return $this->redirectToRoute('access_level_show', ['id' => $accessLevel->getId()], Response::HTTP_CREATED);
     }
 
     /**
