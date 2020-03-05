@@ -25,7 +25,7 @@ class MainController extends AbstractController
                 "add access_level/",
                 "
                 {
-                    \"title\": \"string, not blank\",
+                    \"title\": \"string, not blank\"
                 }
                 "
             ],
@@ -55,7 +55,7 @@ class MainController extends AbstractController
                     \"hints\": [array of integers],
                     \"prerequisites\": [array of integers],
                     \"programs\": [array of integers],
-                    \"masteryLevel\": integer,
+                    \"masteryLevel\": integer
                 }
                 "
             ],
@@ -77,7 +77,7 @@ class MainController extends AbstractController
                 "add hint/",
                 "
                 {
-                    \"text\": \"string, not blank\",
+                    \"text\": \"string, not blank\"
                 }
                 "
             ],
@@ -99,7 +99,7 @@ class MainController extends AbstractController
                 "add mastery_level/",
                 "
                 {
-                    \"title\": \"string, not blank\",
+                    \"title\": \"string, not blank\"
                 }
                 "
             ],
@@ -121,7 +121,7 @@ class MainController extends AbstractController
                 "add prerequisite/",
                 "
                 {
-                    \"description\": \"string, not blank\",
+                    \"description\": \"string, not blank\"
                 }
                 "
             ],
