@@ -68,7 +68,6 @@ class ExerciseController extends AbstractController
         $exercisePrograms = $contentObject->programs; // array of ids of programs
         $exerciseMasteryLevel = $contentObject->masteryLevel; // id of masteryLevel
 
-
         if($exerciseTime === ""){
             $exerciseTime = 0;
         }
