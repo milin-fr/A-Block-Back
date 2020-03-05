@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ExerciseRepository")
@@ -23,30 +24,42 @@ class Exercise
     /**
      * @ORM\Column(type="string", length=64)
      * @Groups({"exercise", "prerequisite", "program", "abloc_user", "mastery_level"})
+     * @Assert\NotBlank
+     * @Assert\Length(max=64)
      */
     private $title;
 
     /**
      * @ORM\Column(type="smallint")
      * @Groups({"exercise", "program"})
+     * @Assert\PositiveOrZero
+     * @Assert\Type("int")
      */
     private $time;
 
     /**
      * @ORM\Column(type="string", length=64, nullable=true)
      * @Groups("exercise")
+     * @Assert\Type("string")
      */
     private $img_path;
 
     /**
      * @ORM\Column(type="text", nullable=true)
      * @Groups("exercise")
+     * @Assert\Type("string")
+     * @Assert\Length(
+     *      min = 0,
+     *      max = 2000
+     * )
      */
     private $description;
 
     /**
      * @ORM\Column(type="smallint", nullable=true)
      * @Groups({"exercise", "program"})
+     * @Assert\PositiveOrZero
+     * @Assert\Type("int")
      */
     private $score;
 

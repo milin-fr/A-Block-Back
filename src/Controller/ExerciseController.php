@@ -20,6 +20,8 @@ use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
  * @Route("/api/exercise")
@@ -39,42 +41,70 @@ class ExerciseController extends AbstractController
     /**
      * @Route("/", name="exercise_new", methods={"POST"})
      */
-    public function postExercise(Request $request, HintRepository $hintRepository, PrerequisiteRepository $prerequisiteRepository, ProgramRepository $programRepository, MasteryLevelRepository $masteryLevelRepository): Response
+    public function postExercise(Request $request, HintRepository $hintRepository, PrerequisiteRepository $prerequisiteRepository, ProgramRepository $programRepository, MasteryLevelRepository $masteryLevelRepository, SerializerInterface $serializer, ValidatorInterface $validator): Response
     {
 
         /*
             {
                 "title": "exo test",
                 "time": 10,
-                "imgPath": "image_exo_1.png",
+                "img_path": "image_exo_1.png",
                 "description": "description exo 1",
                 "score": 10,
-                "hints": [6],
-                "prerequisites": [11, 12, 1000],
-                "programs": [6, 7],
-                "masteryLevel": 1
+                "hint_ids": [6],
+                "prerequisite_ids": [11, 12, 1000],
+                "program_ids": [6, 7],
+                "mastery_level_id": 1
             }
         */
 
-        // get payload content and convert it to object, so we can acess it's properties
-        $contentObject = json_decode($request->getContent());
-        $exerciseTitle = $contentObject->title;
-        $exerciseTime = $contentObject->time; // type integer
-        $exerciseImgPath = $contentObject->imgPath;
-        $exerciseDescription = $contentObject->description;
-        $exerciseScore = $contentObject->score;
-        $exerciseHints = $contentObject->hints; // id of hint
-        $exercisePrerequisites = $contentObject->prerequisites; // array of ids of prerequisite
-        $exercisePrograms = $contentObject->programs; // array of ids of programs
-        $exerciseMasteryLevel = $contentObject->masteryLevel; // id of masteryLevel
+        $jsonString = $request->getContent();
 
-        if($exerciseTime === ""){
-            $exerciseTime = 0;
+        if (json_decode($jsonString) === null) {
+            return $this->json([
+                'error' => 'Format de données érroné.'
+            ], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
-        if($exerciseScore === ""){
-            $exerciseScore = 0;
+        $exercise = $serializer->deserialize($jsonString, Exercise::class, 'json');
+
+        dd($exercise);
+
+        $errors = $validator->validate($exercise);
+        if (count($errors) !== 0) {
+            $jsonErrors = [];
+            foreach ($errors as $error) {
+                $jsonErrors[] = [
+                    'field' => $error->getPropertyPath(),
+                    'message' => $error->getMessage(),
+                ];
+            }
+            return $this->json($jsonErrors, Response::HTTP_UNPROCESSABLE_ENTITY);
         }
+
+
+        $jsonObject = json_decode($request->getContent());
+        $masteryLevelId = $jsonObject->mastery_level_id; // id of masteryLevel
+        $validationsErrors = [];
+        
+        if(gettype($masteryLevelId) === "integer"){
+            $masteryLevel = $masteryLevelRepository->find($masteryLevelId);
+        }
+        
+        if(!$masteryLevel){
+            $validationsErrors[] = [
+                'field' => "mastery_level_id",
+                'message' => "Ce niveau de difficulté n'est pas defini.",
+            ];;
+        }
+
+        if (count($validationsErrors) !== 0) {
+            return $this->json($validationsErrors, Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+
+        $exerciseHints = $jsonObject->hint_ids; // id of hint
+        $exercisePrerequisites = $jsonObject->prerequisite_ids; // array of ids of prerequisite
+        $exercisePrograms = $jsonObject->program_ids; // array of ids of programs
 
         if(gettype($exerciseHints) !== "array"){
             $exerciseHints = [];
@@ -105,84 +135,12 @@ class ExerciseController extends AbstractController
                 $exercisePrograms[$key] = "";
             }
         }
-        
-        // payload validation
-        $validationsErrors = [];
 
-        $masteryLevel = $masteryLevelRepository->find($exerciseMasteryLevel);
-        if(!$masteryLevel){
-            $validationsErrors[] = "masteryLevel, does not exist";
-        }
-
-        if($exerciseTitle === ""){
-            $validationsErrors[] = "title, blank";
-        }
-
-        if(strlen($exerciseTitle) > 64){
-            $validationsErrors[] = "title, length, max, 64";
-        }
-
-        if(gettype($exerciseTime) !== "integer"){
-            $validationsErrors[] = "time, not integer";
-        }
-
-        if($exerciseTime < 0){
-            $validationsErrors[] = "time, value, min, 0";
-        }
-
-        if($exerciseTime > 999){
-            $validationsErrors[] = "time, value, max, 999";
-        }
-
-        if(strlen($exerciseImgPath) > 64){
-            $validationsErrors[] = "imgPath, length, max, 64";
-        }
-
-        if($exerciseDescription === ""){
-            $validationsErrors[] = "description, blank";
-        }
-
-        if(strlen($exerciseDescription) > 999){
-            $validationsErrors[] = "description, length, max, 999";
-        }
-
-        if(gettype($exerciseScore) !== "integer"){
-            $validationsErrors[] = "score, not integer";
-        }
-
-        if($exerciseScore < 0){
-            $validationsErrors[] = "score, value, min, 0";
-        }
-
-        if($exerciseScore > 9999){
-            $validationsErrors[] = "score, value, max, 9999";
-        }
-
-        if(gettype($exerciseMasteryLevel) !== "integer"){
-            $validationsErrors[] = "masteryLevel, not integer";
-        }
-
-        if($exerciseMasteryLevel < 0){
-            $validationsErrors[] = "masteryLevel, value, min, 0";
-        }
-
-        if (count($validationsErrors) !== 0) {
-            return $this->json($validationsErrors, Response::HTTP_UNPROCESSABLE_ENTITY);
-        }
-
-
-        $exercise = new Exercise();
-        $exercise->setTitle($exerciseTitle);
         $exercise->setCreatedAt(new \DateTime());
-        $exercise->setTime($exerciseTime);
 
-        if($exerciseImgPath === ""){
-            $exerciseImgPath = "default_exercise.png";
+        if(!$exercise->getImgPath()){
+            $exercise->setImgPath("exercise_image_default.png");
         }
-
-        $exercise->setImgPath($exerciseImgPath);
-        $exercise->setDescription($exerciseDescription);
-        $exercise->setScore($exerciseScore);
 
         foreach($exerciseHints as $id){
             $hint = $hintRepository->find($id);

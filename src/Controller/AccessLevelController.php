@@ -49,6 +49,7 @@ class AccessLevelController extends AbstractController
         }
 
         $accessLevel = $serializer->deserialize($jsonString, AccessLevel::class, 'json');
+
         $errors = $validator->validate($accessLevel);
         if (count($errors) !== 0) {
             $jsonErrors = [];
