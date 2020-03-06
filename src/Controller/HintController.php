@@ -113,21 +113,73 @@ class HintController extends AbstractController
     /**
      * @Route("/{id}", name="hint_edit", methods={"PUT"})
      */
-    public function putHint(Request $request, Hint $hint): Response
+    public function putHint(Request $request, $id, HintRepository $hintRepository): Response
     {
-        $form = $this->createForm(HintType::class, $hint);
-        $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+        /*
+            {
+                "text": "hint test"
+            }
+        */
 
-            return $this->redirectToRoute('hint_index');
+        $hint = $hintRepository->find($id);
+        if (!$hint) {
+            
+            return new JsonResponse(['error' => '404 not found.'], 404);
         }
 
-        return $this->render('hint/edit.html.twig', [
-            'hint' => $hint,
-            'form' => $form->createView(),
-        ]);
+        // start of payload validation
+        $keyList = ["text"];
+
+        $validationsErrors = [];
+
+        $jsonContent = $request->getContent();
+        if (json_decode($jsonContent) === null) {
+            return $this->json([
+                'error' => 'Format de données érroné.'
+            ], Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+
+        // get payload content and convert it to object, so we can acess it's properties
+        $contentObject = json_decode($request->getContent());
+        $contentArray = get_object_vars($contentObject);
+
+        foreach($keyList as $key){
+            if(!array_key_exists($key, $contentArray)){
+                $validationsErrors[] = [
+                                        $key => "Requiered, but not provided"
+                                        ];
+            }
+        }
+
+        if (count($validationsErrors) !== 0) {
+            return $this->json($validationsErrors, Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+        // end of payload validation
+
+        $hintText = $contentObject->text;
+
+        // values validation
+        
+        if($hintText === ""){
+            $validationsErrors[] = "text, blank";
+        }
+
+        if(strlen($hintText) > 999){
+            $validationsErrors[] = "text, length, max, 999";
+        }
+
+        if (count($validationsErrors) !== 0) {
+            return $this->json($validationsErrors, Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+
+        $hint->setText($hintText);
+        $hint->setUpdatedAt(new \DateTime());
+
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($hint);
+        $em->flush();
+        return $this->redirectToRoute('hint_show', ['id' => $hint->getId()], Response::HTTP_CREATED);
     }
 
     /**
