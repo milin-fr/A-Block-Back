@@ -50,7 +50,13 @@ class UserController extends AbstractController
         */
 
         // start of payload validation
-        $keyList = ["email", "password", "account_name", "img_path", "available_time", "mastery_level"];
+        $keyList = ["email",
+                    "password",
+                    "account_name",
+                    "img_path",
+                    "available_time",
+                    "mastery_level"
+                    ];
 
         $validationsErrors = [];
 

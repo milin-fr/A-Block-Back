@@ -47,7 +47,12 @@ class ProgramController extends AbstractController
 
 
         // start of payload validation
-        $keyList = ["title", "description", "time", "img_path", "exercise_ids"];
+        $keyList = ["title",
+                    "description",
+                    "time",
+                    "img_path",
+                    "exercise_ids"
+                    ];
 
         $validationsErrors = [];
 

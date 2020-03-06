@@ -14,15 +14,15 @@ class MainController extends AbstractController
     {
         $apiData = [
             [
-                "api/access_level/",
-                "GET/",
-                "list access_levels/",
+                "api/access-level/",
+                "GET",
+                "list access_levels",
                 ""
             ],
             [
-                "api/access_level/",
-                "POST/",
-                "add access_level/",
+                "api/access-level/",
+                "POST",
+                "add access_level",
                 "
                 {
                     \"title\": \"string, not blank\"
@@ -30,51 +30,91 @@ class MainController extends AbstractController
                 "
             ],
             [
-                "api/access_level/id/",
-                "GET/",
+                "api/access-level/id",
+                "PUT",
+                "edit access_level by id",
+                "
+                {
+                    \"title\": \"string, not blank\"
+                }
+                "
+            ],
+            [
+                "api/access-level/id",
+                "GET",
                 "access_level by id",
                 ""
             ],
             [
+                "api/access-level/id",
+                "DELETE",
+                "delete access_level by id",
+                ""
+            ],
+            [
                 "api/exercise/",
-                "GET/",
+                "GET",
                 "list exercises/",
                 ""
             ],
             [
                 "api/exercise/",
-                "POST/",
-                "add exercise/",
+                "POST",
+                "add exercise",
                 "
                 {
                     \"title\": \"string, not blank\",
                     \"time\": integer,
-                    \"imgPath\": \"string\",
+                    \"img_path\": \"string\",
                     \"description\": \"string, not blank\",
                     \"score\": integer,
-                    \"hints\": [array of integers],
-                    \"prerequisites\": [array of integers],
-                    \"programs\": [array of integers],
-                    \"masteryLevel\": integer
+                    \"hint_ids\": [array of integers],
+                    \"prerequisite_ids\": [array of integers],
+                    \"program_ids\": [array of integers],
+                    \"mastery_level_id\": integer
                 }
                 "
             ],
             [
-                "api/exercise/id/",
-                "GET/",
+                "api/exercise/id",
+                "PUT",
+                "edit exercise by id",
+                "
+                {
+                    \"title\": \"string, not blank\",
+                    \"time\": integer,
+                    \"img_path\": \"string\",
+                    \"description\": \"string, not blank\",
+                    \"score\": integer,
+                    \"hint_ids\": [array of integers],
+                    \"prerequisite_ids\": [array of integers],
+                    \"program_ids\": [array of integers],
+                    \"mastery_level_id\": integer
+                }
+                "
+            ],
+            [
+                "api/exercise/id",
+                "GET",
                 "exercise by id",
                 ""
             ],
             [
+                "api/exercise/id",
+                "DELETE",
+                "delete exercise by id",
+                ""
+            ],
+            [
                 "api/hint/",
-                "GET/",
+                "GET",
                 "list hints/",
                 ""
             ],
             [
                 "api/hint/",
-                "POST/",
-                "add hint/",
+                "POST",
+                "add hint",
                 "
                 {
                     \"text\": \"string, not blank\"
@@ -82,43 +122,77 @@ class MainController extends AbstractController
                 "
             ],
             [
-                "api/hint/id/",
-                "GET/",
-                "hint by id",
-                ""
-            ],
-            [
-                "api/mastery_level/",
-                "GET/",
-                "list mastery_levels/",
-                ""
-            ],
-            [
-                "api/mastery_level/",
-                "POST/",
-                "add mastery_level/",
+                "api/hint/id",
+                "PUT",
+                "edit hint by id",
                 "
                 {
-                    \"title\": \"string, not blank\"
+                    \"text\": \"string, not blank\"
                 }
                 "
             ],
             [
-                "api/mastery_level/id/",
-                "GET/",
+                "api/hint/id",
+                "GET",
+                "hint by id",
+                ""
+            ],
+            [
+                "api/hint/id",
+                "DELETE",
+                "delete hint by id",
+                ""
+            ],
+            [
+                "api/mastery_level/",
+                "GET",
+                "list mastery_levels",
+                ""
+            ],
+            [
+                "api/mastery-level/",
+                "POST",
+                "add mastery_level",
+                "
+                {
+                    \"title\": \"string, not blank\",
+                    \"level_index\": integer
+                }
+                "
+            ],
+            [
+                "api/mastery-level/id",
+                "PUT",
+                "edit mastery_level",
+                "
+                {
+                    \"title\": \"string, not blank\",
+                    \"level_index\": integer
+                }
+                "
+            ],
+            [
+                "api/mastery-level/id",
+                "GET",
                 "mastery_level by id",
                 ""
             ],
             [
+                "api/mastery-level/id",
+                "DELETE",
+                "delete mastery_level by id",
+                ""
+            ],
+            [
                 "api/prerequisite/",
-                "GET/",
+                "GET",
                 "list prerequisites/",
                 ""
             ],
             [
                 "api/prerequisite/",
-                "POST/",
-                "add prerequisite/",
+                "POST",
+                "add prerequisite",
                 "
                 {
                     \"description\": \"string, not blank\"
@@ -126,62 +200,119 @@ class MainController extends AbstractController
                 "
             ],
             [
-                "api/prerequisite/id/",
-                "GET/",
+                "api/prerequisite/id",
+                "PUT",
+                "edit prerequisite by id",
+                "
+                {
+                    \"description\": \"string, not blank\"
+                }
+                "
+            ],
+            [
+                "api/prerequisite/id",
+                "GET",
                 "prerequisite by id",
                 ""
             ],
             [
-                "api/program/",
-                "GET/",
-                "list programs/",
+                "api/prerequisite/id",
+                "DELETE",
+                "delete prerequisite by id",
                 ""
             ],
             [
                 "api/program/",
-                "POST/",
-                "add program/",
+                "GET",
+                "list programs",
+                ""
+            ],
+            [
+                "api/program/",
+                "POST",
+                "add program",
                 "
                 {
                     \"title\": \"string, not blank\",
-                    \"time\": integer,
-                    \"imgPath\": \"string\",
                     \"description\": \"string, not blank\",
-                    \"exercises\":[array of integers]
+                    \"time\": integer,
+                    \"img_path\": \"string\",
+                    \"exercise_ids\": [array of integers]
                 }
                 "
             ],
             [
-                "api/program/id/",
-                "GET/",
+                "api/program/id",
+                "PUT",
+                "edit program by id",
+                "
+                {
+                    \"title\": \"string, not blank\",
+                    \"description\": \"string, not blank\",
+                    \"time\": integer,
+                    \"img_path\": \"string\",
+                    \"exercise_ids\": [array of integers]
+                }
+                "
+            ],
+            [
+                "api/program/id",
+                "GET",
                 "program by id",
                 ""
             ],
             [
-                "api/user/",
-                "GET/",
-                "list users/",
+                "api/program/id",
+                "DELETE",
+                "delete program by id",
                 ""
             ],
             [
                 "api/user/",
-                "POST/",
-                "add user/",
+                "GET",
+                "list users",
+                ""
+            ],
+            [
+                "api/user/",
+                "POST",
+                "add user",
                 "
                 {
                     \"email\": \"email, not blank\",
                     \"password\": \"string, not blank\",
-                    \"accountName\": \"string, not blank\",
-                    \"imgPath\": \"string\",
-                    \"availableTime\": integer,
-                    \"masteryLevel\": integer
+                    \"account_name\": \"string, not blank\",
+                    \"img_path\": \"string\",
+                    \"available_time\": integer,
+                    \"mastery_level\": integer
                 }
                 "
             ],
             [
-                "api/user/id/",
-                "GET/",
+                "api/user/id",
+                "PUT",
+                "edit user by id",
+                "
+                {
+                    \"email\": \"email, not blank\",
+                    \"password\": \"string, not blank\",
+                    \"account_name\": \"string, not blank\",
+                    \"img_path\": \"string\",
+                    \"available_time\": integer,
+                    \"mastery_level\": integer
+                }
+                "
+            ],
+            [
+                "api/user/id",
+                "GET",
                 "user by id",
+                ""
+            ],
+            [
+                "api/user/id",
+                "DELETE",
+                "delete user by id",
                 ""
             ],
         ];
