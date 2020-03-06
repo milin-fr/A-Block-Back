@@ -42,24 +42,55 @@ class UserController extends AbstractController
             {
                 "email": "user@mail.com",
                 "password": 1234,
-                "accountName": "top velu",
-                "imgPath": "image_profile_1.png",
-                "availableTime": 10,
-                "masteryLevel": 1
+                "account_name": "top velu",
+                "img_path": "image_profile_1.png",
+                "available_time": 10,
+                "mastery_level": 1
             }
         */
 
+        // start of payload validation
+        $keyList = ["email", "password", "account_name", "img_path", "available_time", "mastery_level"];
+
+        $validationsErrors = [];
+
+        $jsonContent = $request->getContent();
+        if (json_decode($jsonContent) === null) {
+            return $this->json([
+                'error' => 'Format de données érroné.'
+            ], Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+
         // get payload content and convert it to object, so we can acess it's properties
         $contentObject = json_decode($request->getContent());
+        $contentArray = get_object_vars($contentObject);
+
+        foreach($keyList as $key){
+            if(!array_key_exists($key, $contentArray)){
+                $validationsErrors[] = [
+                                        $key => "Requiered, but not provided"
+                                        ];
+            }
+        }
+
+        if (count($validationsErrors) !== 0) {
+            return $this->json($validationsErrors, Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+        // end of payload validation
+
+
+        // get payload content and convert it to object, so we can acess it's properties
+
+        // values validation
+
         $userEmail = $contentObject->email;
         $userPassword = $contentObject->password;
-        $userAccountName = $contentObject->accountName;
-        $userImgPath = $contentObject->imgPath;
-        $userAvailableTime = $contentObject->availableTime;
-        $userMasteryLevel = $contentObject->masteryLevel;
+        $userAccountName = $contentObject->account_name;
+        $userImgPath = $contentObject->img_path;
+        $userAvailableTime = $contentObject->available_time;
+        $userMasteryLevel = $contentObject->mastery_level;
 
 
-        // payload validation
         $validationsErrors = [];
         
         if(!filter_var($userEmail, FILTER_VALIDATE_EMAIL)){
@@ -73,7 +104,7 @@ class UserController extends AbstractController
         }
 
         if(in_array($userEmail, $emails)){
-            $validationsErrors[] = "email, exists";
+            $validationsErrors[] = "email, exists"; // peut se faire avec validateur * @Assert\Unique
         }
 
         if(strlen($userPassword) > 32){
