@@ -187,14 +187,18 @@ class PrerequisiteController extends AbstractController
     /**
      * @Route("/{id}", name="prerequisite_delete", methods={"DELETE"})
      */
-    public function deletePrerequisite(Request $request, Prerequisite $prerequisite): Response
+    public function deletePrerequisite(Request $request, $id, PrerequisiteRepository $prerequisiteRepository): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$prerequisite->getId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->remove($prerequisite);
-            $entityManager->flush();
+        $prerequisite = $prerequisiteRepository->find($id);
+        if (!$prerequisite) {
+            return new JsonResponse(['error' => '404 not found.'], 404);
         }
 
-        return $this->redirectToRoute('prerequisite_index');
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($prerequisite);
+        $em->flush();
+
+        $prerequisites = $prerequisiteRepository->findAll();
+        return $this->json($prerequisites, Response::HTTP_OK, [], ['groups' => 'prerequisite']);
     }
 }

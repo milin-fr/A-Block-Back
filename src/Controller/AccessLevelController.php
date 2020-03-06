@@ -155,14 +155,20 @@ class AccessLevelController extends AbstractController
     /**
      * @Route("/{id}", name="access_level_delete", methods={"DELETE"})
      */
-    public function deleteAccessLevel(Request $request, AccessLevel $accessLevel): Response
+    public function deleteAccessLevel(Request $request, $id, AccessLevelRepository $accessLevelRepository): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$accessLevel->getId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->remove($accessLevel);
-            $entityManager->flush();
+        $accessLevel = $accessLevelRepository->find($id);
+        if (!$accessLevel) {
+            
+            return new JsonResponse(['error' => '404 not found.'], 404);
         }
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($accessLevel);
+        $em->flush();
 
-        return $this->redirectToRoute('access_level_index');
+        // return $this->json([], Response::HTTP_OK);
+
+        $accessLevels = $accessLevelRepository->findAll();
+        return $this->json($accessLevels, Response::HTTP_OK, [], ['groups' => 'access_level']);
     }
 }

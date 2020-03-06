@@ -357,14 +357,18 @@ class ProgramController extends AbstractController
     /**
      * @Route("/{id}", name="program_delete", methods={"DELETE"})
      */
-    public function deleteProgram(Request $request, Program $program): Response
+    public function deleteProgram(Request $request, $id, ProgramRepository $programRepository): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$program->getId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->remove($program);
-            $entityManager->flush();
+        $program = $programRepository->find($id);
+        if (!$program) {
+            return new JsonResponse(['error' => '404 not found.'], 404);
         }
 
-        return $this->redirectToRoute('program_index');
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($program);
+        $em->flush();
+
+        $programs = $programRepository->findAll();
+        return $this->json($programs, Response::HTTP_OK, [], ['groups' => 'program']);
     }
 }

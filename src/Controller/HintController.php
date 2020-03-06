@@ -185,14 +185,18 @@ class HintController extends AbstractController
     /**
      * @Route("/{id}", name="hint_delete", methods={"DELETE"})
      */
-    public function deleteHint(Request $request, Hint $hint): Response
+    public function deleteHint(Request $request, $id, HintRepository $hintRepository): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$hint->getId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->remove($hint);
-            $entityManager->flush();
+        $hint = $hintRepository->find($id);
+        if (!$hint) {
+            return new JsonResponse(['error' => '404 not found.'], 404);
         }
 
-        return $this->redirectToRoute('hint_index');
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($hint);
+        $em->flush();
+
+        $hints = $hintRepository->findAll();
+        return $this->json($hints, Response::HTTP_OK, [], ['groups' => 'hint']);
     }
 }

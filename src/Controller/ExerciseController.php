@@ -478,14 +478,18 @@ class ExerciseController extends AbstractController
     /**
      * @Route("/{id}", name="exercise_delete", methods={"DELETE"})
      */
-    public function deleteExercise(Request $request, Exercise $exercise): Response
+    public function deleteExercise(Request $request, $id, ExerciseRepository $exerciseRepository): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$exercise->getId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->remove($exercise);
-            $entityManager->flush();
+        $exercise = $exerciseRepository->find($id);
+        if (!$exercise) {
+            return new JsonResponse(['error' => '404 not found.'], 404);
         }
 
-        return $this->redirectToRoute('exercise_index');
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($exercise);
+        $em->flush();
+
+        $exercises = $exerciseRepository->findAll();
+        return $this->json($exercises, Response::HTTP_OK, [], ['groups' => 'exercise']);
     }
 }

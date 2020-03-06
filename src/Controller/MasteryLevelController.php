@@ -4,7 +4,9 @@ namespace App\Controller;
 
 use App\Entity\MasteryLevel;
 use App\Form\MasteryLevelType;
+use App\Repository\ExerciseRepository;
 use App\Repository\MasteryLevelRepository;
+use App\Repository\UserRepository;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -146,7 +148,7 @@ class MasteryLevelController extends AbstractController
                 "level_index": 2
             }
         */
-        
+
         $masteryLevel = $masteryLevelRepository->find($id);
         if (!$masteryLevel) {
             
@@ -233,14 +235,31 @@ class MasteryLevelController extends AbstractController
     /**
      * @Route("/{id}", name="mastery_level_delete", methods={"DELETE"})
      */
-    public function deleteMasteryLevel(Request $request, MasteryLevel $masteryLevel): Response
+    public function deleteMasteryLevel(Request $request, $id, MasteryLevelRepository $masteryLevelRepository, UserRepository $userRepository, ExerciseRepository $exerciseRepository): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$masteryLevel->getId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->remove($masteryLevel);
-            $entityManager->flush();
+        $masteryLevel = $masteryLevelRepository->find($id);
+        if (!$masteryLevel) {
+            return new JsonResponse(['error' => '404 not found.'], 404);
         }
 
-        return $this->redirectToRoute('mastery_level_index');
+        $affectedUser = $userRepository->findBy(["mastery_level"=>$masteryLevel]);
+        $affectedExercise = $exerciseRepository->findBy(["mastery_level"=>$masteryLevel]);
+        if(!empty($affectedUser)){
+            return $this->json([
+                'error' => 'Ce niveau de maitrise est affecté a un utilisateur. Impossible de supprimer.'
+            ], Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+        if(!empty($affectedExercise)){
+            return $this->json([
+                'error' => 'Ce niveau de maitrise est affecté a un exercise. Impossible de supprimer.'
+            ], Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($masteryLevel);
+        $em->flush();
+
+        $masteryLevels = $masteryLevelRepository->findAll();
+        return $this->json($masteryLevels, Response::HTTP_OK, [], ['groups' => 'hint']);
     }
 }

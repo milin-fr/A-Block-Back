@@ -337,14 +337,18 @@ class UserController extends AbstractController
     /**
      * @Route("/{id}", name="user_delete", methods={"DELETE"})
      */
-    public function deleteAblocUser(Request $request, User $user): Response
+    public function deleteAblocUser(Request $request, $id, UserRepository $userRepository): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$user->getId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->remove($user);
-            $entityManager->flush();
+        $user = $userRepository->find($id);
+        if (!$user) {
+            return new JsonResponse(['error' => '404 not found.'], 404);
         }
 
-        return $this->redirectToRoute('user_index');
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($user);
+        $em->flush();
+
+        $users = $userRepository->findAll();
+        return $this->json($users, Response::HTTP_OK, [], ['groups' => 'abloc_user']);
     }
 }
