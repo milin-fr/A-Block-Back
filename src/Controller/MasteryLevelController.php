@@ -16,7 +16,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
- * @Route("/api/mastery_level")
+ * @Route("/api/mastery-level")
  */
 class MasteryLevelController extends AbstractController
 {

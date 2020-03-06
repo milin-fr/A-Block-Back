@@ -46,27 +46,61 @@ class ExerciseController extends AbstractController
             {
                 "title": "exo test",
                 "time": 10,
-                "imgPath": "image_exo_1.png",
+                "img_path": "xercise_image_default.png",
                 "description": "description exo 1",
                 "score": 10,
-                "hints": [6],
-                "prerequisites": [11, 12, 1000],
-                "programs": [6, 7],
-                "masteryLevel": 1
+                "hint_ids": [6],
+                "prerequisite_ids": [11, 12, 1000],
+                "program_ids": [6, 7],
+                "mastery_level_id": 1
             }
         */
 
+        $keyList = ["title",
+                    "time",
+                    "img_path",
+                    "description",
+                    "score",
+                    "hint_ids",
+                    "prerequisite_ids",
+                    "program_ids",
+                    "mastery_level_id"];
+
+        $validationsErrors = [];
+
+        $jsonContent = $request->getContent();
+        if (json_decode($jsonContent) === null) {
+            return $this->json([
+                'error' => 'Format de données érroné.'
+            ], Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+
         // get payload content and convert it to object, so we can acess it's properties
         $contentObject = json_decode($request->getContent());
+        $contentArray = get_object_vars($contentObject);
+
+        foreach($keyList as $key){
+            if(!array_key_exists($key, $contentArray)){
+                $validationsErrors[] = [
+                                        $key => "Requiered, but not provided"
+                                        ];
+            }
+        }
+
+        if (count($validationsErrors) !== 0) {
+            return $this->json($validationsErrors, Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+
+
         $exerciseTitle = $contentObject->title;
         $exerciseTime = $contentObject->time; // type integer
-        $exerciseImgPath = $contentObject->imgPath;
+        $exerciseImgPath = $contentObject->img_path;
         $exerciseDescription = $contentObject->description;
         $exerciseScore = $contentObject->score;
-        $exerciseHints = $contentObject->hints; // id of hint
-        $exercisePrerequisites = $contentObject->prerequisites; // array of ids of prerequisite
-        $exercisePrograms = $contentObject->programs; // array of ids of programs
-        $exerciseMasteryLevel = $contentObject->masteryLevel; // id of masteryLevel
+        $exerciseHints = $contentObject->hint_ids; // id of hint
+        $exercisePrerequisites = $contentObject->prerequisite_ids; // array of ids of prerequisite
+        $exercisePrograms = $contentObject->program_ids; // array of ids of programs
+        $exerciseMasteryLevel = $contentObject->mastery_level_id; // id of masteryLevel
 
         if($exerciseTime === ""){
             $exerciseTime = 0;
@@ -107,7 +141,7 @@ class ExerciseController extends AbstractController
         }
         
         // payload validation
-        $validationsErrors = [];
+
 
         $masteryLevel = $masteryLevelRepository->find($exerciseMasteryLevel);
         if(!$masteryLevel){

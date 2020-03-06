@@ -14,7 +14,7 @@ use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
- * @Route("/api/access_level")
+ * @Route("/api/access-level")
  */
 class AccessLevelController extends AbstractController
 {
