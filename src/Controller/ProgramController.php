@@ -197,7 +197,7 @@ class ProgramController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="program_edit", methods={"PUT"})
+     * @Route("/{id}", name="program_edit", methods={"PUT"})
      */
     public function putProgram(Request $request, Program $program): Response
     {

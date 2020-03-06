@@ -36,7 +36,7 @@ class PrerequisiteController extends AbstractController
     {
         /*
             {
-                "description": "hint test",
+                "description": "hint test"
             }
         */
 
@@ -112,7 +112,7 @@ class PrerequisiteController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="prerequisite_edit", methods={"PUT"})
+     * @Route("/{id}", name="prerequisite_edit", methods={"PUT"})
      */
     public function putPrerequisite(Request $request, Prerequisite $prerequisite): Response
     {

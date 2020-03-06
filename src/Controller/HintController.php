@@ -111,7 +111,7 @@ class HintController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="hint_edit", methods={"PUT"})
+     * @Route("/{id}", name="hint_edit", methods={"PUT"})
      */
     public function putHint(Request $request, Hint $hint): Response
     {

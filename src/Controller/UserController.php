@@ -188,7 +188,7 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="user_edit", methods={"PUT"})
+     * @Route("/{id}", name="user_edit", methods={"PUT"})
      */
     public function putAblocUser(Request $request, User $user): Response
     {

@@ -135,7 +135,7 @@ class MasteryLevelController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="mastery_level_edit", methods={"PUT"})
+     * @Route("/{id}", name="mastery_level_edit", methods={"PUT"})
      */
     public function putMasterLevel(Request $request, MasteryLevel $masteryLevel): Response
     {
