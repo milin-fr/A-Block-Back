@@ -14,7 +14,7 @@ use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
- * @Route("/api/access_level")
+ * @Route("/api/access-level")
  */
 class AccessLevelController extends AbstractController
 {
@@ -40,13 +40,38 @@ class AccessLevelController extends AbstractController
             }
         */
 
+        $keyList = ["title"];
+
+        $validationsErrors = [];
+
+        $jsonContent = $request->getContent();
+        if (json_decode($jsonContent) === null) {
+            return $this->json([
+                'error' => 'Format de données érroné.'
+            ], Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+
         // get payload content and convert it to object, so we can acess it's properties
         $contentObject = json_decode($request->getContent());
+        $contentArray = get_object_vars($contentObject);
+
+        foreach($keyList as $key){
+            if(!array_key_exists($key, $contentArray)){
+                $validationsErrors[] = [
+                                        $key => "Requiered, but not provided"
+                                        ];
+            }
+        }
+
+        if (count($validationsErrors) !== 0) {
+            return $this->json($validationsErrors, Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+
+
         $accessLevelTitle = $contentObject->title;
 
 
         // payload validation
-        $validationsErrors = [];
         
         if($accessLevelTitle === ""){
             $validationsErrors[] = "Title, blank";
@@ -130,14 +155,20 @@ class AccessLevelController extends AbstractController
     /**
      * @Route("/{id}", name="access_level_delete", methods={"DELETE"})
      */
-    public function deleteAccessLevel(Request $request, AccessLevel $accessLevel): Response
+    public function deleteAccessLevel(Request $request, $id, AccessLevelRepository $accessLevelRepository): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$accessLevel->getId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->remove($accessLevel);
-            $entityManager->flush();
+        $accessLevel = $accessLevelRepository->find($id);
+        if (!$accessLevel) {
+            
+            return new JsonResponse(['error' => '404 not found.'], 404);
         }
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($accessLevel);
+        $em->flush();
 
-        return $this->redirectToRoute('access_level_index');
+        // return $this->json([], Response::HTTP_OK);
+
+        $accessLevels = $accessLevelRepository->findAll();
+        return $this->json($accessLevels, Response::HTTP_OK, [], ['groups' => 'access_level']);
     }
 }

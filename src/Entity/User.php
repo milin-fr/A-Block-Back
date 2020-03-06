@@ -7,6 +7,7 @@ use Doctrine\ORM\Mapping\JoinTable;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
@@ -24,6 +25,7 @@ class User
     /**
      * @ORM\Column(type="string", length=100)
      * @Groups("abloc_user")
+     * @Assert\Unique
      */
     private $email;
 

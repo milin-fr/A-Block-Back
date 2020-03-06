@@ -36,15 +36,43 @@ class PrerequisiteController extends AbstractController
     {
         /*
             {
-                "description": "hint test",
+                "description": "prerequisite test"
             }
         */
 
+        // start of payload validation
+        $keyList = ["description"];
+
+        $validationsErrors = [];
+
+        $jsonContent = $request->getContent();
+        if (json_decode($jsonContent) === null) {
+            return $this->json([
+                'error' => 'Format de données érroné.'
+            ], Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+
         // get payload content and convert it to object, so we can acess it's properties
         $contentObject = json_decode($request->getContent());
+        $contentArray = get_object_vars($contentObject);
+
+        foreach($keyList as $key){
+            if(!array_key_exists($key, $contentArray)){
+                $validationsErrors[] = [
+                                        $key => "Requiered, but not provided"
+                                        ];
+            }
+        }
+
+        if (count($validationsErrors) !== 0) {
+            return $this->json($validationsErrors, Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+        // end of payload validation
+
+        // values validation
         $prerequisiteDescription = $contentObject->description;
 
-        // payload validation
+
         $validationsErrors = [];
         
         if($prerequisiteDescription === ""){
@@ -84,36 +112,93 @@ class PrerequisiteController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="prerequisite_edit", methods={"PUT"})
+     * @Route("/{id}", name="prerequisite_edit", methods={"PUT"})
      */
-    public function putPrerequisite(Request $request, Prerequisite $prerequisite): Response
+    public function putPrerequisite(Request $request, $id, PrerequisiteRepository $prerequisiteRepository): Response
     {
-        $form = $this->createForm(PrerequisiteType::class, $prerequisite);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
-
-            return $this->redirectToRoute('prerequisite_index');
+        /*
+            {
+                "description": "prerequisite test"
+            }
+        */
+        
+        $prerequisite = $prerequisiteRepository->find($id);
+        if (!$prerequisite) {
+            
+            return new JsonResponse(['error' => '404 not found.'], 404);
         }
 
-        return $this->render('prerequisite/edit.html.twig', [
-            'prerequisite' => $prerequisite,
-            'form' => $form->createView(),
-        ]);
+        // start of payload validation
+        $keyList = ["description"];
+
+        $validationsErrors = [];
+
+        $jsonContent = $request->getContent();
+        if (json_decode($jsonContent) === null) {
+            return $this->json([
+                'error' => 'Format de données érroné.'
+            ], Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+
+        // get payload content and convert it to object, so we can acess it's properties
+        $contentObject = json_decode($request->getContent());
+        $contentArray = get_object_vars($contentObject);
+
+        foreach($keyList as $key){
+            if(!array_key_exists($key, $contentArray)){
+                $validationsErrors[] = [
+                                        $key => "Requiered, but not provided"
+                                        ];
+            }
+        }
+
+        if (count($validationsErrors) !== 0) {
+            return $this->json($validationsErrors, Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+        // end of payload validation
+
+        // values validation
+        $prerequisiteDescription = $contentObject->description;
+
+
+        $validationsErrors = [];
+        
+        if($prerequisiteDescription === ""){
+            $validationsErrors[] = "description, blank";
+        }
+
+        if(strlen($prerequisiteDescription) > 999){
+            $validationsErrors[] = "description, length, max, 999";
+        }
+
+        if (count($validationsErrors) !== 0) {
+            return $this->json($validationsErrors, Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+
+        $prerequisite->setDescription($prerequisiteDescription);
+        $prerequisite->setUpdatedAt(new \DateTime());
+
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($prerequisite);
+        $em->flush();
+        return $this->redirectToRoute('prerequisite_show', ['id' => $prerequisite->getId()], Response::HTTP_CREATED);
     }
 
     /**
      * @Route("/{id}", name="prerequisite_delete", methods={"DELETE"})
      */
-    public function deletePrerequisite(Request $request, Prerequisite $prerequisite): Response
+    public function deletePrerequisite(Request $request, $id, PrerequisiteRepository $prerequisiteRepository): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$prerequisite->getId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->remove($prerequisite);
-            $entityManager->flush();
+        $prerequisite = $prerequisiteRepository->find($id);
+        if (!$prerequisite) {
+            return new JsonResponse(['error' => '404 not found.'], 404);
         }
 
-        return $this->redirectToRoute('prerequisite_index');
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($prerequisite);
+        $em->flush();
+
+        $prerequisites = $prerequisiteRepository->findAll();
+        return $this->json($prerequisites, Response::HTTP_OK, [], ['groups' => 'prerequisite']);
     }
 }

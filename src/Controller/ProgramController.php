@@ -38,20 +38,50 @@ class ProgramController extends AbstractController
         /*
             {
                 "title": "program test",
-                "time": 10,
-                "imgPath": "image_program_1.png",
                 "description": "description program 1",
-                "exercises":[1, 20]
+                "time": 10,
+                "img_path": "image_program_1.png",
+                "exercise_ids":[1, 20]
             }
         */
 
+
+        // start of payload validation
+        $keyList = ["title", "description", "time", "img_path", "exercise_ids"];
+
+        $validationsErrors = [];
+
+        $jsonContent = $request->getContent();
+        if (json_decode($jsonContent) === null) {
+            return $this->json([
+                'error' => 'Format de données érroné.'
+            ], Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+
         // get payload content and convert it to object, so we can acess it's properties
         $contentObject = json_decode($request->getContent());
+        $contentArray = get_object_vars($contentObject);
+
+        foreach($keyList as $key){
+            if(!array_key_exists($key, $contentArray)){
+                $validationsErrors[] = [
+                                        $key => "Requiered, but not provided"
+                                        ];
+            }
+        }
+
+        if (count($validationsErrors) !== 0) {
+            return $this->json($validationsErrors, Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+        // end of payload validation
+
+
+        // get payload content and convert it to object, so we can acess it's properties
         $programTitle = $contentObject->title;
         $programTime = $contentObject->time; // type integer
-        $programImgPath = $contentObject->imgPath;
+        $programImgPath = $contentObject->img_path;
         $programDescription = $contentObject->description;
-        $programExercises = $contentObject->exercises; // array of ids of exercises
+        $programExercises = $contentObject->exercise_ids; // array of ids of exercises
 
 
         if($programTime === ""){
@@ -167,36 +197,178 @@ class ProgramController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="program_edit", methods={"PUT"})
+     * @Route("/{id}", name="program_edit", methods={"PUT"})
      */
-    public function putProgram(Request $request, Program $program): Response
+    public function putProgram(Request $request, $id, ProgramRepository $programRepository, ExerciseRepository $exerciseRepository): Response
     {
-        $form = $this->createForm(ProgramType::class, $program);
-        $form->handleRequest($request);
+        /*
+            {
+                "title": "program test",
+                "description": "description program 1",
+                "time": 10,
+                "img_path": "image_program_1.png",
+                "exercise_ids":[1, 20]
+            }
+        */
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
-
-            return $this->redirectToRoute('program_index');
+        
+        $program = $programRepository->find($id);
+        if (!$program) {
+            
+            return new JsonResponse(['error' => '404 not found.'], 404);
         }
 
-        return $this->render('program/edit.html.twig', [
-            'program' => $program,
-            'form' => $form->createView(),
-        ]);
+        // start of payload validation
+        $keyList = ["title", "description", "time", "img_path", "exercise_ids"];
+
+        $validationsErrors = [];
+
+        $jsonContent = $request->getContent();
+        if (json_decode($jsonContent) === null) {
+            return $this->json([
+                'error' => 'Format de données érroné.'
+            ], Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+
+        // get payload content and convert it to object, so we can acess it's properties
+        $contentObject = json_decode($request->getContent());
+        $contentArray = get_object_vars($contentObject);
+
+        foreach($keyList as $key){
+            if(!array_key_exists($key, $contentArray)){
+                $validationsErrors[] = [
+                                        $key => "Requiered, but not provided"
+                                        ];
+            }
+        }
+
+        if (count($validationsErrors) !== 0) {
+            return $this->json($validationsErrors, Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+        // end of payload validation
+
+
+        // get payload content and convert it to object, so we can acess it's properties
+        $programTitle = $contentObject->title;
+        $programTime = $contentObject->time; // type integer
+        $programImgPath = $contentObject->img_path;
+        $programDescription = $contentObject->description;
+        $programExercises = $contentObject->exercise_ids; // array of ids of exercises
+
+
+        if($programTime === ""){
+            $programTime = 0;
+        }
+
+        if(gettype($programExercises) !== "array"){
+            $programExercises = [];
+        }
+
+        foreach($programExercises as $key => $id){
+            if(gettype($id) !== "integer"){
+                $programExercises[$key] = "";
+            }
+        }
+        
+        // payload validation
+        $validationsErrors = [];
+        
+        if($programTitle === ""){
+            $validationsErrors[] = "title, blank";
+        }
+
+        if(strlen($programTitle) > 64){
+            $validationsErrors[] = "title, length, max, 64";
+        }
+
+        if(gettype($programTime) !== "integer"){
+            $validationsErrors[] = "time, not integer";
+        }
+
+        if($programTime < 0){
+            $validationsErrors[] = "time, value, min, 0";
+        }
+
+        if($programTime > 999){
+            $validationsErrors[] = "time, value, max, 999";
+        }
+
+        if(strlen($programImgPath) > 64){
+            $validationsErrors[] = "imgPath, length, max, 64";
+        }
+
+        if($programDescription === ""){
+            $validationsErrors[] = "description, blank";
+        }
+
+        if(strlen($programDescription) > 999){
+            $validationsErrors[] = "description, length, max, 999";
+        }
+
+        if (count($validationsErrors) !== 0) {
+            return $this->json($validationsErrors, Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+
+
+        $program->setTitle($programTitle);
+        $program->setUpdatedAt(new \DateTime());
+        $program->setTime($programTime);
+
+        if($programImgPath === ""){
+            $programImgPath = "default_program.png";
+        }
+
+        $program->setImgPath($programImgPath);
+        $program->setDescription($programDescription);
+
+        // identify the most frequent mastery level among exercises related to this program
+        $masteryLevelIdList = []; // list of mastery ids
+        $masteryLevelList = []; // list of mastery objects
+
+        foreach($programExercises as $id){
+            $exercise = $exerciseRepository->find($id);
+            if($exercise){ // checking if exercise id, provided from front, exists in bdd
+                $program->addExercise($exercise);
+                $masteryLevelId = $exercise->getMasteryLevel()->getId();
+                $masteryLevelIdList[] = $masteryLevelId;
+                $masteryLevelList[$masteryLevelId] = $exercise->getMasteryLevel(); // storing mastery objects by id for later use
+            }
+        }
+        
+        if(!empty($masteryLevelIdList)){ // checking if there were at least 1 bdd match for mastery
+            $idFrequencies = array_count_values($masteryLevelIdList); // getting a list with ids as keys and number of id as value
+            $mostFrequentMasteryId = $masteryLevelIdList[0]; // assuming that the most frequent id is the first one
+            foreach($idFrequencies as $id => $frequencie){
+                if($idFrequencies[$mostFrequentMasteryId] < $frequencie){ // checking if assumption was right, if not updating the id
+                    $mostFrequentMasteryId = $id;
+                }
+            }
+    
+            $program->setMasteryLevel($masteryLevelList[$mostFrequentMasteryId]); // pulling mastery object by most frequent id and adding it to program
+        }
+        // end of mastery level treatment
+
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($program);
+        $em->flush();
+        return $this->redirectToRoute('program_show', ['id' => $program->getId()], Response::HTTP_CREATED);
     }
 
     /**
      * @Route("/{id}", name="program_delete", methods={"DELETE"})
      */
-    public function deleteProgram(Request $request, Program $program): Response
+    public function deleteProgram(Request $request, $id, ProgramRepository $programRepository): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$program->getId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->remove($program);
-            $entityManager->flush();
+        $program = $programRepository->find($id);
+        if (!$program) {
+            return new JsonResponse(['error' => '404 not found.'], 404);
         }
 
-        return $this->redirectToRoute('program_index');
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($program);
+        $em->flush();
+
+        $programs = $programRepository->findAll();
+        return $this->json($programs, Response::HTTP_OK, [], ['groups' => 'program']);
     }
 }
