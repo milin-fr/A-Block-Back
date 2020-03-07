@@ -14,27 +14,41 @@ class ExerciseComment
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups({"exercise", "abloc_user"})
+     * @Groups({"exercise", "abloc_user", "exercise_comment"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="text")
-     * @Groups({"exercise", "abloc_user"})
+     * @Groups({"exercise", "abloc_user", "exercise_comment"})
      */
     private $text;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="exercise_comments")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups("exercise_comment")
      */
     private $user;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Exercise", inversedBy="comments")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups("exercise_comment")
      */
     private $exercise;
+
+    /**
+     * @ORM\Column(type="datetime")
+     * @Groups("exercise_comment")
+     */
+    private $createdAt;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     * @Groups("exercise_comment")
+     */
+    private $updatedAt;
 
     public function getId(): ?int
     {
@@ -73,6 +87,30 @@ class ExerciseComment
     public function setExercise(?Exercise $exercise): self
     {
         $this->exercise = $exercise;
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeInterface
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
+    {
+        $this->updatedAt = $updatedAt;
 
         return $this;
     }

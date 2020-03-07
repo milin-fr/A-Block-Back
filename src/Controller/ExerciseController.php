@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Exercise;
+use App\Entity\ExerciseComment;
 use App\Form\ExerciseType;
 use App\Repository\ExerciseCommentRepository;
 use App\Repository\ExerciseRepository;
@@ -238,7 +239,7 @@ class ExerciseController extends AbstractController
                 $exercise->addProgram($program);
             }
         }
-        
+
         $exercise->setMasteryLevel($masteryLevel);
 
         $em = $this->getDoctrine()->getManager();
@@ -281,7 +282,7 @@ class ExerciseController extends AbstractController
                 "hint_ids": [6],
                 "prerequisite_ids": [11, 12, 1000],
                 "program_ids": [6, 7],
-                "mastery_level_id": 1
+                "mastery_level_id": 1,
             }
         */
 
@@ -293,7 +294,8 @@ class ExerciseController extends AbstractController
                     "hint_ids",
                     "prerequisite_ids",
                     "program_ids",
-                    "mastery_level_id"];
+                    "mastery_level_id"
+                ];
 
         $validationsErrors = [];
 
@@ -368,7 +370,7 @@ class ExerciseController extends AbstractController
                 $exercisePrograms[$key] = "";
             }
         }
-        
+
         // payload validation
 
 
@@ -466,7 +468,7 @@ class ExerciseController extends AbstractController
                 $exercise->addProgram($program);
             }
         }
-        
+
         $exercise->setMasteryLevel($masteryLevel);
 
         $em = $this->getDoctrine()->getManager();

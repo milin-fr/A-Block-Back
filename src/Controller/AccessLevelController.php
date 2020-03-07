@@ -21,7 +21,7 @@ class AccessLevelController extends AbstractController
     /**
      * @Route("/", name="access_level_list", methods={"GET"})
      */
-    public function getAcessLevels(AccessLevelRepository $accessLevelRepository): Response
+    public function getAccessLevels(AccessLevelRepository $accessLevelRepository): Response
     {
         $accessLevels = $accessLevelRepository->findAll();
 
@@ -51,7 +51,7 @@ class AccessLevelController extends AbstractController
             ], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
-        // get payload content and convert it to object, so we can acess it's properties
+        // get payload content and convert it to object, so we can access it's properties
         $contentObject = json_decode($request->getContent());
         $contentArray = get_object_vars($contentObject);
 
@@ -121,10 +121,33 @@ class AccessLevelController extends AbstractController
         */
         
         $accessLevel = $accessLevelRepository->find($id);
-        if (!$accessLevel) {
-            return new JsonResponse(['error' => '404 not found.'], 404);
+        
+        $keyList = ["title"];
+
+        $validationsErrors = [];
+
+        $jsonContent = $request->getContent();
+        if (json_decode($jsonContent) === null) {
+            return $this->json([
+                'error' => 'Format de données érroné.'
+            ], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
+
+        // get payload content and convert it to object, so we can access it's properties
         $contentObject = json_decode($request->getContent());
+        $contentArray = get_object_vars($contentObject);
+
+        foreach($keyList as $key){
+            if(!array_key_exists($key, $contentArray)){
+                $validationsErrors[] = [
+                                        $key => "Requiered, but not provided"
+                                        ];
+            }
+        }
+
+        if (count($validationsErrors) !== 0) {
+            return $this->json($validationsErrors, Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
 
         $accessLevelTitle = $contentObject->title;
 
