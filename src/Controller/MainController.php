@@ -315,6 +315,86 @@ class MainController extends AbstractController
                 "delete user by id",
                 ""
             ],
+            [
+                "api/exercise-comment/",
+                "GET",
+                "list exercise_comments",
+                ""
+            ],
+            [
+                "api/exercise-comment/",
+                "POST",
+                "add exercise_comment",
+                "
+                {
+                    \"text\": \"string, not blank\",
+                    \"user_id\": \"integer, not blank\",
+                    \"exercise_id\": \"integer, not blank\"
+                }
+                "
+            ],
+            [
+                "api/exercise-comment/id",
+                "PUT",
+                "edit exercise_comment by id",
+                "
+                {
+                    \"text\": \"string, not blank\"
+                }
+                "
+            ],
+            [
+                "api/exercise-comment/id",
+                "GET",
+                "exercise-comment by id",
+                ""
+            ],
+            [
+                "api/exercise-comment/id",
+                "DELETE",
+                "delete exercise_comment by id",
+                ""
+            ],
+            [
+                "api/program-comment/",
+                "GET",
+                "list program_comments",
+                ""
+            ],
+            [
+                "api/program-comment/",
+                "POST",
+                "add program_comment",
+                "
+                {
+                    \"text\": \"string, not blank\",
+                    \"user_id\": \"integer, not blank\",
+                    \"program_id\": \"integer, not blank\"
+                }
+                "
+            ],
+            [
+                "api/program-comment/id",
+                "PUT",
+                "edit program_comment by id",
+                "
+                {
+                    \"text\": \"string, not blank\"
+                }
+                "
+            ],
+            [
+                "api/program-comment/id",
+                "GET",
+                "program-comment by id",
+                ""
+            ],
+            [
+                "api/program-comment/id",
+                "DELETE",
+                "delete program_comment by id",
+                ""
+            ],
         ];
 
         return $this->render('home\api_data.html.twig', [
