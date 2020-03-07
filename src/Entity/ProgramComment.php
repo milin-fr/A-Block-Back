@@ -14,35 +14,39 @@ class ProgramComment
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups({"program", "abloc_user"})
+     * @Groups({"program", "abloc_user", "program_comment"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="text")
-     * @Groups({"program", "abloc_user"})
+     * @Groups({"program", "abloc_user", "program_comment"})
      */
     private $text;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="program_comments")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups("program_comment")
      */
     private $user;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Program", inversedBy="comments")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups("program_comment")
      */
     private $program;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Groups("program_comment")
      */
     private $createdAt;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     * @Groups("program_comment")
      */
     private $updatedAt;
 

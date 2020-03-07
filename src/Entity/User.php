@@ -18,7 +18,7 @@ class User
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups({"abloc_user", "exercise_comment"})
+     * @Groups({"abloc_user", "exercise_comment", "program_comment"})
      */
     private $id;
 
@@ -37,13 +37,13 @@ class User
 
     /**
      * @ORM\Column(type="string", length=64)
-     * @Groups({"abloc_user", "exercise_comment"})
+     * @Groups({"abloc_user", "exercise_comment", "program_comment"})
      */
     private $account_name;
 
     /**
      * @ORM\Column(type="string", length=64, nullable=true)
-     * @Groups({"abloc_user", "exercise_comment"})
+     * @Groups({"abloc_user", "exercise_comment", "program_comment"})
      */
     private $img_path;
 

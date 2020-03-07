@@ -16,13 +16,13 @@ class Program
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups({"exercise", "program", "abloc_user", "mastery_level"})
+     * @Groups({"exercise", "program", "abloc_user", "mastery_level", "program_comment"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=64)
-     * @Groups({"exercise", "program", "abloc_user", "mastery_level"})
+     * @Groups({"exercise", "program", "abloc_user", "mastery_level", "program_comment"})
      */
     private $title;
 
