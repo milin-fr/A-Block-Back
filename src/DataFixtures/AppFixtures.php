@@ -7,19 +7,25 @@ use App\Entity\Hint;
 use App\Entity\User;
 use App\Entity\Program;
 use App\Entity\Exercise;
-use App\Entity\AccessLevel;
 use App\Entity\MasteryLevel;
 use App\Entity\Prerequisite;
-use Faker\Provider\DateTime;
 use App\Entity\ProgramComment;
 use App\Entity\ExerciseComment;
 use Faker;
-use Faker\Factory;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class AppFixtures extends Fixture
 {
+
+    private $passwordEncoder;
+
+        public function __construct(UserPasswordEncoderInterface $passwordEncoder)
+        {
+            $this->passwordEncoder = $passwordEncoder;
+        }
+
     public function load(ObjectManager $manager)
     {
         //Instance de Faker
@@ -30,16 +36,6 @@ class AppFixtures extends Fixture
         //Ajout des Providers de base
         $faker->addProvider(new AblocProvider($faker));
 
-        // Liste des AccessLevel
-        $AccessLevelsList = [];
-        //Création des 3 AccessLevel
-        for ($i = 0; $i < 3; $i++) {
-            $accessLevel = new AccessLevel();
-            $accessLevel->setTitle($faker->unique()->accessLevelTitle());
-            $accessLevel->setCreatedAt(new \DateTime);
-            $AccessLevelsList[] = $accessLevel;
-            $manager->persist($accessLevel);
-        }
 
         // Liste des MasteryLevel
         $masteryLevelsList = [];
@@ -111,18 +107,35 @@ class AppFixtures extends Fixture
             $manager->persist($program);
         }
 
+
+        $firstNames = [
+            "martin",
+            "bernard",
+            "thomas",
+            "petit",
+            "robert",
+        ];
+        $lastNames = [
+            "durand",
+            "dubois",
+            "leroy",
+            "bonnet",
+            "picard",
+        ];
+
         // Liste de Users
         $UsersList = [];
         // Création de 5 Users
         for ($i = 0; $i < 5; $i++) {
             $user = new User();
-            $user->setPassword("1234");
+            $user->setPassword($this->passwordEncoder->encodePassword(
+                $user,
+                '123'
+            ));
             $user->setAccountName($faker->unique()->firstName());
-            $user->setEmail("$faker->firstName.$faker->lastName@mail.fr");
+            $user->setEmail($firstNames[$i].$lastNames[$i]."@mail.fr");
             $user->setScore("0");
             $user->setCreatedAt(new \DateTime);
-            shuffle($AccessLevelsList);
-            $user->setAccessLevel($AccessLevelsList[0]);
             shuffle($masteryLevelsList);
             $user->setMasteryLevel($masteryLevelsList[0]);
             $user->addExerciseBookmark($ExercisesList[0]);
@@ -141,6 +154,7 @@ class AppFixtures extends Fixture
             shuffle($UsersList);
             shuffle($ExercisesList);
             $exerciseComment->setUser($UsersList[0]);
+            $exerciseComment->setCreatedAt(new \DateTime);
             $exerciseComment->setExercise($ExercisesList[0]);
             $manager->persist($exerciseComment);
         }
@@ -153,6 +167,7 @@ class AppFixtures extends Fixture
             shuffle($UsersList);
             shuffle($ProgramsList);
             $programComment->setUser($UsersList[0]);
+            $programComment->setCreatedAt(new \DateTime);
             $programComment->setProgram($ProgramsList[0]);
             $manager->persist($programComment);
         }
