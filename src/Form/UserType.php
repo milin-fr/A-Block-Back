@@ -23,7 +23,6 @@ class UserType extends AbstractType
             ->add('program_bookmarks')
             ->add('exercise_bookmarks')
             ->add('followed_programs')
-            ->add('access_level')
         ;
     }
 

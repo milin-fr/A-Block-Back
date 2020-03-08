@@ -14,44 +14,6 @@ class MainController extends AbstractController
     {
         $apiData = [
             [
-                "api/access-level/",
-                "GET",
-                "list access_levels",
-                ""
-            ],
-            [
-                "api/access-level/",
-                "POST",
-                "add access_level",
-                "
-                {
-                    \"title\": \"string, not blank\"
-                }
-                "
-            ],
-            [
-                "api/access-level/id",
-                "PUT",
-                "edit access_level by id",
-                "
-                {
-                    \"title\": \"string, not blank\"
-                }
-                "
-            ],
-            [
-                "api/access-level/id",
-                "GET",
-                "access_level by id",
-                ""
-            ],
-            [
-                "api/access-level/id",
-                "DELETE",
-                "delete access_level by id",
-                ""
-            ],
-            [
                 "api/exercise/",
                 "GET",
                 "list exercises/",
