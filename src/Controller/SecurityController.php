@@ -11,13 +11,13 @@ use Symfony\Component\Routing\Annotation\Route;
 class SecurityController extends AbstractController
 {
     /**
-     * @Route("/login_check", name="api_login_check")
+     * @Route("/login", name="api_login")
      */
     public function index()
     {
         return $this->json([
-            'message' => 'Welcome to your new controller!',
-            'path' => 'src/Controller/SecurityController.php',
+            "username",
+            "password"
         ]);
     }
 }

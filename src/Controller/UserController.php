@@ -154,7 +154,7 @@ class UserController extends AbstractController
 
         $user = new User();
         $user->setEmail($userEmail);
-        $user->setPassword($this->passwordEncoder->encodePassword(
+        $user->setPassword($passwordEncoder->encodePassword(
             $user,
             $userPassword
         ));
@@ -191,7 +191,7 @@ class UserController extends AbstractController
     /**
      * @Route("/{id}", name="user_edit", methods={"PUT"})
      */
-    public function putAblocUser(Request $request, $id, UserRepository $userRepository, MasteryLevelRepository $masteryLevelRepository): Response
+    public function putAblocUser(Request $request, $id, UserRepository $userRepository, MasteryLevelRepository $masteryLevelRepository, UserPasswordEncoderInterface $passwordEncoder): Response
     {
         /*
             {
@@ -314,7 +314,7 @@ class UserController extends AbstractController
 
 
         $user->setEmail($userEmail);
-        $user->setPassword($this->passwordEncoder->encodePassword(
+        $user->setPassword($passwordEncoder->encodePassword(
             $user,
             $userPassword
         ));
