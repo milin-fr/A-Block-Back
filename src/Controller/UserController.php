@@ -3,18 +3,12 @@
 namespace App\Controller;
 
 use App\Entity\User;
-use App\Form\UserType;
-use App\Entity\AccessLevel;
 use App\Repository\UserRepository;
-use App\Repository\AccessLevelRepository;
 use App\Repository\MasteryLevelRepository;
-use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\Serializer\Encoder\JsonEncoder;
-use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
@@ -35,7 +29,7 @@ class UserController extends AbstractController
     /**
      * @Route("/", name="user_new", methods={"POST"})
      */
-    public function postAblocUser(Request $request, AccessLevelRepository $accessLevelRepository, MasteryLevelRepository $masteryLevelRepository, UserRepository $userRepository): Response
+    public function postAblocUser(Request $request, MasteryLevelRepository $masteryLevelRepository, UserRepository $userRepository): Response
     {
 
         /*
@@ -168,10 +162,7 @@ class UserController extends AbstractController
         $user->setAvailableTime(($userAvailableTime));
         $user->setScore(0);
         $user->setCreatedAt(new \DateTime());
-        
-        $accesLevel = $accessLevelRepository->findAll();
-        $user->setAccessLevel($accesLevel[0]); // a revoir
-        
+
         $user->setMasteryLevel($masteryLevel);
         
         $em = $this->getDoctrine()->getManager();
@@ -196,7 +187,7 @@ class UserController extends AbstractController
     /**
      * @Route("/{id}", name="user_edit", methods={"PUT"})
      */
-    public function putAblocUser(Request $request, $id, UserRepository $userRepository, AccessLevelRepository $accessLevelRepository, MasteryLevelRepository $masteryLevelRepository): Response
+    public function putAblocUser(Request $request, $id, UserRepository $userRepository, MasteryLevelRepository $masteryLevelRepository): Response
     {
         /*
             {
@@ -328,10 +319,7 @@ class UserController extends AbstractController
         $user->setAvailableTime(($userAvailableTime));
         $user->setScore(0);
         $user->setUpdatedAt(new \DateTime());
-        
-        $accesLevel = $accessLevelRepository->findAll();
-        $user->setAccessLevel($accesLevel[0]); // a revoir
-        
+
         $user->setMasteryLevel($masteryLevel);
         
         $em = $this->getDoctrine()->getManager();

@@ -7,12 +7,12 @@ use Doctrine\ORM\Mapping\JoinTable;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Annotation\Groups;
-use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  */
-class User
+class User implements UserInterface
 {
     /**
      * @ORM\Id()
@@ -23,11 +23,16 @@ class User
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=100)
+     * @ORM\Column(type="string", length=180, unique=true)
      * @Groups("abloc_user")
-     * @Assert\Unique
      */
     private $email;
+
+    /**
+     * @ORM\Column(type="json")
+     * @Groups("abloc_user")
+     */
+    private $roles = [];
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -105,13 +110,6 @@ class User
     private $program_comments;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\AccessLevel")
-     * @ORM\JoinColumn(nullable=false)
-     * @Groups("abloc_user")
-     */
-    private $access_level;
-
-    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\MasteryLevel")
      * @Groups("abloc_user")
      */
@@ -143,9 +141,41 @@ class User
         return $this;
     }
 
-    public function getPassword(): ?string
+/**
+     * A visual identifier that represents this user.
+     *
+     * @see UserInterface
+     */
+    public function getUsername(): string
     {
-        return $this->password;
+        return (string) $this->email;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function getRoles(): array
+    {
+        $roles = $this->roles;
+        // guarantee every user at least has ROLE_USER
+        $roles[] = 'ROLE_USER';
+
+        return array_unique($roles);
+    }
+
+    public function setRoles(array $roles): self
+    {
+        $this->roles = $roles;
+
+        return $this;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function getPassword(): string
+    {
+        return (string) $this->password;
     }
 
     public function setPassword(string $password): self
@@ -153,6 +183,23 @@ class User
         $this->password = $password;
 
         return $this;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function getSalt()
+    {
+        // not needed when using the "bcrypt" algorithm in security.yaml
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function eraseCredentials()
+    {
+        // If you store any temporary, sensitive data on the user, clear it here
+        // $this->plainPassword = null;
     }
 
     public function getAccountName(): ?string
@@ -363,18 +410,6 @@ class User
                 $programComment->setUser(null);
             }
         }
-
-        return $this;
-    }
-
-    public function getAccessLevel(): ?AccessLevel
-    {
-        return $this->access_level;
-    }
-
-    public function setAccessLevel(?AccessLevel $access_level): self
-    {
-        $this->access_level = $access_level;
 
         return $this;
     }
