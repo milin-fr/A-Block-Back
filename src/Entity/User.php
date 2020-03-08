@@ -29,6 +29,12 @@ class User implements UserInterface
     private $email;
 
     /**
+     * @ORM\Column(type="json")
+     * @Groups("abloc_user")
+     */
+    private $roles = [];
+
+    /**
      * @ORM\Column(type="string", length=255)
      * @Groups("abloc_user")
      */
