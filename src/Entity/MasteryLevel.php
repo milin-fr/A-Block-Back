@@ -58,11 +58,13 @@ class MasteryLevel
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @Groups("mastery_level")
      */
     private $description;
 
     /**
      * @ORM\Column(type="string", length=64, nullable=true)
+     * @Groups("mastery_level")
      */
     private $img_path;
 

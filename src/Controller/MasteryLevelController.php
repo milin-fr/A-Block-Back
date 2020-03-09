@@ -40,12 +40,14 @@ class MasteryLevelController extends AbstractController
     /*
             {
                 "title": "mastery level test",
-                "level_index": 2
+                "level_index": 2,
+                "description": "text",
+                "img_path": "string"
             }
         */
 
         // start of payload validation
-        $keyList = ["title", "level_index"];
+        $keyList = ["title", "level_index", "description", "img_path"];
 
         $validationsErrors = [];
 
@@ -79,11 +81,12 @@ class MasteryLevelController extends AbstractController
 
         $masteryLevelTitle = $contentObject->title;
         $masteryLevelIndex = $contentObject->level_index;
+        $masteryLevelDescription = $contentObject->description;
+        $masteryLevelImgPath = $contentObject->img_path;
         
         if($masteryLevelIndex === ""){
             $masteryLevelIndex = 0;
         }
-
 
         $validationsErrors = [];
         
@@ -107,6 +110,13 @@ class MasteryLevelController extends AbstractController
             $validationsErrors[] = "levelIndex, value, max, 99";
         }
 
+        if(strlen($masteryLevelDescription) > 999){
+            $validationsErrors[] = "description, length, max, 999";
+        }
+
+        if(strlen($masteryLevelImgPath) > 64){
+            $validationsErrors[] = "imgPath, length, max, 64";
+        }
 
         if (count($validationsErrors) !== 0) {
             return $this->json($validationsErrors, Response::HTTP_UNPROCESSABLE_ENTITY);
@@ -116,6 +126,12 @@ class MasteryLevelController extends AbstractController
         
         $masteryLevel->setTitle($masteryLevelTitle);
         $masteryLevel->setCreatedAt(new \DateTime());
+        if($masteryLevelImgPath === ""){
+            $masteryLevelImgPath = "default_exercise.png";
+        }
+
+        $masteryLevel->setImgPath($masteryLevelImgPath);
+        $masteryLevel->setDescription($masteryLevelDescription);
         $masteryLevel->setLevelIndex($masteryLevelIndex);
         $em = $this->getDoctrine()->getManager();
         $em->persist($masteryLevel);
@@ -145,7 +161,9 @@ class MasteryLevelController extends AbstractController
         /*
             {
                 "title": "mastery level test",
-                "level_index": 2
+                "level_index": 2,
+                "description": "text",
+                "img_path": "string"
             }
         */
 
@@ -156,7 +174,7 @@ class MasteryLevelController extends AbstractController
         }
         
         // start of payload validation
-        $keyList = ["title", "level_index"];
+        $keyList = ["title", "level_index", "description", "img_path"];
 
         $validationsErrors = [];
 
@@ -190,6 +208,8 @@ class MasteryLevelController extends AbstractController
 
         $masteryLevelTitle = $contentObject->title;
         $masteryLevelIndex = $contentObject->level_index;
+        $masteryLevelDescription = $contentObject->description;
+        $masteryLevelImgPath = $contentObject->img_path;
         
         if($masteryLevelIndex === ""){
             $masteryLevelIndex = 0;
@@ -218,13 +238,25 @@ class MasteryLevelController extends AbstractController
             $validationsErrors[] = "levelIndex, value, max, 99";
         }
 
+        if(strlen($masteryLevelDescription) > 999){
+            $validationsErrors[] = "description, length, max, 999";
+        }
 
+        if(strlen($masteryLevelImgPath) > 64){
+            $validationsErrors[] = "imgPath, length, max, 64";
+        }
+        
         if (count($validationsErrors) !== 0) {
             return $this->json($validationsErrors, Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
         $masteryLevel->setTitle($masteryLevelTitle);
         $masteryLevel->setUpdatedAt(new \DateTime());
+        if($masteryLevelImgPath === ""){
+            $masteryLevelImgPath = "default_exercise.png";
+        }
+        $masteryLevel->setImgPath($masteryLevelImgPath);
+        $masteryLevel->setDescription($masteryLevelDescription);
         $masteryLevel->setLevelIndex($masteryLevelIndex);
         $em = $this->getDoctrine()->getManager();
         $em->persist($masteryLevel);
