@@ -124,7 +124,7 @@ class ProgramCommentController extends AbstractController
         $em = $this->getDoctrine()->getManager();
         $em->persist($programComment);
         $em->flush();
-        return $this->redirectToRoute('program_comment_show', ['id' => $programComment->getId()], Response::HTTP_CREATED);
+        return $this->json($programComment, Response::HTTP_CREATED, [], ['groups' => 'program_comment']);
     }
 
     /**
@@ -202,7 +202,7 @@ class ProgramCommentController extends AbstractController
 
         $em = $this->getDoctrine()->getManager();
         $em->flush();
-        return $this->redirectToRoute('program_comment_show', ['id' => $programComment->getId()], Response::HTTP_CREATED);
+        return $this->json($programComment, Response::HTTP_OK, [], ['groups' => 'program_comment']);
     }
 
     /**

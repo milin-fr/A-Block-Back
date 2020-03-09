@@ -205,7 +205,6 @@ class ExerciseController extends AbstractController
             return $this->json($validationsErrors, Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
-
         $exercise = new Exercise();
         $exercise->setTitle($exerciseTitle);
         $exercise->setCreatedAt(new \DateTime());
@@ -245,7 +244,7 @@ class ExerciseController extends AbstractController
         $em = $this->getDoctrine()->getManager();
         $em->persist($exercise);
         $em->flush();
-        return $this->redirectToRoute('exercise_show', ['id' => $exercise->getId()], Response::HTTP_CREATED);
+        return $this->json($exercise, Response::HTTP_CREATED, [], ['groups' => 'exercise']);
     }
 
     /**
@@ -259,7 +258,7 @@ class ExerciseController extends AbstractController
             return new JsonResponse(['error' => '404 not found.'], 404);
         }
         return $this->json($exercise, Response::HTTP_OK, [], ['groups' => 'exercise']);
-    }
+    } 
 
     /**
      * @Route("/{id}", name="exercise_edit", methods={"PUT"})
@@ -474,7 +473,7 @@ class ExerciseController extends AbstractController
         $em = $this->getDoctrine()->getManager();
         $em->persist($exercise);
         $em->flush();
-        return $this->redirectToRoute('exercise_show', ['id' => $exercise->getId()], Response::HTTP_CREATED);
+        return $this->json($exercise, Response::HTTP_OK, [], ['groups' => 'exercise']);
     }
 
     /**

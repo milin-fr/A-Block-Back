@@ -120,7 +120,7 @@ class MasteryLevelController extends AbstractController
         $em = $this->getDoctrine()->getManager();
         $em->persist($masteryLevel);
         $em->flush();
-        return $this->redirectToRoute('mastery_level_show', ['id' => $masteryLevel->getId()], Response::HTTP_CREATED);
+        return $this->json($masteryLevel, Response::HTTP_CREATED, [], ['groups' => 'mastery_level']);
     }
 
     /**
@@ -229,7 +229,7 @@ class MasteryLevelController extends AbstractController
         $em = $this->getDoctrine()->getManager();
         $em->persist($masteryLevel);
         $em->flush();
-        return $this->redirectToRoute('mastery_level_show', ['id' => $masteryLevel->getId()], Response::HTTP_CREATED);
+        return $this->json($masteryLevel, Response::HTTP_OK, [], ['groups' => 'mastery_level']);
     }
 
     /**

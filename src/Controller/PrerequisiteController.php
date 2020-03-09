@@ -95,7 +95,7 @@ class PrerequisiteController extends AbstractController
         $em = $this->getDoctrine()->getManager();
         $em->persist($prerequisite);
         $em->flush();
-        return $this->redirectToRoute('prerequisite_show', ['id' => $prerequisite->getId()], Response::HTTP_CREATED);
+        return $this->json($prerequisite, Response::HTTP_CREATED, [], ['groups' => 'prerequisite']);
     }
 
     /**
@@ -181,7 +181,7 @@ class PrerequisiteController extends AbstractController
         $em = $this->getDoctrine()->getManager();
         $em->persist($prerequisite);
         $em->flush();
-        return $this->redirectToRoute('prerequisite_show', ['id' => $prerequisite->getId()], Response::HTTP_CREATED);
+        return $this->json($prerequisite, Response::HTTP_OK, [], ['groups' => 'prerequisite']);
     }
 
     /**
