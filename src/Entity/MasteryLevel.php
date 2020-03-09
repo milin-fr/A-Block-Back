@@ -56,6 +56,11 @@ class MasteryLevel
      */
     private $level_index;
 
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $description;
+
     public function __construct()
     {
         $this->exercises = new ArrayCollection();
@@ -173,6 +178,18 @@ class MasteryLevel
     public function setLevelIndex(int $level_index): self
     {
         $this->level_index = $level_index;
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): self
+    {
+        $this->description = $description;
 
         return $this;
     }
