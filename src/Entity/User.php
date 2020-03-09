@@ -117,6 +117,7 @@ class User implements UserInterface
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Program", inversedBy="users")
+     * @Groups("abloc_user")
      */
     private $active_program;
 

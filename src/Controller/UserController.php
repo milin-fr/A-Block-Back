@@ -3,9 +3,12 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Repository\ExerciseRepository;
 use App\Repository\UserRepository;
 use App\Repository\MasteryLevelRepository;
+use App\Repository\ProgramRepository;
 use Exception;
+use Namshi\JOSE\Signer\OpenSSL\None;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -217,7 +220,7 @@ class UserController extends AbstractController
     /**
      * @Route("/{id}", name="user_edit", methods={"PUT"})
      */
-    public function putAblocUser(Request $request, $id, UserRepository $userRepository, MasteryLevelRepository $masteryLevelRepository, UserPasswordEncoderInterface $passwordEncoder): Response
+    public function putAblocUser(Request $request, $id, UserRepository $userRepository, MasteryLevelRepository $masteryLevelRepository, UserPasswordEncoderInterface $passwordEncoder, ProgramRepository $programRepository, ExerciseRepository $exerciseRepository): Response
     {
         /*
             {
@@ -226,7 +229,10 @@ class UserController extends AbstractController
                 "account_name": "top velu",
                 "img_path": "image_profile_1.png",
                 "available_time": 10,
-                "mastery_level": 1
+                "mastery_level": 1,
+                "program_bookmark_ids": [6, 7],
+                "exercise_bookmark_ids": [11, 12, 1000],
+                "active_program": 1
             }
         */
         
@@ -296,8 +302,57 @@ class UserController extends AbstractController
         } catch(Exception $e) {
             $userMasteryLevel = $ablocUser->getMasteryLevel()->getId();
         }
+        try {
+            $userProgramBookmarks = $contentObject->program_bookmark_ids;
+            $currentProgramBookmarks = $ablocUser->getProgramBookmarks();
+            foreach($currentProgramBookmarks as $programBookmark){
+                $ablocUser->removeProgramBookmark($programBookmark);
+            }
+        } catch(Exception $e) {
+            $userProgramBookmarks = [];
+            $programBookmarks = $ablocUser->getProgramBookmarks();
+            foreach($programBookmarks as $programBookmark){
+                $userProgramBookmarks[] = $programBookmark->getId();
+            }
+        }
+        try {
+            $userExerciseBookmarks = $contentObject->exercise_bookmark_ids;
+            $currentExerciseBookmarks = $ablocUser->getExerciseBookmarks();
+            foreach($currentExerciseBookmarks as $exerciseBookmark){
+                $ablocUser->removeExerciseBookmark($exerciseBookmark);
+            }
+        } catch(Exception $e) {
+            $userExerciseBookmarks = [];
+            $exerciseBookmarks = $ablocUser->getExerciseBookmarks();
+            foreach($exerciseBookmarks as $exerciseBookmark){
+                $userExerciseBookmarks[] = $exerciseBookmark->getId();
+            }
+        }
+        try {
+            $userActiveProgram = $contentObject->active_program;
+        } catch(Exception $e) {
+            $userActiveProgram = $ablocUser->getActiveProgram;
+        }
 
-        $validationsErrors = [];
+        if(gettype($userProgramBookmarks) !== "array"){
+            $userProgramBookmarks = [];
+        }
+
+        foreach($userProgramBookmarks as $key => $id){
+            if(gettype($id) !== "integer"){
+                $userProgramBookmarks[$key] = "";
+            }
+        }
+
+        if(gettype($userExerciseBookmarks) !== "array"){
+            $userExerciseBookmarks = [];
+        }
+
+        foreach($userExerciseBookmarks as $key => $id){
+            if(gettype($id) !== "integer"){
+                $userExerciseBookmarks[$key] = "";
+            }
+        }
         
         if(!filter_var($userEmail, FILTER_VALIDATE_EMAIL)){
             $validationsErrors[] = "email, notvalid";
@@ -334,6 +389,17 @@ class UserController extends AbstractController
             }
         }
 
+        if(gettype($userActiveProgram) !== "integer" && $userActiveProgram !== null){
+            $validationsErrors[] = "masteryLevel, not integer";
+        }
+
+        if(gettype($userActiveProgram) === "integer"){
+            $activeProgram = $programRepository->find($userActiveProgram);
+            if(!$activeProgram){
+                $validationsErrors[] = "program, no match in bdd";
+            }
+        }
+
         if (count($validationsErrors) !== 0) {
             return $this->json($validationsErrors, Response::HTTP_UNPROCESSABLE_ENTITY);
         }
@@ -367,9 +433,33 @@ class UserController extends AbstractController
         $ablocUser->setUpdatedAt(new \DateTime());
 
         $ablocUser->setMasteryLevel($masteryLevel);
-        
+        foreach($userProgramBookmarks as $id){
+            $program = $programRepository->find($id);
+            if($program){
+                $ablocUser->addProgramBookmark($program);
+            }
+        }
+        foreach($userExerciseBookmarks as $id){
+            $exercise = $exerciseRepository->find($id);
+            if($exercise){
+                $ablocUser->addExerciseBookmark($exercise);
+            }
+        }
+
+        $activeProgram = $programRepository->find($userActiveProgram);
+        if($activeProgram){
+            $followedPogramIds = [];
+            $followedPograms = $ablocUser->getFollowedPrograms();
+            foreach($followedPograms as $followedPogramId){
+                $followedPogramIds[] = $followedPogramId->getId();
+            }
+            if(!in_array($userActiveProgram, $followedPogramIds)){
+                $ablocUser->addFollowedProgram($activeProgram);
+            }
+            $ablocUser->setActiveProgram($activeProgram);
+        }
+
         $em = $this->getDoctrine()->getManager();
-        $em->persist($ablocUser);
         $em->flush();
         return $this->json($ablocUser, Response::HTTP_OK, [], ['groups' => 'abloc_user']);
     }

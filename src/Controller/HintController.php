@@ -177,7 +177,6 @@ class HintController extends AbstractController
         $hint->setUpdatedAt(new \DateTime());
 
         $em = $this->getDoctrine()->getManager();
-        $em->persist($hint);
         $em->flush();
         return $this->json($hint, Response::HTTP_OK, [], ['groups' => 'hint']);
     }

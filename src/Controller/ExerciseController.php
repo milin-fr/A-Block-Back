@@ -252,7 +252,7 @@ class ExerciseController extends AbstractController
         foreach($exercisePrerequisites as $id){
             $prerequisite = $prerequisiteRepository->find($id);
             if($prerequisite){
-                $exercise->addprerequisite($prerequisite);
+                $exercise->addPrerequisite($prerequisite);
             }
         }
 
@@ -514,7 +514,7 @@ class ExerciseController extends AbstractController
         foreach($exercisePrerequisites as $id){
             $prerequisite = $prerequisiteRepository->find($id);
             if($prerequisite){
-                $exercise->addprerequisite($prerequisite);
+                $exercise->addPrerequisite($prerequisite);
             }
         }
 
@@ -528,7 +528,6 @@ class ExerciseController extends AbstractController
         $exercise->setMasteryLevel($masteryLevel);
 
         $em = $this->getDoctrine()->getManager();
-        $em->persist($exercise);
         $em->flush();
         return $this->json($exercise, Response::HTTP_OK, [], ['groups' => 'exercise']);
     }

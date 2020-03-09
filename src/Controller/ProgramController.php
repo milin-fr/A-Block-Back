@@ -370,7 +370,6 @@ class ProgramController extends AbstractController
         // end of mastery level treatment
 
         $em = $this->getDoctrine()->getManager();
-        $em->persist($program);
         $em->flush();
         return $this->json($program, Response::HTTP_OK, [], ['groups' => 'program']);
     }
