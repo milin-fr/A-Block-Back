@@ -44,6 +44,7 @@ class AppFixtures extends Fixture
             $masteryLevel = new MasteryLevel();
             $masteryLevel->setTitle($masteryLevels[$i]);
             $masteryLevel->setLevelIndex($i);
+            $masteryLevel->setImgPath('mastery-level-default.png');
             $masteryLevel->setCreatedAt(new \DateTime);
             $masteryLevelsList[] = $masteryLevel;
             $manager->persist($masteryLevel);

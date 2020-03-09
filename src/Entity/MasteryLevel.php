@@ -61,6 +61,11 @@ class MasteryLevel
      */
     private $description;
 
+    /**
+     * @ORM\Column(type="string", length=64, nullable=true)
+     */
+    private $img_path;
+
     public function __construct()
     {
         $this->exercises = new ArrayCollection();
@@ -190,6 +195,18 @@ class MasteryLevel
     public function setDescription(?string $description): self
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    public function getImgPath(): ?string
+    {
+        return $this->img_path;
+    }
+
+    public function setImgPath(?string $img_path): self
+    {
+        $this->img_path = $img_path;
 
         return $this;
     }
