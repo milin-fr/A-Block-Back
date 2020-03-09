@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Repository\UserRepository;
 use App\Repository\MasteryLevelRepository;
+use Exception;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -45,12 +46,9 @@ class UserController extends AbstractController
         */
 
         // start of payload validation
-        $keyList = ["email",
-                    "password",
-                    "account_name",
-                    "img_path",
-                    "available_time",
-                    "mastery_level"
+        $keyList = [
+                    "email",
+                    "password"
                     ];
 
         $validationsErrors = [];
@@ -86,10 +84,34 @@ class UserController extends AbstractController
 
         $userEmail = $contentObject->email;
         $userPassword = $contentObject->password;
-        $userAccountName = $contentObject->account_name;
-        $userImgPath = $contentObject->img_path;
-        $userAvailableTime = $contentObject->available_time;
-        $userMasteryLevel = $contentObject->mastery_level;
+        try{
+            $userAccountName = $contentObject->account_name;
+        } catch(Exception $e) {
+            $userAccountName = "";
+        }
+        try{
+            $userImgPath = $contentObject->img_path;
+        } catch(Exception $e) {
+            $userImgPath = "";
+        }
+        try{
+            $userAvailableTime = $contentObject->available_time;
+        } catch(Exception $e) {
+            $userAvailableTime = "";
+        }
+        try{
+            $userMasteryLevel = $contentObject->mastery_level;
+        } catch(Exception $e) {
+            $masteryLevels = $masteryLevelRepository->findAll();
+            if(empty($masteryLevels)){
+                $validationsErrors[] = [
+                    "mastery_level_id" => "no mastery levels in bdd"
+                    ];
+            }else{
+            $masteryLevel = $masteryLevels[0];
+            $userMasteryLevel = $masteryLevel->getId();
+            }
+        }
 
 
         $validationsErrors = [];
@@ -120,20 +142,8 @@ class UserController extends AbstractController
             $validationsErrors[] = "accountName, length, max, 32";
         }
 
-        if(strlen($userAccountName) < 3){
-            $validationsErrors[] = "accountName, length, min, 3";
-        }
-
         if(strlen($userImgPath) > 64){
             $validationsErrors[] = "imgPath, length, max, 64";
-        }
-
-        if($userAvailableTime < 0){
-            $validationsErrors[] = "availableTime, value, min, 0";
-        }
-
-        if($userAvailableTime > 999){
-            $validationsErrors[] = "availableTime, value, max, 999";
         }
 
         if(gettype($userMasteryLevel) !== "integer"){
@@ -158,11 +168,27 @@ class UserController extends AbstractController
             $user,
             $userPassword
         ));
+
+        if($userAccountName === ""){
+            $userAccountName = "Anonyme";
+        }
+
         $user->setAccountName($userAccountName);
         if($userImgPath === ""){
             $userImgPath = "default_user.png";
         }
         $user->setImgPath($userImgPath);
+        if($userAvailableTime === ""){
+            $userAvailableTime = 0;
+        }
+        
+        if($userAvailableTime < 0){
+            $userAvailableTime = 0;
+        }
+
+        if($userAvailableTime > 999){
+            $userAvailableTime = 999;
+        }
         $user->setAvailableTime(($userAvailableTime));
         $user->setScore(0);
         $user->setCreatedAt(new \DateTime());
@@ -211,8 +237,6 @@ class UserController extends AbstractController
         }
 
         // start of payload validation
-        $keyList = ["email", "password", "account_name", "img_path", "available_time", "mastery_level"];
-
         $validationsErrors = [];
 
         $jsonContent = $request->getContent();
@@ -224,32 +248,54 @@ class UserController extends AbstractController
 
         // get payload content and convert it to object, so we can acess it's properties
         $contentObject = json_decode($request->getContent());
-        $contentArray = get_object_vars($contentObject);
-
-        foreach($keyList as $key){
-            if(!array_key_exists($key, $contentArray)){
-                $validationsErrors[] = [
-                                        $key => "Requiered, but not provided"
-                                        ];
-            }
-        }
-
-        if (count($validationsErrors) !== 0) {
-            return $this->json($validationsErrors, Response::HTTP_UNPROCESSABLE_ENTITY);
-        }
         // end of payload validation
 
         // get payload content and convert it to object, so we can acess it's properties
 
         // values validation
 
-        $userEmail = $contentObject->email;
-        $userPassword = $contentObject->password;
-        $userAccountName = $contentObject->account_name;
-        $userImgPath = $contentObject->img_path;
-        $userAvailableTime = $contentObject->available_time;
-        $userMasteryLevel = $contentObject->mastery_level;
+        try{
+            $userEmail = $contentObject->email;
+        } catch(Exception $e) {
+            $userEmail = $ablocUser->getEmail();
+        }
+        try{
+            $userPassword = $contentObject->password;
+            if(strlen($userPassword) > 32){
+                $validationsErrors[] = "password, length, max, 32";
+            }
+    
+            if(strlen($userPassword) < 3){
+                $validationsErrors[] = "password, length, min, 3";
+            }
 
+            $ablocUser->setPassword($passwordEncoder->encodePassword(
+                $ablocUser,
+                $userPassword
+            ));
+        } catch(Exception $e) {
+            // no action taken on password if new password was not sent
+        }
+        try{
+            $userAccountName = $contentObject->account_name;
+        } catch(Exception $e) {
+            $userAccountName = $ablocUser->getAccountName();
+        }
+        try{
+            $userImgPath = $contentObject->img_path;
+        } catch(Exception $e) {
+            $userImgPath = $ablocUser->getImgPath();
+        }
+        try{
+            $userAvailableTime = $contentObject->available_time;
+        } catch(Exception $e) {
+            $userAvailableTime = $ablocUser->getAvailableTime();
+        }
+        try{
+            $userMasteryLevel = $contentObject->mastery_level;
+        } catch(Exception $e) {
+            $userMasteryLevel = $ablocUser->getMasteryLevel()->getId();
+        }
 
         $validationsErrors = [];
         
@@ -269,32 +315,12 @@ class UserController extends AbstractController
             }
         }
 
-        if(strlen($userPassword) > 32){
-            $validationsErrors[] = "password, length, max, 32";
-        }
-
-        if(strlen($userPassword) < 3){
-            $validationsErrors[] = "password, length, min, 3";
-        }
-
         if(strlen($userAccountName) > 64){
             $validationsErrors[] = "accountName, length, max, 32";
         }
 
-        if(strlen($userAccountName) < 3){
-            $validationsErrors[] = "accountName, length, min, 3";
-        }
-
         if(strlen($userImgPath) > 64){
             $validationsErrors[] = "imgPath, length, max, 64";
-        }
-
-        if($userAvailableTime < 0){
-            $validationsErrors[] = "availableTime, value, min, 0";
-        }
-
-        if($userAvailableTime > 999){
-            $validationsErrors[] = "availableTime, value, max, 999";
         }
 
         if(gettype($userMasteryLevel) !== "integer"){
@@ -313,26 +339,39 @@ class UserController extends AbstractController
         }
 
 
-        $user->setEmail($userEmail);
-        $user->setPassword($passwordEncoder->encodePassword(
-            $user,
-            $userPassword
-        ));
-        $user->setAccountName($userAccountName);
+        $ablocUser->setEmail($userEmail);
+
+        if($userAccountName === ""){
+            $userAccountName = "Anonyme";
+        }
+
+        $ablocUser->setAccountName($userAccountName);
+        
         if($userImgPath === ""){
             $userImgPath = "default_user.png";
         }
-        $user->setImgPath($userImgPath);
-        $user->setAvailableTime(($userAvailableTime));
-        $user->setScore(0);
-        $user->setUpdatedAt(new \DateTime());
+        $ablocUser->setImgPath($userImgPath);
+        if($userAvailableTime === ""){
+            $userAvailableTime = 0;
+        }
+        
+        if($userAvailableTime < 0){
+            $userAvailableTime = 0;
+        }
 
-        $user->setMasteryLevel($masteryLevel);
+        if($userAvailableTime > 999){
+            $userAvailableTime = 999;
+        }
+        $ablocUser->setAvailableTime($userAvailableTime);
+        $ablocUser->setScore(0);
+        $ablocUser->setUpdatedAt(new \DateTime());
+
+        $ablocUser->setMasteryLevel($masteryLevel);
         
         $em = $this->getDoctrine()->getManager();
-        $em->persist($user);
+        $em->persist($ablocUser);
         $em->flush();
-        return $this->json($user, Response::HTTP_OK, [], ['groups' => 'abloc_user']);
+        return $this->json($ablocUser, Response::HTTP_OK, [], ['groups' => 'abloc_user']);
     }
 
     /**

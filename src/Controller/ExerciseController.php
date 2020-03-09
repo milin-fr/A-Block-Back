@@ -177,8 +177,12 @@ class ExerciseController extends AbstractController
         
         // payload validation
 
+        if(gettype($exerciseMasteryLevel) !== "integer"){
+            $validationsErrors[] = "masteryLevel, not integer";
+        }
 
         $masteryLevel = $masteryLevelRepository->find($exerciseMasteryLevel);
+        
         if(!$masteryLevel){
             $validationsErrors[] = "masteryLevel, does not exist";
         }
@@ -191,44 +195,12 @@ class ExerciseController extends AbstractController
             $validationsErrors[] = "title, length, max, 64";
         }
 
-        if(gettype($exerciseTime) !== "integer"){
-            $validationsErrors[] = "time, not integer";
-        }
-
-        if($exerciseTime < 0){
-            $validationsErrors[] = "time, value, min, 0";
-        }
-
-        if($exerciseTime > 999){
-            $validationsErrors[] = "time, value, max, 999";
-        }
-
         if(strlen($exerciseImgPath) > 64){
             $validationsErrors[] = "imgPath, length, max, 64";
         }
 
         if(strlen($exerciseDescription) > 999){
             $validationsErrors[] = "description, length, max, 999";
-        }
-
-        if(gettype($exerciseScore) !== "integer"){
-            $validationsErrors[] = "score, not integer";
-        }
-
-        if($exerciseScore < 0){
-            $validationsErrors[] = "score, value, min, 0";
-        }
-
-        if($exerciseScore > 9999){
-            $validationsErrors[] = "score, value, max, 9999";
-        }
-
-        if(gettype($exerciseMasteryLevel) !== "integer"){
-            $validationsErrors[] = "masteryLevel, not integer";
-        }
-
-        if($exerciseMasteryLevel < 0){
-            $validationsErrors[] = "masteryLevel, value, min, 0";
         }
 
         if (count($validationsErrors) !== 0) {
@@ -238,6 +210,17 @@ class ExerciseController extends AbstractController
         $exercise = new Exercise();
         $exercise->setTitle($exerciseTitle);
         $exercise->setCreatedAt(new \DateTime());
+        if(gettype($exerciseTime) !== "integer"){
+            $exerciseTime = 0;
+        }
+
+        if($exerciseTime < 0){
+            $exerciseTime = 0;
+        }
+
+        if($exerciseTime > 999){
+            $exerciseTime = 999;
+        }
         $exercise->setTime($exerciseTime);
 
         if($exerciseImgPath === ""){
@@ -246,6 +229,17 @@ class ExerciseController extends AbstractController
 
         $exercise->setImgPath($exerciseImgPath);
         $exercise->setDescription($exerciseDescription);
+        if(gettype($exerciseScore) !== "integer"){
+            $exerciseScore = 0;
+        }
+
+        if($exerciseScore < 0){
+            $exerciseScore = 0;
+        }
+
+        if($exerciseScore > 9999){
+            $exerciseScore = 9999;
+        }
         $exercise->setScore($exerciseScore);
 
         foreach($exerciseHints as $id){
@@ -358,6 +352,10 @@ class ExerciseController extends AbstractController
         }
         try {
             $exerciseHints = $contentObject->hint_ids;
+            $currentHints = $exercise->getHints();
+            foreach($currentHints as $hint){
+                $exercise->removeHint($hint);
+            }
         } catch(Exception $e) {
             $exerciseHints = [];
             $hints = $exercise->getHints();
@@ -367,6 +365,10 @@ class ExerciseController extends AbstractController
         }
         try {
             $exercisePrerequisites = $contentObject->prerequisite_ids; // array of ids of prerequisite
+            $currentPrerequisites = $exercise->getPrerequisites();
+            foreach($currentPrerequisites as $prerequisite){
+                $exercise->removePrerequisite($prerequisite);
+            }
         } catch(Exception $e) {
             $exercisePrerequisites = [];
             $prerequisites = $exercise->getPrerequisites();
@@ -376,6 +378,10 @@ class ExerciseController extends AbstractController
         }
         try {
             $exercisePrograms = $contentObject->program_ids; // array of ids of programs
+            $currentPrograms = $exercise->getPrograms();
+            foreach($currentPrograms as $program){
+                $exercise->removeProgram($program);
+            }
         } catch(Exception $e) {
             $exercisePrograms = [];
             $programs = $exercise->getPrograms();
@@ -443,40 +449,12 @@ class ExerciseController extends AbstractController
             $validationsErrors[] = "title, length, max, 64";
         }
 
-        if(gettype($exerciseTime) !== "integer"){
-            $validationsErrors[] = "time, not integer";
-        }
-
-        if($exerciseTime < 0){
-            $validationsErrors[] = "time, value, min, 0";
-        }
-
-        if($exerciseTime > 999){
-            $validationsErrors[] = "time, value, max, 999";
-        }
-
         if(strlen($exerciseImgPath) > 64){
             $validationsErrors[] = "imgPath, length, max, 64";
         }
 
-        if($exerciseDescription === ""){
-            $validationsErrors[] = "description, blank";
-        }
-
         if(strlen($exerciseDescription) > 999){
             $validationsErrors[] = "description, length, max, 999";
-        }
-
-        if(gettype($exerciseScore) !== "integer"){
-            $validationsErrors[] = "score, not integer";
-        }
-
-        if($exerciseScore < 0){
-            $validationsErrors[] = "score, value, min, 0";
-        }
-
-        if($exerciseScore > 9999){
-            $validationsErrors[] = "score, value, max, 9999";
         }
 
         if(gettype($exerciseMasteryLevel) !== "integer"){
@@ -494,6 +472,17 @@ class ExerciseController extends AbstractController
 
         $exercise->setTitle($exerciseTitle);
         $exercise->setUpdatedAt(new \DateTime());
+        if(gettype($exerciseTime) !== "integer"){
+            $exerciseTime = 0;
+        }
+
+        if($exerciseTime < 0){
+            $exerciseTime = 0;
+        }
+
+        if($exerciseTime > 999){
+            $exerciseTime = 999;
+        }
         $exercise->setTime($exerciseTime);
 
         if($exerciseImgPath === ""){
@@ -502,6 +491,17 @@ class ExerciseController extends AbstractController
 
         $exercise->setImgPath($exerciseImgPath);
         $exercise->setDescription($exerciseDescription);
+        if(gettype($exerciseScore) !== "integer"){
+            $exerciseScore = 0;
+        }
+
+        if($exerciseScore < 0){
+            $exerciseScore = 0;
+        }
+
+        if($exerciseScore > 9999){
+            $exerciseScore = 9999;
+        }
         $exercise->setScore($exerciseScore);
 
         foreach($exerciseHints as $id){
