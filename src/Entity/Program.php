@@ -28,7 +28,7 @@ class Program
 
     /**
      * @ORM\Column(type="text", nullable=true)
-     * @Groups("program")
+     * @Groups({"program", "mastery_level"})
      */
     private $description;
 
