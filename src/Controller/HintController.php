@@ -94,7 +94,7 @@ class HintController extends AbstractController
         $em = $this->getDoctrine()->getManager();
         $em->persist($hint);
         $em->flush();
-        return $this->redirectToRoute('hint_show', ['id' => $hint->getId()], Response::HTTP_CREATED);
+        return $this->json($hint, Response::HTTP_CREATED, [], []);
     }
 
     /**
