@@ -27,14 +27,16 @@ class AppFixtures extends Fixture
 
     public function load(ObjectManager $manager)
     {
-        //Instance de Faker
-        $faker = Faker\Factory::create('fr_FR');
-        $faker->seed('Données identiques à chaque load');
-        //Pour les randoms
-        mt_srand(123456789);
-        //Ajout des Providers de base
-        $faker->addProvider(new AblocProvider($faker));
 
+
+        $masteryLevels = [
+            'Aucune expérience',
+            'Débutant',
+            'Intermédiaire',
+            'Confirmé',
+            'Expert',
+        ];
+        
         // Liste des MasteryLevel
         $masteryLevelsList = [];
         //Création de 5 MasteryLevel
