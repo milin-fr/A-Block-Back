@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
  * @Route("/api/user")
@@ -29,7 +30,7 @@ class UserController extends AbstractController
     /**
      * @Route("/", name="user_new", methods={"POST"})
      */
-    public function postAblocUser(Request $request, MasteryLevelRepository $masteryLevelRepository, UserRepository $userRepository): Response
+    public function postAblocUser(Request $request, MasteryLevelRepository $masteryLevelRepository, UserRepository $userRepository, UserPasswordEncoderInterface $passwordEncoder): Response
     {
 
         /*
@@ -153,7 +154,10 @@ class UserController extends AbstractController
 
         $user = new User();
         $user->setEmail($userEmail);
-        $user->setPassword($userPassword); // a revoir
+        $user->setPassword($passwordEncoder->encodePassword(
+            $user,
+            $userPassword
+        ));
         $user->setAccountName($userAccountName);
         if($userImgPath === ""){
             $userImgPath = "default_user.png";
@@ -187,7 +191,7 @@ class UserController extends AbstractController
     /**
      * @Route("/{id}", name="user_edit", methods={"PUT"})
      */
-    public function putAblocUser(Request $request, $id, UserRepository $userRepository, MasteryLevelRepository $masteryLevelRepository): Response
+    public function putAblocUser(Request $request, $id, UserRepository $userRepository, MasteryLevelRepository $masteryLevelRepository, UserPasswordEncoderInterface $passwordEncoder): Response
     {
         /*
             {
@@ -310,7 +314,10 @@ class UserController extends AbstractController
 
 
         $user->setEmail($userEmail);
-        $user->setPassword($userPassword); // a revoir
+        $user->setPassword($passwordEncoder->encodePassword(
+            $user,
+            $userPassword
+        ));
         $user->setAccountName($userAccountName);
         if($userImgPath === ""){
             $userImgPath = "default_user.png";

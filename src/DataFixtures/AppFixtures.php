@@ -13,20 +13,27 @@ use App\Entity\ProgramComment;
 use App\Entity\ExerciseComment;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class AppFixtures extends Fixture
 {
 
+    private $passwordEncoder;
+
+        public function __construct(UserPasswordEncoderInterface $passwordEncoder)
+        {
+            $this->passwordEncoder = $passwordEncoder;
+        }
+
     public function load(ObjectManager $manager)
     {
-
-        $masteryLevels = [
-            'Aucune expérience',
-            'Débutant',
-            'Intermédiaire',
-            'Confirmé',
-            'Expert',
-        ];
+        //Instance de Faker
+        $faker = Faker\Factory::create('fr_FR');
+        $faker->seed('Données identiques à chaque load');
+        //Pour les randoms
+        mt_srand(123456789);
+        //Ajout des Providers de base
+        $faker->addProvider(new AblocProvider($faker));
 
         // Liste des MasteryLevel
         $masteryLevelsList = [];
@@ -174,7 +181,10 @@ class AppFixtures extends Fixture
         // Création de 5 Users
         for ($i = 0; $i < 5; $i++) {
             $user = new User();
-            $user->setPassword('123');
+            $user->setPassword($this->passwordEncoder->encodePassword(
+                $user,
+                '123'
+            ));
             $user->setAccountName($firstNames[$i]);
             $user->setEmail($firstNames[$i].$lastNames[$i]."@mail.fr");
             $user->setScore("0");

@@ -20,11 +20,6 @@ class AblocProvider extends Base
         "bonnet",
         "picard",
     ];
-    protected static $accessLevel = [
-        'admin',
-        'moderator',
-        'user',
-    ];
     protected static $exercises = [
        'Les pieds précis', 
        'Le plantage de pied',
@@ -98,10 +93,6 @@ class AblocProvider extends Base
     public static function lastName()
     {
         return static::randomElement(static::$lastNames);
-    }
-    public static function accessLevelTitle()
-    {
-        return static::randomElement(static::$accessLevel);
     }
     public static function exerciseTitle()
     {
