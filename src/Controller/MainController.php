@@ -25,10 +25,10 @@ class MainController extends AbstractController
                 "add exercise",
                 "
                 {
-                    \"title\": \"string, not blank\",
+                    \"title\": \"string, not blank, requiered\",
                     \"time\": integer,
                     \"img_path\": \"string\",
-                    \"description\": \"string, not blank\",
+                    \"description\": \"string\",
                     \"score\": integer,
                     \"hint_ids\": [array of integers],
                     \"prerequisite_ids\": [array of integers],
@@ -46,7 +46,7 @@ class MainController extends AbstractController
                     \"title\": \"string, not blank\",
                     \"time\": integer,
                     \"img_path\": \"string\",
-                    \"description\": \"string, not blank\",
+                    \"description\": \"string\",
                     \"score\": integer,
                     \"hint_ids\": [array of integers],
                     \"prerequisite_ids\": [array of integers],
@@ -79,7 +79,7 @@ class MainController extends AbstractController
                 "add hint",
                 "
                 {
-                    \"text\": \"string, not blank\"
+                    \"text\": \"string, not blank, requiered\"
                 }
                 "
             ],
@@ -89,7 +89,7 @@ class MainController extends AbstractController
                 "edit hint by id",
                 "
                 {
-                    \"text\": \"string, not blank\"
+                    \"text\": \"string, not blank, requiered\"
                 }
                 "
             ],
@@ -117,10 +117,10 @@ class MainController extends AbstractController
                 "add mastery_level",
                 "
                 {
-                    \"title\": \"string, not blank\",
-                    \"level_index\": integer
-                    \"description\": \"string\" -optionnal,
-                    \"img_path\": \"string\" -optionnal
+                    \"title\": \"string, not blank, requiered\",
+                    \"level_index\": integer, requiered
+                    \"description\": \"string\",
+                    \"img_path\": \"string\"
                 }
                 "
             ],
@@ -130,10 +130,10 @@ class MainController extends AbstractController
                 "edit mastery_level",
                 "
                 {
-                    \"title\": \"string, not blank\" -optionnal,
-                    \"level_index\": integer -optionnal,
-                    \"description\": \"string\" -optionnal,
-                    \"img_path\": \"string\" -optionnal
+                    \"title\": \"string, not blank\",
+                    \"level_index\": integer,
+                    \"description\": \"string\",
+                    \"img_path\": \"string\"
                 }
                 "
             ],
@@ -161,7 +161,7 @@ class MainController extends AbstractController
                 "add prerequisite",
                 "
                 {
-                    \"description\": \"string, not blank\"
+                    \"description\": \"string, not blank, requiered\"
                 }
                 "
             ],
@@ -171,7 +171,7 @@ class MainController extends AbstractController
                 "edit prerequisite by id",
                 "
                 {
-                    \"description\": \"string, not blank\"
+                    \"description\": \"string, not blank, requiered\"
                 }
                 "
             ],
@@ -199,8 +199,8 @@ class MainController extends AbstractController
                 "add program",
                 "
                 {
-                    \"title\": \"string, not blank\",
-                    \"description\": \"string, not blank\",
+                    \"title\": \"string, not blank, requiered\",
+                    \"description\": \"string\",
                     \"time\": integer,
                     \"img_path\": \"string\",
                     \"exercise_ids\": [array of integers]
@@ -214,7 +214,7 @@ class MainController extends AbstractController
                 "
                 {
                     \"title\": \"string, not blank\",
-                    \"description\": \"string, not blank\",
+                    \"description\": \"string\",
                     \"time\": integer,
                     \"img_path\": \"string\",
                     \"exercise_ids\": [array of integers]
@@ -245,9 +245,9 @@ class MainController extends AbstractController
                 "add user",
                 "
                 {
-                    \"email\": \"email, not blank\",
-                    \"password\": \"string, not blank\",
-                    \"account_name\": \"string, not blank\",
+                    \"email\": \"email, not blank, requiered\",
+                    \"password\": \"string, not blank, requiered\",
+                    \"account_name\": \"string\",
                     \"img_path\": \"string\",
                     \"available_time\": integer,
                     \"mastery_level\": integer
@@ -262,10 +262,13 @@ class MainController extends AbstractController
                 {
                     \"email\": \"email, not blank\",
                     \"password\": \"string, not blank\",
-                    \"account_name\": \"string, not blank\",
+                    \"account_name\": \"string\",
                     \"img_path\": \"string\",
                     \"available_time\": integer,
-                    \"mastery_level\": integer
+                    \"mastery_level\": integer,
+                    \"program_bookmark_ids\": [array of integers],
+                    \"exercise_bookmark_ids\": [array of integers],
+                    \"active_program\": integer
                 }
                 "
             ],
@@ -293,9 +296,9 @@ class MainController extends AbstractController
                 "add exercise_comment",
                 "
                 {
-                    \"text\": \"string, not blank\",
-                    \"user_id\": \"integer, not blank\",
-                    \"exercise_id\": \"integer, not blank\"
+                    \"text\": \"string, not blank, requiered\",
+                    \"user_id\": \"integer, requiered\",
+                    \"exercise_id\": \"integer, requiered\"
                 }
                 "
             ],
@@ -305,7 +308,7 @@ class MainController extends AbstractController
                 "edit exercise_comment by id",
                 "
                 {
-                    \"text\": \"string, not blank\"
+                    \"text\": \"string, not blank, requiered\"
                 }
                 "
             ],
@@ -333,9 +336,9 @@ class MainController extends AbstractController
                 "add program_comment",
                 "
                 {
-                    \"text\": \"string, not blank\",
-                    \"user_id\": \"integer, not blank\",
-                    \"program_id\": \"integer, not blank\"
+                    \"text\": \"string, not blank, requiered\",
+                    \"user_id\": \"integer, requiered\",
+                    \"program_id\": \"integer, requiered\"
                 }
                 "
             ],
@@ -345,7 +348,7 @@ class MainController extends AbstractController
                 "edit program_comment by id",
                 "
                 {
-                    \"text\": \"string, not blank\"
+                    \"text\": \"string, not blank, requiered\"
                 }
                 "
             ],
@@ -366,8 +369,8 @@ class MainController extends AbstractController
                 "POST",
                 "recieve bearer token",
                 "{
-                    \"username\": \"email, not blank\",
-                    \"password\": \"string, not blank\"
+                    \"username\": \"email, not blank, requiered\",
+                    \"password\": \"string, not blank, requiered\"
                 }"
             ],
         ];
