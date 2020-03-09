@@ -74,10 +74,16 @@ class Program
      */
     private $mastery_level;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\User", mappedBy="active_program")
+     */
+    private $users;
+
     public function __construct()
     {
         $this->exercises = new ArrayCollection();
         $this->comments = new ArrayCollection();
+        $this->users = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -222,6 +228,37 @@ class Program
     public function setMasteryLevel(?MasteryLevel $mastery_level): self
     {
         $this->mastery_level = $mastery_level;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|User[]
+     */
+    public function getUsers(): Collection
+    {
+        return $this->users;
+    }
+
+    public function addUser(User $user): self
+    {
+        if (!$this->users->contains($user)) {
+            $this->users[] = $user;
+            $user->setActiveProgram($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUser(User $user): self
+    {
+        if ($this->users->contains($user)) {
+            $this->users->removeElement($user);
+            // set the owning side to null (unless already changed)
+            if ($user->getActiveProgram() === $this) {
+                $user->setActiveProgram(null);
+            }
+        }
 
         return $this;
     }

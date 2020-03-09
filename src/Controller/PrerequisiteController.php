@@ -179,7 +179,6 @@ class PrerequisiteController extends AbstractController
         $prerequisite->setUpdatedAt(new \DateTime());
 
         $em = $this->getDoctrine()->getManager();
-        $em->persist($prerequisite);
         $em->flush();
         return $this->json($prerequisite, Response::HTTP_OK, [], ['groups' => 'prerequisite']);
     }

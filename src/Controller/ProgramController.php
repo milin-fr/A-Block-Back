@@ -6,6 +6,7 @@ use App\Entity\Program;
 use App\Form\ProgramType;
 use App\Repository\ExerciseRepository;
 use App\Repository\ProgramRepository;
+use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -47,12 +48,7 @@ class ProgramController extends AbstractController
 
 
         // start of payload validation
-        $keyList = ["title",
-                    "description",
-                    "time",
-                    "img_path",
-                    "exercise_ids"
-                    ];
+        $keyList = ["title"];
 
         $validationsErrors = [];
 
@@ -83,10 +79,27 @@ class ProgramController extends AbstractController
 
         // get payload content and convert it to object, so we can acess it's properties
         $programTitle = $contentObject->title;
-        $programTime = $contentObject->time; // type integer
-        $programImgPath = $contentObject->img_path;
-        $programDescription = $contentObject->description;
-        $programExercises = $contentObject->exercise_ids; // array of ids of exercises
+        try {
+            $programTime = $contentObject->time; // type integer
+        } catch(Exception $e) {
+            $programTime = "";
+        }
+        try {
+            $programImgPath = $contentObject->img_path;
+        } catch(Exception $e) {
+            $programImgPath = "";
+        }
+        try {
+            $programDescription = $contentObject->description;
+        } catch(Exception $e) {
+            $programDescription = "";
+        }
+        try {
+            $programExercises = $contentObject->exercise_ids; // array of ids of exercises
+        } catch(Exception $e) {
+            $programExercises = "";
+        }
+
 
 
         if($programTime === ""){
@@ -114,24 +127,8 @@ class ProgramController extends AbstractController
             $validationsErrors[] = "title, length, max, 64";
         }
 
-        if(gettype($programTime) !== "integer"){
-            $validationsErrors[] = "time, not integer";
-        }
-
-        if($programTime < 0){
-            $validationsErrors[] = "time, value, min, 0";
-        }
-
-        if($programTime > 999){
-            $validationsErrors[] = "time, value, max, 999";
-        }
-
         if(strlen($programImgPath) > 64){
             $validationsErrors[] = "imgPath, length, max, 64";
-        }
-
-        if($programDescription === ""){
-            $validationsErrors[] = "description, blank";
         }
 
         if(strlen($programDescription) > 999){
@@ -146,6 +143,17 @@ class ProgramController extends AbstractController
         $program = new Program();
         $program->setTitle($programTitle);
         $program->setCreatedAt(new \DateTime());
+        if(gettype($programTime) !== "integer"){
+            $programTime = 0;
+        }
+
+        if($programTime < 0){
+            $programTime = 0;
+        }
+
+        if($programTime > 999){
+            $programTime = 999;
+        }
         $program->setTime($programTime);
 
         if($programImgPath === ""){
@@ -224,8 +232,6 @@ class ProgramController extends AbstractController
         }
 
         // start of payload validation
-        $keyList = ["title", "description", "time", "img_path", "exercise_ids"];
-
         $validationsErrors = [];
 
         $jsonContent = $request->getContent();
@@ -237,29 +243,44 @@ class ProgramController extends AbstractController
 
         // get payload content and convert it to object, so we can acess it's properties
         $contentObject = json_decode($request->getContent());
-        $contentArray = get_object_vars($contentObject);
 
-        foreach($keyList as $key){
-            if(!array_key_exists($key, $contentArray)){
-                $validationsErrors[] = [
-                                        $key => "Requiered, but not provided"
-                                        ];
-            }
-        }
-
-        if (count($validationsErrors) !== 0) {
-            return $this->json($validationsErrors, Response::HTTP_UNPROCESSABLE_ENTITY);
-        }
         // end of payload validation
 
 
         // get payload content and convert it to object, so we can acess it's properties
-        $programTitle = $contentObject->title;
-        $programTime = $contentObject->time; // type integer
-        $programImgPath = $contentObject->img_path;
-        $programDescription = $contentObject->description;
-        $programExercises = $contentObject->exercise_ids; // array of ids of exercises
-
+        try {
+            $programTitle = $contentObject->title;
+        } catch(Exception $e) {
+            $programTitle = $program->getTitle();
+        }
+        try {
+            $programTime = $contentObject->time; // type integer
+        } catch(Exception $e) {
+            $programTime = $program->getTime();
+        }
+        try {
+            $programImgPath = $contentObject->img_path;
+        } catch(Exception $e) {
+            $programImgPath = $program->getImgPath();
+        }
+        try {
+            $programDescription = $contentObject->description;
+        } catch(Exception $e) {
+            $programDescription = $program->getDescription();
+        }
+        try {
+            $programExercises = $contentObject->exercise_ids; // array of ids of exercises
+            $currentExercises = $program->getExercises();
+            foreach($currentExercises as $exercise){
+                $exercise->removeExercise($exercise);
+            }
+        } catch(Exception $e) {
+            $programExercises = [];
+            $exercises = $program->getExercises();
+            foreach($exercises as $exercise){
+                $programExercises[] = $exercise->getId();
+            }
+        }
 
         if($programTime === ""){
             $programTime = 0;
@@ -286,24 +307,8 @@ class ProgramController extends AbstractController
             $validationsErrors[] = "title, length, max, 64";
         }
 
-        if(gettype($programTime) !== "integer"){
-            $validationsErrors[] = "time, not integer";
-        }
-
-        if($programTime < 0){
-            $validationsErrors[] = "time, value, min, 0";
-        }
-
-        if($programTime > 999){
-            $validationsErrors[] = "time, value, max, 999";
-        }
-
         if(strlen($programImgPath) > 64){
             $validationsErrors[] = "imgPath, length, max, 64";
-        }
-
-        if($programDescription === ""){
-            $validationsErrors[] = "description, blank";
         }
 
         if(strlen($programDescription) > 999){
@@ -317,6 +322,17 @@ class ProgramController extends AbstractController
 
         $program->setTitle($programTitle);
         $program->setUpdatedAt(new \DateTime());
+        if(gettype($programTime) !== "integer"){
+            $programTime = 0;
+        }
+
+        if($programTime < 0){
+            $programTime = 0;
+        }
+
+        if($programTime > 999){
+            $programTime = 999;
+        }
         $program->setTime($programTime);
 
         if($programImgPath === ""){
@@ -354,7 +370,6 @@ class ProgramController extends AbstractController
         // end of mastery level treatment
 
         $em = $this->getDoctrine()->getManager();
-        $em->persist($program);
         $em->flush();
         return $this->json($program, Response::HTTP_OK, [], ['groups' => 'program']);
     }

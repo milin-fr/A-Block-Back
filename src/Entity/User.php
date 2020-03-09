@@ -115,6 +115,12 @@ class User implements UserInterface
      */
     private $mastery_level;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Program", inversedBy="users")
+     * @Groups("abloc_user")
+     */
+    private $active_program;
+
     public function __construct()
     {
         $this->program_bookmarks = new ArrayCollection();
@@ -422,6 +428,18 @@ class User implements UserInterface
     public function setMasteryLevel(?MasteryLevel $mastery_level): self
     {
         $this->mastery_level = $mastery_level;
+
+        return $this;
+    }
+
+    public function getActiveProgram(): ?Program
+    {
+        return $this->active_program;
+    }
+
+    public function setActiveProgram(?Program $active_program): self
+    {
+        $this->active_program = $active_program;
 
         return $this;
     }
