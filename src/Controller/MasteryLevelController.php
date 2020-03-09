@@ -7,6 +7,7 @@ use App\Form\MasteryLevelType;
 use App\Repository\ExerciseRepository;
 use App\Repository\MasteryLevelRepository;
 use App\Repository\UserRepository;
+use Exception;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -47,7 +48,7 @@ class MasteryLevelController extends AbstractController
         */
 
         // start of payload validation
-        $keyList = ["title", "level_index", "description", "img_path"];
+        $keyList = ["title", "level_index"];
 
         $validationsErrors = [];
 
@@ -81,8 +82,16 @@ class MasteryLevelController extends AbstractController
 
         $masteryLevelTitle = $contentObject->title;
         $masteryLevelIndex = $contentObject->level_index;
-        $masteryLevelDescription = $contentObject->description;
-        $masteryLevelImgPath = $contentObject->img_path;
+        try {
+            $masteryLevelDescription = $contentObject->description;
+        } catch(Exception $e) {
+            $masteryLevelDescription = "";
+        }
+        try {
+            $masteryLevelImgPath = $contentObject->img_path;
+        } catch(Exception $e) {
+            $masteryLevelImgPath = "";
+        }
         
         if($masteryLevelIndex === ""){
             $masteryLevelIndex = 0;
@@ -174,7 +183,6 @@ class MasteryLevelController extends AbstractController
         }
         
         // start of payload validation
-        $keyList = ["title", "level_index", "description", "img_path"];
 
         $validationsErrors = [];
 
@@ -187,15 +195,6 @@ class MasteryLevelController extends AbstractController
 
         // get payload content and convert it to object, so we can acess it's properties
         $contentObject = json_decode($request->getContent());
-        $contentArray = get_object_vars($contentObject);
-
-        foreach($keyList as $key){
-            if(!array_key_exists($key, $contentArray)){
-                $validationsErrors[] = [
-                                        $key => "Requiered, but not provided"
-                                        ];
-            }
-        }
 
         if (count($validationsErrors) !== 0) {
             return $this->json($validationsErrors, Response::HTTP_UNPROCESSABLE_ENTITY);
@@ -206,10 +205,26 @@ class MasteryLevelController extends AbstractController
 
         // values validation
 
-        $masteryLevelTitle = $contentObject->title;
-        $masteryLevelIndex = $contentObject->level_index;
-        $masteryLevelDescription = $contentObject->description;
-        $masteryLevelImgPath = $contentObject->img_path;
+        try {
+            $masteryLevelTitle = $contentObject->title;
+        } catch(Exception $e) {
+            $masteryLevelTitle = $masteryLevel->getTitle();
+        }
+        try {
+            $masteryLevelIndex = $contentObject->level_index;
+        } catch(Exception $e) {
+            $masteryLevelIndex = $masteryLevel->getLevelIndex();
+        }
+        try {
+            $masteryLevelDescription = $contentObject->description;
+        } catch(Exception $e) {
+            $masteryLevelDescription = $masteryLevel->getDescription();
+        }
+        try {
+            $masteryLevelImgPath = $contentObject->img_path;
+        } catch(Exception $e) {
+            $masteryLevelImgPath = $masteryLevel->getImgPath();
+        }
         
         if($masteryLevelIndex === ""){
             $masteryLevelIndex = 0;
@@ -245,7 +260,7 @@ class MasteryLevelController extends AbstractController
         if(strlen($masteryLevelImgPath) > 64){
             $validationsErrors[] = "imgPath, length, max, 64";
         }
-        
+
         if (count($validationsErrors) !== 0) {
             return $this->json($validationsErrors, Response::HTTP_UNPROCESSABLE_ENTITY);
         }
@@ -259,7 +274,6 @@ class MasteryLevelController extends AbstractController
         $masteryLevel->setDescription($masteryLevelDescription);
         $masteryLevel->setLevelIndex($masteryLevelIndex);
         $em = $this->getDoctrine()->getManager();
-        $em->persist($masteryLevel);
         $em->flush();
         return $this->json($masteryLevel, Response::HTTP_OK, [], ['groups' => 'mastery_level']);
     }

@@ -12,6 +12,7 @@ use App\Repository\MasteryLevelRepository;
 use App\Repository\PrerequisiteRepository;
 use App\Repository\ProgramCommentRepository;
 use App\Repository\ProgramRepository;
+use Exception;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -57,15 +58,7 @@ class ExerciseController extends AbstractController
             }
         */
 
-        $keyList = ["title",
-                    "time",
-                    "img_path",
-                    "description",
-                    "score",
-                    "hint_ids",
-                    "prerequisite_ids",
-                    "program_ids",
-                    "mastery_level_id"];
+        $keyList = ["title"];
 
         $validationsErrors = [];
 
@@ -94,14 +87,55 @@ class ExerciseController extends AbstractController
 
 
         $exerciseTitle = $contentObject->title;
-        $exerciseTime = $contentObject->time; // type integer
-        $exerciseImgPath = $contentObject->img_path;
-        $exerciseDescription = $contentObject->description;
-        $exerciseScore = $contentObject->score;
-        $exerciseHints = $contentObject->hint_ids; // id of hint
-        $exercisePrerequisites = $contentObject->prerequisite_ids; // array of ids of prerequisite
-        $exercisePrograms = $contentObject->program_ids; // array of ids of programs
-        $exerciseMasteryLevel = $contentObject->mastery_level_id; // id of masteryLevel
+        try {
+            $exerciseTime = $contentObject->time; 
+        } catch(Exception $e) {
+            $exerciseTime = "";
+        }
+        try {
+            $exerciseImgPath = $contentObject->img_path;
+        } catch(Exception $e) {
+            $exerciseImgPath = "";
+        }
+        try {
+            $exerciseDescription = $contentObject->description;
+        } catch(Exception $e) {
+            $exerciseDescription = "";
+        }
+        try {
+            $exerciseScore = $contentObject->score;
+        } catch(Exception $e) {
+            $exerciseScore = "";
+        }
+        try {
+            $exerciseHints = $contentObject->hint_ids;
+        } catch(Exception $e) {
+            $exerciseHints = "";
+        }
+        try {
+            $exercisePrerequisites = $contentObject->prerequisite_ids; // array of ids of prerequisite
+        } catch(Exception $e) {
+            $exercisePrerequisites = "";
+        }
+        try {
+            $exercisePrograms = $contentObject->program_ids; // array of ids of programs
+        } catch(Exception $e) {
+            $exercisePrograms = "";
+        }
+        try {
+            $exerciseMasteryLevel = $contentObject->mastery_level_id; // id of masteryLevel
+        } catch(Exception $e) {
+            $masteryLevels = $masteryLevelRepository->findAll();
+            if(empty($masteryLevels)){
+                $validationsErrors[] = [
+                    "mastery_level_id" => "no mastery levels in bdd"
+                    ];
+            }else{
+            $masteryLevel = $masteryLevels[0];
+            $exerciseMasteryLevel = $masteryLevel->getId();
+            }
+        }
+
 
         if($exerciseTime === ""){
             $exerciseTime = 0;
@@ -171,10 +205,6 @@ class ExerciseController extends AbstractController
 
         if(strlen($exerciseImgPath) > 64){
             $validationsErrors[] = "imgPath, length, max, 64";
-        }
-
-        if($exerciseDescription === ""){
-            $validationsErrors[] = "description, blank";
         }
 
         if(strlen($exerciseDescription) > 999){
@@ -285,17 +315,6 @@ class ExerciseController extends AbstractController
             }
         */
 
-        $keyList = ["title",
-                    "time",
-                    "img_path",
-                    "description",
-                    "score",
-                    "hint_ids",
-                    "prerequisite_ids",
-                    "program_ids",
-                    "mastery_level_id"
-                ];
-
         $validationsErrors = [];
 
         $jsonContent = $request->getContent();
@@ -307,30 +326,68 @@ class ExerciseController extends AbstractController
 
         // get payload content and convert it to object, so we can acess it's properties
         $contentObject = json_decode($request->getContent());
-        $contentArray = get_object_vars($contentObject);
-
-        foreach($keyList as $key){
-            if(!array_key_exists($key, $contentArray)){
-                $validationsErrors[] = [
-                                        $key => "Requiered, but not provided"
-                                        ];
-            }
-        }
 
         if (count($validationsErrors) !== 0) {
             return $this->json($validationsErrors, Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
-
-        $exerciseTitle = $contentObject->title;
-        $exerciseTime = $contentObject->time; // type integer
-        $exerciseImgPath = $contentObject->img_path;
-        $exerciseDescription = $contentObject->description;
-        $exerciseScore = $contentObject->score;
-        $exerciseHints = $contentObject->hint_ids; // id of hint
-        $exercisePrerequisites = $contentObject->prerequisite_ids; // array of ids of prerequisite
-        $exercisePrograms = $contentObject->program_ids; // array of ids of programs
-        $exerciseMasteryLevel = $contentObject->mastery_level_id; // id of masteryLevel
+        try {
+            $exerciseTitle = $contentObject->title;
+        } catch(Exception $e) {
+            $exerciseTitle = $exercise->getTitle();
+        }
+        try {
+            $exerciseTime = $contentObject->time; 
+        } catch(Exception $e) {
+            $exerciseTime = $exercise->getTime();
+        }
+        try {
+            $exerciseImgPath = $contentObject->img_path;
+        } catch(Exception $e) {
+            $exerciseImgPath = $exercise->getImgPath();
+        }
+        try {
+            $exerciseDescription = $contentObject->description;
+        } catch(Exception $e) {
+            $exerciseDescription = $exercise->getDescription();
+        }
+        try {
+            $exerciseScore = $contentObject->score;
+        } catch(Exception $e) {
+            $exerciseScore = $exercise->getScore();
+        }
+        try {
+            $exerciseHints = $contentObject->hint_ids;
+        } catch(Exception $e) {
+            $exerciseHints = [];
+            $hints = $exercise->getHints();
+            foreach($hints as $hint){
+                $exerciseHints[] = $hint->getId();
+            }
+        }
+        try {
+            $exercisePrerequisites = $contentObject->prerequisite_ids; // array of ids of prerequisite
+        } catch(Exception $e) {
+            $exercisePrerequisites = [];
+            $prerequisites = $exercise->getPrerequisites();
+            foreach($prerequisites as $prerequisite){
+                $exercisePrerequisites[] = $prerequisite->getId();
+            }
+        }
+        try {
+            $exercisePrograms = $contentObject->program_ids; // array of ids of programs
+        } catch(Exception $e) {
+            $exercisePrograms = [];
+            $programs = $exercise->getPrograms();
+            foreach($programs as $program){
+                $exercisePrograms[] = $program->getId();
+            }
+        }
+        try {
+            $exerciseMasteryLevel = $contentObject->mastery_level_id; // id of masteryLevel
+        } catch(Exception $e) {
+            $exerciseMasteryLevel = $exercise->getMasteryLevel()->getId();
+        }
 
         if($exerciseTime === ""){
             $exerciseTime = 0;

@@ -119,6 +119,8 @@ class MainController extends AbstractController
                 {
                     \"title\": \"string, not blank\",
                     \"level_index\": integer
+                    \"description\": \"string\" -optionnal,
+                    \"img_path\": \"string\" -optionnal
                 }
                 "
             ],
@@ -128,8 +130,10 @@ class MainController extends AbstractController
                 "edit mastery_level",
                 "
                 {
-                    \"title\": \"string, not blank\",
-                    \"level_index\": integer
+                    \"title\": \"string, not blank\" -optionnal,
+                    \"level_index\": integer -optionnal,
+                    \"description\": \"string\" -optionnal,
+                    \"img_path\": \"string\" -optionnal
                 }
                 "
             ],
@@ -356,6 +360,15 @@ class MainController extends AbstractController
                 "DELETE",
                 "delete program_comment by id",
                 ""
+            ],
+            [
+                "api/login",
+                "POST",
+                "recieve bearer token",
+                "{
+                    \"username\": \"email, not blank\",
+                    \"password\": \"string, not blank\"
+                }"
             ],
         ];
 
