@@ -168,7 +168,7 @@ class UserController extends AbstractController
         $em = $this->getDoctrine()->getManager();
         $em->persist($user);
         $em->flush();
-        return $this->redirectToRoute('user_show', ['id' => $user->getId()], Response::HTTP_CREATED);
+        return $this->json($user, Response::HTTP_CREATED, [], ['groups' => 'abloc_user']);
     }
 
     /**
@@ -325,7 +325,7 @@ class UserController extends AbstractController
         $em = $this->getDoctrine()->getManager();
         $em->persist($user);
         $em->flush();
-        return $this->redirectToRoute('user_show', ['id' => $user->getId()], Response::HTTP_CREATED);
+        return $this->json($user, Response::HTTP_OK, [], ['groups' => 'abloc_user']);
     }
 
     /**

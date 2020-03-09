@@ -124,7 +124,7 @@ class ExerciseCommentController extends AbstractController
         $em = $this->getDoctrine()->getManager();
         $em->persist($exerciseComment);
         $em->flush();
-        return $this->redirectToRoute('exercise_comment_show', ['id' => $exerciseComment->getId()], Response::HTTP_CREATED);
+        return $this->json($exerciseComment, Response::HTTP_CREATED, [], ['groups' => 'exercise_comment']);
     }
 
     /**
@@ -202,7 +202,7 @@ class ExerciseCommentController extends AbstractController
 
         $em = $this->getDoctrine()->getManager();
         $em->flush();
-        return $this->redirectToRoute('exercise_comment_show', ['id' => $exerciseComment->getId()], Response::HTTP_CREATED);
+        return $this->json($exerciseComment, Response::HTTP_OK, [], ['groups' => 'exercise_comment']);
     }
 
     /**

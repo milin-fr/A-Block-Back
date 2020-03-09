@@ -48,3 +48,17 @@ class UserRepository extends ServiceEntityRepository
     }
     */
 }
+
+
+        /*
+        {
+        "title": "exo test",
+        "time": 10,
+        "imgPath": "image_exo_1.png",
+        "description": "description exo 1",
+        "score": 10,
+        "hints": [6],
+        "prerequisites": [11, 12, 1000],
+        "programs": [6, 7]
+        }
+        */

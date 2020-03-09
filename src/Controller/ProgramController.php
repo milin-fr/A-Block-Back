@@ -185,7 +185,7 @@ class ProgramController extends AbstractController
         $em = $this->getDoctrine()->getManager();
         $em->persist($program);
         $em->flush();
-        return $this->redirectToRoute('program_show', ['id' => $program->getId()], Response::HTTP_CREATED);
+        return $this->json($program, Response::HTTP_CREATED, [], ['groups' => 'program']);
     }
 
     /**
@@ -356,7 +356,7 @@ class ProgramController extends AbstractController
         $em = $this->getDoctrine()->getManager();
         $em->persist($program);
         $em->flush();
-        return $this->redirectToRoute('program_show', ['id' => $program->getId()], Response::HTTP_CREATED);
+        return $this->json($program, Response::HTTP_OK, [], ['groups' => 'program']);
     }
 
     /**
