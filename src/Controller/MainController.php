@@ -379,4 +379,15 @@ class MainController extends AbstractController
             'api_data' => $apiData,
         ]);
     }
+
+
+     /**
+     * @Route("/admin", name="admin")
+     */
+    public function admin()
+    {
+        return $this->json([
+            "page admin"
+        ]);
+    }
 }

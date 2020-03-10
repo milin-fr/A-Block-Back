@@ -450,12 +450,12 @@ class UserController extends AbstractController
 
         $activeProgram = $programRepository->find($userActiveProgram);
         if($activeProgram){
-            $followedPogramIds = [];
+            $followedProgramIds = [];
             $followedPograms = $ablocUser->getFollowedPrograms();
             foreach($followedPograms as $followedPogramId){
-                $followedPogramIds[] = $followedPogramId->getId();
+                $followedProgramIds[] = $followedPogramId->getId();
             }
-            if(!in_array($userActiveProgram, $followedPogramIds)){
+            if(!in_array($userActiveProgram, $followedProgramIds)){
                 $ablocUser->addFollowedProgram($activeProgram);
             }
             $ablocUser->setActiveProgram($activeProgram);
