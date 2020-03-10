@@ -331,7 +331,7 @@ class UserController extends AbstractController
         try {
             $userActiveProgram = $contentObject->active_program;
         } catch(Exception $e) {
-            $userActiveProgram = $ablocUser->getActiveProgram;
+            $userActiveProgram = $ablocUser->getActiveProgram();
         }
 
         if(gettype($userProgramBookmarks) !== "array"){
