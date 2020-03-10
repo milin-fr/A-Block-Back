@@ -14,6 +14,7 @@ use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 /**
  * @Route("/api/hint")
@@ -22,9 +23,11 @@ class HintController extends AbstractController
 {
     /**
      * @Route("/", name="hint_list", methods={"GET"})
+     * @IsGranted("ROLE_ADMIN")
      */
     public function getHints(HintRepository $hintRepository): Response
     {
+        
         $hints = $hintRepository->findAll();
 
         return $this->json($hints, Response::HTTP_OK, [], ['groups' => 'hint']);
@@ -32,6 +35,7 @@ class HintController extends AbstractController
 
     /**
      * @Route("/", name="hint_new", methods={"POST"})
+     * @IsGranted("ROLE_ADMIN")
      */
     public function postHint(Request $request): Response
     {
@@ -99,6 +103,7 @@ class HintController extends AbstractController
 
     /**
      * @Route("/{id}", name="hint_show", methods={"GET"})
+     * @IsGranted("ROLE_ADMIN")
      */
     public function getHint($id, HintRepository $hintRepository): Response
     {
@@ -112,6 +117,7 @@ class HintController extends AbstractController
 
     /**
      * @Route("/{id}", name="hint_edit", methods={"PUT"})
+     * @IsGranted("ROLE_ADMIN")
      */
     public function putHint(Request $request, $id, HintRepository $hintRepository): Response
     {
@@ -183,6 +189,7 @@ class HintController extends AbstractController
 
     /**
      * @Route("/{id}", name="hint_delete", methods={"DELETE"})
+     * @IsGranted("ROLE_ADMIN")
      */
     public function deleteHint(Request $request, $id, HintRepository $hintRepository): Response
     {
