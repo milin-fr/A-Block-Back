@@ -331,7 +331,13 @@ class UserController extends AbstractController
         try {
             $userActiveProgram = $contentObject->active_program;
         } catch(Exception $e) {
-            $userActiveProgram = $ablocUser->getActiveProgram()->getId();
+            $activeProgram = $ablocUser->getActiveProgram();
+            if($activeProgram){
+                $userActiveProgram = $ablocUser->getActiveProgram()->getId();
+            }
+            else{
+                $userActiveProgram = "";
+            }
         }
 
         if(gettype($userProgramBookmarks) !== "array"){
@@ -386,7 +392,7 @@ class UserController extends AbstractController
         }
 
         if(gettype($userActiveProgram) !== "integer" && $userActiveProgram !== null){
-            $validationsErrors[] = "active_program, not integer";
+            $userActiveProgram = "";
         }
 
         if(gettype($userActiveProgram) === "integer"){
@@ -444,12 +450,12 @@ class UserController extends AbstractController
 
         $activeProgram = $programRepository->find($userActiveProgram);
         if($activeProgram){
-            $followedPogramIds = [];
+            $followedProgramIds = [];
             $followedPograms = $ablocUser->getFollowedPrograms();
             foreach($followedPograms as $followedPogramId){
-                $followedPogramIds[] = $followedPogramId->getId();
+                $followedProgramIds[] = $followedPogramId->getId();
             }
-            if(!in_array($userActiveProgram, $followedPogramIds)){
+            if(!in_array($userActiveProgram, $followedProgramIds)){
                 $ablocUser->addFollowedProgram($activeProgram);
             }
             $ablocUser->setActiveProgram($activeProgram);
