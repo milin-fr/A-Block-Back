@@ -331,7 +331,7 @@ class UserController extends AbstractController
         try {
             $userActiveProgram = $contentObject->active_program;
         } catch(Exception $e) {
-            $userActiveProgram = $ablocUser->getActiveProgram();
+            $userActiveProgram = $ablocUser->getActiveProgram()->getId();
         }
 
         if(gettype($userProgramBookmarks) !== "array"){
@@ -378,10 +378,6 @@ class UserController extends AbstractController
             $validationsErrors[] = "imgPath, length, max, 64";
         }
 
-        if(gettype($userMasteryLevel) !== "integer"){
-            $validationsErrors[] = "masteryLevel, not integer";
-        }
-
         if(gettype($userMasteryLevel) === "integer"){
             $masteryLevel = $masteryLevelRepository->find($userMasteryLevel);
             if(!$masteryLevel){
@@ -390,7 +386,7 @@ class UserController extends AbstractController
         }
 
         if(gettype($userActiveProgram) !== "integer" && $userActiveProgram !== null){
-            $validationsErrors[] = "masteryLevel, not integer";
+            $validationsErrors[] = "active_program, not integer";
         }
 
         if(gettype($userActiveProgram) === "integer"){
