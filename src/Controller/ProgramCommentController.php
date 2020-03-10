@@ -152,6 +152,12 @@ class ProgramCommentController extends AbstractController
         */
 
         $programComment = $programCommentRepository->find($id);
+
+        // L'auteur du commentaire est-il le User qui l'a écrit ?
+        $user = $this->getUser();
+        if ($user !== $programComment->getUser()) {
+            throw $this->createAccessDeniedException('Access Denied.');
+        }
         
         $keyList = ["text"];
 

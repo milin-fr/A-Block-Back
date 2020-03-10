@@ -156,7 +156,7 @@ class ExerciseCommentController extends AbstractController
         // L'auteur du commentaire est-il le user qui l'a écrit ?
         $user = $this->getUser();
         if ($user !== $exerciseComment->getUser()) {
-            throw $this->createAccessDeniedException('Non autorisé.');
+            throw $this->createAccessDeniedException('Access Denied..');
         }
 
         $keyList = ["text"];
