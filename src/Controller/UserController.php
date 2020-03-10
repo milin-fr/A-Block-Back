@@ -336,7 +336,7 @@ class UserController extends AbstractController
                 $userActiveProgram = $ablocUser->getActiveProgram()->getId();
             }
             else{
-                $userActiveProgram = null;
+                $userActiveProgram = "";
             }
         }
 
@@ -392,7 +392,7 @@ class UserController extends AbstractController
         }
 
         if(gettype($userActiveProgram) !== "integer" && $userActiveProgram !== null){
-            $validationsErrors[] = "active_program, not integer";
+            $userActiveProgram = "";
         }
 
         if(gettype($userActiveProgram) === "integer"){
