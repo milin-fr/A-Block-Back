@@ -73,10 +73,18 @@ security:
 
         - { path: ^/api/prerequisite/, roles: ROLE_ADMIN, methods: [GET, POST, PUT, DELETE] }
 
-        # Uniquement son propre commentaire - { path: ^/api/exercise-comment/, roles: ROLE_USER, methods: [GET, POST, PUT, DELETE] }
-        # Uniquement son propre commentaire - { path: ^/api/prgram-comment/, roles: ROLE_USER, methods: [GET, POST, PUT, DELETE] }
+        # @TODO User doit pouvoir editer son propre commentaire -> directement en Algo ds ExerciseCommentController
+        - { path: ^/api/exercise-comment/, roles: ROLE_USER, methods: [GET, POST] }
+        - { path: ^/api/exercise-comment/, roles: ROLE_MODERATOR, methods: [PUT, DELETE] }
+
+        # @TODO User doit pouvoir editer son propre commentaire -> directement en Algo ds ProgramCommentController
+        - { path: ^/api/program-comment/, roles: ROLE_USER, methods: [GET, POST] }
+        - { path: ^/api/pogram-comment/, roles: ROLE_MODERATOR, methods: [PUT, DELETE] }
 
         - { path: ^/api/user/, roles: ROLE_ADMIN, methods: [GET] }
         - { path: ^/api, roles: IS_AUTHENTICATED_FULLY }
         - { path: '^/admin', roles: ROLE_ADMIN }
 
+    role_hierarchy:
+        ROLE_ADMIN: ROLE_MODERATOR
+        ROLE_MODERATOR: ROLE_USER
