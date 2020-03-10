@@ -143,7 +143,7 @@ class ExerciseCommentController extends AbstractController
     /**
      * @Route("/{id}", name="exercise_comment_edit", methods={"PUT"})
      */
-    public function putExerciseComment(Request $request, $id, exerciseCommentRepository $exerciseCommentRepository): Response
+    public function putExerciseComment(Request $request, $id, exerciseCommentRepository $exerciseCommentRepository, UserRepository $user): Response
     {
         /*
             {
@@ -152,7 +152,13 @@ class ExerciseCommentController extends AbstractController
         */
 
         $exerciseComment = $exerciseCommentRepository->find($id);
-        
+
+        // L'auteur du commentaire est-il le user qui l'a écrit ?
+        $user = $this->getUser();
+        if ($user !== $exerciseComment->getUser()) {
+            throw $this->createAccessDeniedException('Non autorisé.');
+        }
+
         $keyList = ["text"];
 
         $validationsErrors = [];
