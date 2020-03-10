@@ -23,7 +23,7 @@ class HintController extends AbstractController
 {
     /**
      * @Route("/", name="hint_list", methods={"GET"})
-     * @IsGranted("ROLE_ADMIN")
+     * @IsGranted("ROLE_ADMIN", statusCode=401, message="Access Denied")
      */
     public function getHints(HintRepository $hintRepository): Response
     {
@@ -35,7 +35,7 @@ class HintController extends AbstractController
 
     /**
      * @Route("/", name="hint_new", methods={"POST"})
-     * @IsGranted("ROLE_ADMIN")
+     * @IsGranted("ROLE_ADMIN", statusCode=401, message="Access Denied")
      */
     public function postHint(Request $request): Response
     {
@@ -103,7 +103,7 @@ class HintController extends AbstractController
 
     /**
      * @Route("/{id}", name="hint_show", methods={"GET"})
-     * @IsGranted("ROLE_ADMIN")
+     * @IsGranted("ROLE_ADMIN", statusCode=401, message="Access Denied")
      */
     public function getHint($id, HintRepository $hintRepository): Response
     {
@@ -117,7 +117,7 @@ class HintController extends AbstractController
 
     /**
      * @Route("/{id}", name="hint_edit", methods={"PUT"})
-     * @IsGranted("ROLE_ADMIN")
+     * @IsGranted("ROLE_ADMIN", statusCode=401, message="Access Denied")
      */
     public function putHint(Request $request, $id, HintRepository $hintRepository): Response
     {
@@ -189,7 +189,7 @@ class HintController extends AbstractController
 
     /**
      * @Route("/{id}", name="hint_delete", methods={"DELETE"})
-     * @IsGranted("ROLE_ADMIN")
+     * @IsGranted("ROLE_ADMIN", statusCode=401, message="Access Denied")
      */
     public function deleteHint(Request $request, $id, HintRepository $hintRepository): Response
     {
