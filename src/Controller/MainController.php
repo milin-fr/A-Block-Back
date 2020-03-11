@@ -16,8 +16,9 @@ class MainController extends AbstractController
             [
                 "api/exercise/",
                 "GET",
-                "list exercises/",
-                ""
+                "list exercises",
+                "",
+                "ROLE_USER"
             ],
             [
                 "api/exercise/",
@@ -35,7 +36,8 @@ class MainController extends AbstractController
                     \"program_ids\": [array of integers],
                     \"mastery_level_id\": integer
                 }
-                "
+                ",
+                "ROLE_ADMIN"
             ],
             [
                 "api/exercise/id",
@@ -53,25 +55,28 @@ class MainController extends AbstractController
                     \"program_ids\": [array of integers],
                     \"mastery_level_id\": integer
                 }
-                "
+                ",
+                "ROLE_ADMIN"
             ],
             [
                 "api/exercise/id",
                 "GET",
                 "exercise by id",
-                ""
+                "ROLE_USER"
             ],
             [
                 "api/exercise/id",
                 "DELETE",
                 "delete exercise by id",
-                ""
+                "",
+                "ROLE_ADMIN"
             ],
             [
                 "api/hint/",
                 "GET",
                 "list hints/",
-                ""
+                "",
+                "ROLE_USER"
             ],
             [
                 "api/hint/",
@@ -81,7 +86,8 @@ class MainController extends AbstractController
                 {
                     \"text\": \"string, not blank, requiered\"
                 }
-                "
+                ",
+                "ROLE_ADMIN"
             ],
             [
                 "api/hint/id",
@@ -91,25 +97,29 @@ class MainController extends AbstractController
                 {
                     \"text\": \"string, not blank, requiered\"
                 }
-                "
+                ",
+                "ROLE_ADMIN"
             ],
             [
                 "api/hint/id",
                 "GET",
                 "hint by id",
-                ""
+                "",
+                "ROLE_USER"
             ],
             [
                 "api/hint/id",
                 "DELETE",
                 "delete hint by id",
-                ""
+                "",
+                "ROLE_ADMIN"
             ],
             [
                 "api/mastery_level/",
                 "GET",
                 "list mastery_levels",
-                ""
+                "",
+                "ROLE_USER"
             ],
             [
                 "api/mastery-level/",
@@ -122,7 +132,8 @@ class MainController extends AbstractController
                     \"description\": \"string\",
                     \"img_path\": \"string\"
                 }
-                "
+                ",
+                "ROLE_ADMIN"
             ],
             [
                 "api/mastery-level/id",
@@ -135,25 +146,29 @@ class MainController extends AbstractController
                     \"description\": \"string\",
                     \"img_path\": \"string\"
                 }
-                "
+                ",
+                "ROLE_ADMIN"
             ],
             [
                 "api/mastery-level/id",
                 "GET",
                 "mastery_level by id",
-                ""
+                "",
+                "ROLE_USER"
             ],
             [
                 "api/mastery-level/id",
                 "DELETE",
                 "delete mastery_level by id",
-                ""
+                "",
+                "ROLE_ADMIN"
             ],
             [
                 "api/prerequisite/",
                 "GET",
                 "list prerequisites/",
-                ""
+                "",
+                "ROLE_USER"
             ],
             [
                 "api/prerequisite/",
@@ -163,7 +178,8 @@ class MainController extends AbstractController
                 {
                     \"description\": \"string, not blank, requiered\"
                 }
-                "
+                ",
+                "ROLE_ADMIN"
             ],
             [
                 "api/prerequisite/id",
@@ -173,25 +189,29 @@ class MainController extends AbstractController
                 {
                     \"description\": \"string, not blank, requiered\"
                 }
-                "
+                ",
+                "ROLE_ADMIN"
             ],
             [
                 "api/prerequisite/id",
                 "GET",
                 "prerequisite by id",
-                ""
+                "",
+                "ROLE_USER"
             ],
             [
                 "api/prerequisite/id",
                 "DELETE",
                 "delete prerequisite by id",
-                ""
+                "",
+                "ROLE_ADMIN"
             ],
             [
                 "api/program/",
                 "GET",
                 "list programs",
-                ""
+                "",
+                "ROLE_USER"
             ],
             [
                 "api/program/",
@@ -205,7 +225,8 @@ class MainController extends AbstractController
                     \"img_path\": \"string\",
                     \"exercise_ids\": [array of integers]
                 }
-                "
+                ",
+                "ROLE_ADMIN"
             ],
             [
                 "api/program/id",
@@ -219,25 +240,29 @@ class MainController extends AbstractController
                     \"img_path\": \"string\",
                     \"exercise_ids\": [array of integers]
                 }
-                "
+                ",
+                "ROLE_ADMIN"
             ],
             [
                 "api/program/id",
                 "GET",
                 "program by id",
-                ""
+                "",
+                "ROLE_USER"
             ],
             [
                 "api/program/id",
                 "DELETE",
                 "delete program by id",
-                ""
+                "",
+                "ROLE_ADMIN"
             ],
             [
                 "api/user/",
                 "GET",
                 "list users",
-                ""
+                "",
+                "ROLE_ADMIN"
             ],
             [
                 "api/user/",
@@ -252,7 +277,8 @@ class MainController extends AbstractController
                     \"available_time\": integer,
                     \"mastery_level\": integer
                 }
-                "
+                ",
+                "ROLE_USER"
             ],
             [
                 "api/user/id",
@@ -270,25 +296,29 @@ class MainController extends AbstractController
                     \"exercise_bookmark_ids\": [array of integers],
                     \"active_program\": integer
                 }
-                "
+                ",
+                "ROLE_USER"
             ],
             [
                 "api/user/id",
                 "GET",
                 "user by id",
-                ""
+                "",
+                "ROLE_USER"
             ],
             [
                 "api/user/id",
                 "DELETE",
                 "delete user by id",
-                ""
+                "",
+                "ROLE_USER"
             ],
             [
                 "api/exercise-comment/",
                 "GET",
                 "list exercise_comments",
-                ""
+                "",
+                "ROLE_USER"
             ],
             [
                 "api/exercise-comment/",
@@ -300,7 +330,8 @@ class MainController extends AbstractController
                     \"user_id\": \"integer, requiered\",
                     \"exercise_id\": \"integer, requiered\"
                 }
-                "
+                ",
+                "ROLE_USER"
             ],
             [
                 "api/exercise-comment/id",
@@ -310,19 +341,22 @@ class MainController extends AbstractController
                 {
                     \"text\": \"string, not blank, requiered\"
                 }
-                "
+                ",
+                "ROLE_USER"
             ],
             [
                 "api/exercise-comment/id",
                 "GET",
                 "exercise-comment by id",
-                ""
+                "",
+                "ROLE_USER"
             ],
             [
                 "api/exercise-comment/id",
                 "DELETE",
                 "delete exercise_comment by id",
-                ""
+                "",
+                "ROLE_USER"
             ],
             [
                 "api/program-comment/",
@@ -340,7 +374,8 @@ class MainController extends AbstractController
                     \"user_id\": \"integer, requiered\",
                     \"program_id\": \"integer, requiered\"
                 }
-                "
+                ",
+                "ROLE_USER"
             ],
             [
                 "api/program-comment/id",
@@ -350,19 +385,22 @@ class MainController extends AbstractController
                 {
                     \"text\": \"string, not blank, requiered\"
                 }
-                "
+                ",
+                "ROLE_USER"
             ],
             [
                 "api/program-comment/id",
                 "GET",
                 "program-comment by id",
-                ""
+                "",
+                "ROLE_USER"
             ],
             [
                 "api/program-comment/id",
                 "DELETE",
                 "delete program_comment by id",
-                ""
+                "",
+                "ROLE_USER"
             ],
             [
                 "api/login",
@@ -371,7 +409,15 @@ class MainController extends AbstractController
                 "{
                     \"username\": \"email, not blank, requiered\",
                     \"password\": \"string, not blank, requiered\"
-                }"
+                }",
+                "anonyme"
+            ],
+            [
+                "api/user/profile",
+                "GET",
+                "recieve current user info",
+                "",
+                "ROLE_USER"
             ],
         ];
 
