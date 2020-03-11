@@ -216,8 +216,9 @@ class UserController extends AbstractController
          // L'User est-il le même ?
          $user = $this->getUser();
          if ($user !== $ablocUser) {
-            if(!in_array("ROLE_ADMIN", $user->getRoles()));
+            if(!in_array("ROLE_ADMIN", $user->getRoles())){
                 throw $this->createAccessDeniedException('Non autorisé.');
+            }
          }
 
         if (!$ablocUser) {
@@ -251,8 +252,9 @@ class UserController extends AbstractController
          // L'User est-il le même ?
          $user = $this->getUser();
          if ($user !== $ablocUser) {
-            if(!in_array("ROLE_ADMIN", $user->getRoles()));
+            if(!in_array("ROLE_ADMIN", $user->getRoles())){
                 throw $this->createAccessDeniedException('Non autorisé.');
+            }
          }
 
         
@@ -495,8 +497,9 @@ class UserController extends AbstractController
         // L'User est-il le même ?
         $user = $this->getUser();
         if ($user !== $ablocUser) {
-            if(!in_array("ROLE_ADMIN", $user->getRoles()));
+            if(!in_array("ROLE_ADMIN", $user->getRoles())){
                 throw $this->createAccessDeniedException('Non autorisé.');
+            }
         }
         
         if (!$ablocUser) {

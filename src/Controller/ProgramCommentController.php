@@ -153,12 +153,14 @@ class ProgramCommentController extends AbstractController
 
         $programComment = $programCommentRepository->find($id);
 
-        // L'User est-il le même ?
-        $user = $this->getUser();
+         // L'User est-il le même ?
+         $user = $this->getUser();
+
         if ($user !== $programComment->getUser()) {
-            if(!in_array("ROLE_MODERATOR", $user->getRoles()));
+            if(!in_array("ROLE_MODERATOR", $user->getRoles())){
                 throw $this->createAccessDeniedException('Non autorisé.');
-         }  
+            }
+         }
         
         $keyList = ["text"];
 
@@ -219,12 +221,14 @@ class ProgramCommentController extends AbstractController
     {
         $programComment = $programCommentRepository->find($id);
 
-        // L'User est-il le même ?
-        $user = $this->getUser();
+         // L'User est-il le même ?
+         $user = $this->getUser();
+
         if ($user !== $programComment->getUser()) {
-            if(!in_array("ROLE_MODERATOR", $user->getRoles()));
+            if(!in_array("ROLE_MODERATOR", $user->getRoles())){
                 throw $this->createAccessDeniedException('Non autorisé.');
-        }  
+            }
+         }
 
         if (!$programComment) {
             

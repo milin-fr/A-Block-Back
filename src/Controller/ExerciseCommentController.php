@@ -155,10 +155,12 @@ class ExerciseCommentController extends AbstractController
 
          // L'User est-il le même ?
          $user = $this->getUser();
-         if ($user !== $exerciseComment->getUser()) {
-            if(!in_array("ROLE_MODERATOR", $user->getRoles()));
+
+        if ($user !== $exerciseComment->getUser()) {
+            if(!in_array("ROLE_MODERATOR", $user->getRoles())){
                 throw $this->createAccessDeniedException('Non autorisé.');
-         }        
+            }
+         }
 
         $keyList = ["text"];
 
@@ -218,13 +220,14 @@ class ExerciseCommentController extends AbstractController
     public function deleteExerciseComment(Request $request, $id, exerciseCommentRepository $exerciseCommentRepository): Response
     {
         $exerciseComment = $exerciseCommentRepository->find($id);
-
          // L'User est-il le même ?
          $user = $this->getUser();
-         if ($user !== $exerciseComment->getUser()) {
-            if(!in_array("ROLE_MODERATOR", $user->getRoles()));
+
+        if ($user !== $exerciseComment->getUser()) {
+            if(!in_array("ROLE_MODERATOR", $user->getRoles())){
                 throw $this->createAccessDeniedException('Non autorisé.');
-         }  
+            }
+         }
 
         if (!$exerciseComment) {
             
