@@ -207,7 +207,7 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="user_show", methods={"GET"})
+     * @Route("/{id<\d+>}", name="user_show", methods={"GET"})
      */
     public function getAblocUser($id, UserRepository $userRepository): Response
     {
@@ -229,7 +229,7 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="user_edit", methods={"PUT"})
+     * @Route("/{id<\d+>}", name="user_edit", methods={"PUT"})
      */
     public function putAblocUser(Request $request, $id, UserRepository $userRepository, MasteryLevelRepository $masteryLevelRepository, UserPasswordEncoderInterface $passwordEncoder, ProgramRepository $programRepository, ExerciseRepository $exerciseRepository): Response
     {
@@ -488,7 +488,7 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="user_delete", methods={"DELETE"})
+     * @Route("/{id<\d+>}", name="user_delete", methods={"DELETE"})
      */
     public function deleteAblocUser(Request $request, $id, UserRepository $userRepository): Response
     {
@@ -512,5 +512,19 @@ class UserController extends AbstractController
 
         $responseJson = ["DELETED"];
         return $this->json($responseJson, Response::HTTP_OK, [], []);
+    }
+
+    /**
+     * @Route("/profile", name="profile", methods={"GET"})
+     */
+    public function getProfile(): Response
+    {
+        $ablocUser = $this->getUser();
+
+        if (!$ablocUser) {
+            return new JsonResponse(['error' => '404 not found.'], 404);
+        }
+
+        return $this->json($ablocUser, Response::HTTP_OK, [], ['groups' => 'abloc_user']);
     }
 }
