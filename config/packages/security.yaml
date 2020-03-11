@@ -30,6 +30,18 @@ security:
             anonymous: true
             methods: [POST]
 
+        open_mastery:
+            pattern: ^/api/mastery-level/
+            stateless: true
+            anonymous: true
+            methods: [GET]
+
+        open_program:
+            pattern: ^/api/program/
+            stateless: true
+            anonymous: true
+            methods: [GET]
+
         api:
             pattern: ^/api
             stateless: true
@@ -57,13 +69,16 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
         - { path: ^/api/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-
         - { path: ^/api/user/, roles: IS_AUTHENTICATED_ANONYMOUSLY, methods: [POST] }
+        - { path: ^/api/mastery-level/, roles: IS_AUTHENTICATED_ANONYMOUSLY, methods: [GET] }
+        - { path: ^/api/program/, roles: IS_AUTHENTICATED_ANONYMOUSLY, methods: [GET] }
 
         - { path: ^/api/exercise/, roles: ROLE_USER, methods: [GET] }
         - { path: ^/api/hint/, roles: ROLE_USER, methods: [GET] }
         - { path: ^/api/prerequisite/, roles: ROLE_USER, methods: [GET] }
+        
         - { path: ^/api/user/, roles: ROLE_USER, methods: [GET, POST, PUT, DELETE] } # controller limits acces to current user and admin
+        
         - { path: ^/api/exercise-comment/, roles: ROLE_USER, methods: [GET, POST, PUT, DELETE] } # controller limits acces to current user and admin
         - { path: ^/api/program-comment/, roles: ROLE_USER, methods: [GET, POST, PUT, DELETE] } # controller limits acces to current user and admin
 
