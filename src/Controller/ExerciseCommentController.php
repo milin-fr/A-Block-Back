@@ -128,7 +128,7 @@ class ExerciseCommentController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="exercise_comment_show", methods={"GET"})
+     * @Route("/{id<\d+>}", name="exercise_comment_show", methods={"GET"})
      */
     public function getExerciseComment($id, exerciseCommentRepository $exerciseCommentRepository): Response
     {
@@ -141,7 +141,7 @@ class ExerciseCommentController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="exercise_comment_edit", methods={"PUT"})
+     * @Route("/{id<\d+>}", name="exercise_comment_edit", methods={"PUT"})
      */
     public function putExerciseComment(Request $request, $id, exerciseCommentRepository $exerciseCommentRepository, UserRepository $user): Response
     {
@@ -215,7 +215,7 @@ class ExerciseCommentController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="exercise_comment_delete", methods={"DELETE"})
+     * @Route("/{id<\d+>}", name="exercise_comment_delete", methods={"DELETE"})
      */
     public function deleteExerciseComment(Request $request, $id, exerciseCommentRepository $exerciseCommentRepository): Response
     {

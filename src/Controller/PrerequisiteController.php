@@ -3,16 +3,13 @@
 namespace App\Controller;
 
 use App\Entity\Prerequisite;
-use App\Form\PrerequisiteType;
 use App\Repository\PrerequisiteRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Serializer\Encoder\JsonEncoder;
-use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
-use Symfony\Component\Serializer\Serializer;
+
 
 /**
  * @Route("/api/prerequisite")
@@ -99,7 +96,7 @@ class PrerequisiteController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="prerequisite_show", methods={"GET"})
+     * @Route("/{id<\d+>}", name="prerequisite_show", methods={"GET"})
      */
     public function getPrerequisite($id, PrerequisiteRepository $prerequisiteRepository): Response
     {
@@ -112,7 +109,7 @@ class PrerequisiteController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="prerequisite_edit", methods={"PUT"})
+     * @Route("/{id<\d+>}", name="prerequisite_edit", methods={"PUT"})
      */
     public function putPrerequisite(Request $request, $id, PrerequisiteRepository $prerequisiteRepository): Response
     {
@@ -184,7 +181,7 @@ class PrerequisiteController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="prerequisite_delete", methods={"DELETE"})
+     * @Route("/{id<\d+>}", name="prerequisite_delete", methods={"DELETE"})
      */
     public function deletePrerequisite(Request $request, $id, PrerequisiteRepository $prerequisiteRepository): Response
     {

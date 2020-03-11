@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\Program;
-use App\Form\ProgramType;
 use App\Repository\ExerciseRepository;
 use App\Repository\ProgramRepository;
 use Exception;
@@ -12,9 +11,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Serializer\Encoder\JsonEncoder;
-use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
-use Symfony\Component\Serializer\Serializer;
+
 
 /**
  * @Route("/api/program")
@@ -197,7 +194,7 @@ class ProgramController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="program_show", methods={"GET"})
+     * @Route("/{id<\d+>}", name="program_show", methods={"GET"})
      */
     public function getProgram($id, ProgramRepository $programRepository): Response
     {
@@ -210,7 +207,7 @@ class ProgramController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="program_edit", methods={"PUT"})
+     * @Route("/{id<\d+>}", name="program_edit", methods={"PUT"})
      */
     public function putProgram(Request $request, $id, ProgramRepository $programRepository, ExerciseRepository $exerciseRepository): Response
     {
@@ -375,7 +372,7 @@ class ProgramController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="program_delete", methods={"DELETE"})
+     * @Route("/{id<\d+>}", name="program_delete", methods={"DELETE"})
      */
     public function deleteProgram(Request $request, $id, ProgramRepository $programRepository): Response
     {

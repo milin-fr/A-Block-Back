@@ -5,7 +5,6 @@ namespace App\Controller;
 use Exception;
 use App\Entity\User;
 use App\Repository\UserRepository;
-use Namshi\JOSE\Signer\OpenSSL\None;
 use App\Repository\ProgramRepository;
 use App\Repository\ExerciseRepository;
 use App\Repository\MasteryLevelRepository;

@@ -11,8 +11,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Serializer\SerializerInterface;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
+
 
 /**
  * @Route("/api/program-comment")
@@ -128,7 +127,7 @@ class ProgramCommentController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="program_comment_show", methods={"GET"})
+     * @Route("/{id<\d+>}", name="program_comment_show", methods={"GET"})
      */
     public function getProgramComment($id, ProgramCommentRepository $programCommentRepository): Response
     {
@@ -141,7 +140,7 @@ class ProgramCommentController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="program_comment_edit", methods={"PUT"})
+     * @Route("/{id<\d+>}", name="program_comment_edit", methods={"PUT"})
      */
     public function putProgramComment(Request $request, $id, ProgramCommentRepository $programCommentRepository): Response
     {
@@ -215,7 +214,7 @@ class ProgramCommentController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="program_comment_delete", methods={"DELETE"})
+     * @Route("/{id<\d+>}", name="program_comment_delete", methods={"DELETE"})
      */
     public function deleteProgramComment(Request $request, $id, ProgramCommentRepository $programCommentRepository): Response
     {
