@@ -19,12 +19,12 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
  * @Route("/api/user")
- * @IsGranted("ROLE_USER", statusCode=401, message="Access Denied")
  */
 class UserController extends AbstractController
 {
     /**
      * @Route("/", name="user_list", methods={"GET"})
+     * @IsGranted("ROLE_ADMIN", statusCode=403, message="Access Denied")
      */
     public function getAblocUsers(UserRepository $userRepository): Response
     {
@@ -212,6 +212,14 @@ class UserController extends AbstractController
     public function getAblocUser($id, UserRepository $userRepository): Response
     {
         $ablocUser = $userRepository->find($id);
+
+         // L'User est-il le même ?
+         $user = $this->getUser();
+         if ($user !== $ablocUser) {
+            if(!in_array("ROLE_ADMIN", $user->getRoles()));
+                throw $this->createAccessDeniedException('Non autorisé.');
+         }
+
         if (!$ablocUser) {
             
             return new JsonResponse(['error' => '404 not found.'], 404);
@@ -482,16 +490,24 @@ class UserController extends AbstractController
      */
     public function deleteAblocUser(Request $request, $id, UserRepository $userRepository): Response
     {
-        $user = $userRepository->find($id);
-        if (!$user) {
+        $ablocUser = $userRepository->find($id);
+
+        // L'User est-il le même ?
+        $user = $this->getUser();
+        if ($user !== $ablocUser) {
+            if(!in_array("ROLE_ADMIN", $user->getRoles()));
+                throw $this->createAccessDeniedException('Non autorisé.');
+        }
+        
+        if (!$ablocUser) {
             return new JsonResponse(['error' => '404 not found.'], 404);
         }
 
         $em = $this->getDoctrine()->getManager();
-        $em->remove($user);
+        $em->remove($ablocUser);
         $em->flush();
 
-        $users = $userRepository->findAll();
-        return $this->json($users, Response::HTTP_OK, [], ['groups' => 'abloc_user']);
+        $responseJson = ["DELETED"];
+        return $this->json($responseJson, Response::HTTP_OK, [], []);
     }
 }
