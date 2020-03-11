@@ -152,12 +152,13 @@ class ProgramCommentController extends AbstractController
         */
 
         $programComment = $programCommentRepository->find($id);
-// Luser peut
-        // L'auteur du commentaire est-il l'User qui l'a écrit ?
+
+        // L'User est-il le même ?
         $user = $this->getUser();
         if ($user !== $programComment->getUser()) {
-            throw $this->createAccessDeniedException('Access Denied.');
-        }
+            if(!in_array("ROLE_MODERATOR", $user->getRoles()));
+                throw $this->createAccessDeniedException('Non autorisé.');
+         }  
         
         $keyList = ["text"];
 
@@ -217,6 +218,14 @@ class ProgramCommentController extends AbstractController
     public function deleteProgramComment(Request $request, $id, ProgramCommentRepository $programCommentRepository): Response
     {
         $programComment = $programCommentRepository->find($id);
+
+        // L'User est-il le même ?
+        $user = $this->getUser();
+        if ($user !== $programComment->getUser()) {
+            if(!in_array("ROLE_MODERATOR", $user->getRoles()));
+                throw $this->createAccessDeniedException('Non autorisé.');
+        }  
+
         if (!$programComment) {
             
             return new JsonResponse(['error' => '404 not found.'], 404);
