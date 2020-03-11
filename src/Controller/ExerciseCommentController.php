@@ -153,11 +153,12 @@ class ExerciseCommentController extends AbstractController
 
         $exerciseComment = $exerciseCommentRepository->find($id);
 
-        // L'auteur du commentaire est-il le user qui l'a écrit ?
-        $user = $this->getUser();
-        if ($user !== $exerciseComment->getUser()) {
-            throw $this->createAccessDeniedException('Access Denied.');
-        }
+         // L'User est-il le même ?
+         $user = $this->getUser();
+         if ($user !== $exerciseComment->getUser()) {
+            if(!in_array("ROLE_MODERATOR", $user->getRoles()));
+                throw $this->createAccessDeniedException('Non autorisé.');
+         }        
 
         $keyList = ["text"];
 
@@ -217,6 +218,14 @@ class ExerciseCommentController extends AbstractController
     public function deleteExerciseComment(Request $request, $id, exerciseCommentRepository $exerciseCommentRepository): Response
     {
         $exerciseComment = $exerciseCommentRepository->find($id);
+
+         // L'User est-il le même ?
+         $user = $this->getUser();
+         if ($user !== $exerciseComment->getUser()) {
+            if(!in_array("ROLE_MODERATOR", $user->getRoles()));
+                throw $this->createAccessDeniedException('Non autorisé.');
+         }  
+
         if (!$exerciseComment) {
             
             return new JsonResponse(['error' => '404 not found.'], 404);
