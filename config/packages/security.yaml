@@ -72,6 +72,19 @@ security:
         - { path: ^/api/user/, roles: IS_AUTHENTICATED_ANONYMOUSLY, methods: [POST] }
         - { path: ^/api/mastery-level/, roles: IS_AUTHENTICATED_ANONYMOUSLY, methods: [GET] }
         - { path: ^/api/program/, roles: IS_AUTHENTICATED_ANONYMOUSLY, methods: [GET] }
-        - { path: ^/api, roles: IS_AUTHENTICATED_FULLY }
+
+        - { path: ^/api/exercise/, roles: ROLE_USER, methods: [GET] }
+        - { path: ^/api/hint/, roles: ROLE_USER, methods: [GET] }
+        - { path: ^/api/prerequisite/, roles: ROLE_USER, methods: [GET] }
+        
+        - { path: ^/api/user/, roles: ROLE_USER, methods: [GET, POST, PUT, DELETE] } # controller limits acces to current user and admin
+        
+        - { path: ^/api/exercise-comment/, roles: ROLE_USER, methods: [GET, POST, PUT, DELETE] } # controller limits acces to current user and admin
+        - { path: ^/api/program-comment/, roles: ROLE_USER, methods: [GET, POST, PUT, DELETE] } # controller limits acces to current user and admin
+
+        - { path: ^/api, roles: ROLE_ADMIN }
         - { path: '^/admin', roles: ROLE_ADMIN }
 
+    role_hierarchy:
+        ROLE_ADMIN: ROLE_MODERATOR
+        ROLE_MODERATOR: ROLE_USER

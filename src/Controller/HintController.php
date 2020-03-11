@@ -14,9 +14,11 @@ use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 /**
  * @Route("/api/hint")
+ * @IsGranted("ROLE_ADMIN", statusCode=401, message="Access Denied")
  */
 class HintController extends AbstractController
 {
@@ -25,6 +27,7 @@ class HintController extends AbstractController
      */
     public function getHints(HintRepository $hintRepository): Response
     {
+        
         $hints = $hintRepository->findAll();
 
         return $this->json($hints, Response::HTTP_OK, [], ['groups' => 'hint']);

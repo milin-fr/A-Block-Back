@@ -2,22 +2,24 @@
 
 namespace App\Controller;
 
-use App\Entity\User;
-use App\Repository\ExerciseRepository;
-use App\Repository\UserRepository;
-use App\Repository\MasteryLevelRepository;
-use App\Repository\ProgramRepository;
 use Exception;
+use App\Entity\User;
+use App\Repository\UserRepository;
 use Namshi\JOSE\Signer\OpenSSL\None;
+use App\Repository\ProgramRepository;
+use App\Repository\ExerciseRepository;
+use App\Repository\MasteryLevelRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
  * @Route("/api/user")
+ * @IsGranted("ROLE_USER", statusCode=401, message="Access Denied")
  */
 class UserController extends AbstractController
 {
@@ -237,6 +239,15 @@ class UserController extends AbstractController
         */
         
         $ablocUser = $userRepository->find($id);
+
+         // L'User est-il le même ?
+         $user = $this->getUser();
+         if ($user !== $ablocUser) {
+            if(!in_array("ROLE_ADMIN", $user->getRoles()));
+                throw $this->createAccessDeniedException('Non autorisé.');
+         }
+
+        
         if (!$ablocUser) {
             
             return new JsonResponse(['error' => '404 not found.'], 404);
