@@ -192,6 +192,9 @@
             "./public/.htaccess"
         ]
     },
+    "symfony/browser-kit": {
+        "version": "v5.0.5"
+    },
     "symfony/cache": {
         "version": "v5.0.4"
     },
@@ -219,6 +222,9 @@
     },
     "symfony/doctrine-bridge": {
         "version": "v5.0.4"
+    },
+    "symfony/dom-crawler": {
+        "version": "v5.0.5"
     },
     "symfony/dotenv": {
         "version": "v5.0.4"
