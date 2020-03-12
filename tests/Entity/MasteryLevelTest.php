@@ -24,7 +24,7 @@ class MasteryLevelTest extends KernelTestCase
     public function assertHasErrors(MasteryLevel $masteryLevel, int $number = 0)
     {
         self::bootKernel();
-        $errors = self::$container->get('validator')->validate($hint);
+        $errors = self::$container->get('validator')->validate($masteryLevel);
         //affichage des erreurs
         $messages = [];
         foreach ($errors as $error) {
