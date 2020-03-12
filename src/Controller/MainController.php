@@ -278,7 +278,7 @@ class MainController extends AbstractController
                     \"mastery_level\": integer
                 }
                 ",
-                "ROLE_USER"
+                "anonyme"
             ],
             [
                 "api/user/id",
