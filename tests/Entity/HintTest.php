@@ -28,6 +28,7 @@ class HintTest extends KernelTestCase
         $this->assertCount($number, $errors, implode(',', $messages));
     }
 
+
     public function testValidEntity () 
     {
         $this->assertHasErrors($this->getEntity(), 0);
