@@ -24,8 +24,13 @@ class MasteryLevelTest extends KernelTestCase
     public function assertHasErrors(MasteryLevel $masteryLevel, int $number = 0)
     {
         self::bootKernel();
-        $error = self::$container->get('validator')->validate($masteryLevel);
-        $this->assertCount($number, $error);
+        $errors = self::$container->get('validator')->validate($hint);
+        //affichage des erreurs
+        $messages = [];
+        foreach ($errors as $error) {
+            $messages[] = $error->getPropertyPath() . '->' .$error->getMessage();
+        }
+        $this->assertCount($number, $errors, implode(',', $messages));
     }
 
     public function testValidEntity () 

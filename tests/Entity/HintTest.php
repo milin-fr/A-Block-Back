@@ -19,8 +19,13 @@ class HintTest extends KernelTestCase
     public function assertHasErrors(Hint $hint, int $number = 0)
     {
         self::bootKernel();
-        $error = self::$container->get('validator')->validate($hint);
-        $this->assertCount($number, $error);
+        $errors = self::$container->get('validator')->validate($hint);
+        //affichage des erreurs
+        $messages = [];
+        foreach ($errors as $error) {
+            $messages[] = $error->getPropertyPath() . '->' .$error->getMessage();
+        }
+        $this->assertCount($number, $errors, implode(',', $messages));
     }
 
     public function testValidEntity () 

@@ -23,8 +23,13 @@ class PrerequisiteTest extends KernelTestCase
     public function assertHasErrors(Prerequisite $prerequisite, int $number = 0)
     {
         self::bootKernel();
-        $error = self::$container->get('validator')->validate($prerequisite);
-        $this->assertCount($number, $error);
+        $errors = self::$container->get('validator')->validate($hint);
+        //affichage des erreurs
+        $messages = [];
+        foreach ($errors as $error) {
+            $messages[] = $error->getPropertyPath() . '->' .$error->getMessage();
+        }
+        $this->assertCount($number, $errors, implode(',', $messages));
     }
 
     public function testValidEntity ()
