@@ -15,6 +15,18 @@ security:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
 
+        admin:
+            pattern: ^/admin
+            anonymous: lazy
+            provider: app_user_provider
+            guard:
+                authenticators:
+                    - App\Security\AdminAuthenticator
+            logout:
+                path: app_logout
+                # where to redirect after logout
+                target: app_login
+
         login:
             pattern: ^/api/login
             stateless: true
@@ -37,13 +49,6 @@ security:
                 authenticators:
                     - lexik_jwt_authentication.jwt_token_authenticator
 
-        admin:
-            pattern: ^/admin
-            stateless: true
-            guard:
-                authenticators:
-                    - lexik_jwt_authentication.jwt_token_authenticator
-
         main:
             anonymous: true
 
@@ -56,10 +61,11 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
+        - { path: ^/admin/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/admin, roles: IS_AUTHENTICATED_FULLY }
         - { path: ^/api/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/api/user/, roles: IS_AUTHENTICATED_ANONYMOUSLY, methods: [POST] }
         - { path: ^/api/mastery-level/, roles: IS_AUTHENTICATED_ANONYMOUSLY, methods: [GET] }
         - { path: ^/api/program/, roles: IS_AUTHENTICATED_ANONYMOUSLY, methods: [GET] }
         - { path: ^/api, roles: IS_AUTHENTICATED_FULLY }
-        - { path: '^/admin', roles: ROLE_ADMIN }
 
