@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit ExerciseComment{% endblock %}
+
+{% block body %}
+    <h1>Edit ExerciseComment</h1>
+
+    {{ include('exercise_comment/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('exercise_comment_index') }}">back to list</a>
+
+    {{ include('exercise_comment/_delete_form.html.twig') }}
+{% endblock %}
