@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Api;
 
 use App\Entity\MasteryLevel;
-use App\Form\MasteryLevelType;
 use App\Repository\ExerciseRepository;
 use App\Repository\MasteryLevelRepository;
 use App\Repository\UserRepository;

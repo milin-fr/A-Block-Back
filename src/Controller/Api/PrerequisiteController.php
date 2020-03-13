@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Api;
 
 use App\Entity\Prerequisite;
 use App\Repository\PrerequisiteRepository;
