@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}ExerciseComment index{% endblock %}
+
+{% block body %}
+    <h1>ExerciseComment index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Text</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for exercise_comment in exercise_comments %}
+            <tr>
+                <td>{{ exercise_comment.id }}</td>
+                <td>{{ exercise_comment.text }}</td>
+                <td>
+                    <a href="{{ path('exercise_comment_show', {'id': exercise_comment.id}) }}">show</a>
+                    <a href="{{ path('exercise_comment_edit', {'id': exercise_comment.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('exercise_comment_new') }}">Create new</a>
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New ExerciseComment{% endblock %}
+
+{% block body %}
+    <h1>Create new ExerciseComment</h1>
+
+    {{ include('exercise_comment/_form.html.twig') }}
+
+    <a href="{{ path('exercise_comment_index') }}">back to list</a>
+{% endblock %}
