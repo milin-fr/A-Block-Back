@@ -4,6 +4,9 @@
 
 {% block body %}
     <h1>admin home</h1>
+<div>
+    <a href="{{ path('admin_exercise_new') }}" class="btn btn-danger">ajouter un exercise</a>
+</div>
 
         {% for line in data %}
                     <div>{{ line }}</div>

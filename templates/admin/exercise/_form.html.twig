@@ -1,4 +1,12 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+     {{ form_row(form.title) }}
+     {{ form_row(form.time) }}
+     {{ form_row(form.img_path) }}
+     {{ form_row(form.description) }}
+     {{ form_row(form.score) }}
+     {{ form_row(form.hints) }}
+     {{ form_row(form.prerequisites) }}
+     {{ form_row(form.programs) }}
+     {{ form_row(form.mastery_level) }}
+    <button class="btn" formnovalidate>{{ button_label|default('Save') }}</button>
 {{ form_end(form) }}

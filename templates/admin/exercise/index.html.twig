@@ -4,7 +4,7 @@
 
 {% block body %}
     <h1>Exercise index</h1>
-
+    <a href="{{ path('admin_exercise_new') }}">Create new</a>
     <table class="table">
         <thead>
             <tr>
@@ -19,8 +19,8 @@
                 <td>{{ exercise.id }}</td>
                 <td>{{ exercise.title }}</td>
                 <td>
-                    <a href="{{ path('exercise_show', {'id': exercise.id}) }}">show</a>
-                    <a href="{{ path('exercise_edit', {'id': exercise.id}) }}">edit</a>
+                    <a href="{{ path('admin_exercise_show', {'id': exercise.id}) }}">show</a>
+                    <a href="{{ path('admin_exercise_edit', {'id': exercise.id}) }}">edit</a>
                 </td>
             </tr>
         {% else %}
@@ -31,5 +31,4 @@
         </tbody>
     </table>
 
-    <a href="{{ path('exercise_new') }}">Create new</a>
 {% endblock %}

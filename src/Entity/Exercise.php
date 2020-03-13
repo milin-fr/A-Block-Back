@@ -256,7 +256,6 @@ class Exercise
             $this->programs[] = $program;
             $program->addExercise($this);
         }
-
         return $this;
     }
 
