@@ -3,23 +3,15 @@
 namespace App\Controller;
 
 use App\Entity\Exercise;
-use App\Entity\ExerciseComment;
-use App\Form\ExerciseType;
-use App\Repository\ExerciseCommentRepository;
 use App\Repository\ExerciseRepository;
 use App\Repository\HintRepository;
 use App\Repository\MasteryLevelRepository;
 use App\Repository\PrerequisiteRepository;
-use App\Repository\ProgramCommentRepository;
 use App\Repository\ProgramRepository;
 use Exception;
-use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Serializer\Encoder\JsonEncoder;
-use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
-use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
@@ -272,7 +264,7 @@ class ExerciseController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="exercise_show", methods={"GET"})
+     * @Route("/{id<\d+>}", name="exercise_show", methods={"GET"})
      */
     public function getExercise($id, ExerciseRepository $exerciseRepository): Response
     {
@@ -285,7 +277,7 @@ class ExerciseController extends AbstractController
     } 
 
     /**
-     * @Route("/{id}", name="exercise_edit", methods={"PUT"})
+     * @Route("/{id<\d+>}", name="exercise_edit", methods={"PUT"})
      */
     public function putExercise(Request $request, $id, ExerciseRepository $exerciseRepository, PrerequisiteRepository $prerequisiteRepository, ProgramRepository $programRepository, MasteryLevelRepository $masteryLevelRepository, HintRepository $hintRepository): Response
     {
@@ -533,7 +525,7 @@ class ExerciseController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="exercise_delete", methods={"DELETE"})
+     * @Route("/{id<\d+>}", name="exercise_delete", methods={"DELETE"})
      */
     public function deleteExercise(Request $request, $id, ExerciseRepository $exerciseRepository): Response
     {

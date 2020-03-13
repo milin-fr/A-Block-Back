@@ -8,13 +8,9 @@ use App\Repository\ExerciseRepository;
 use App\Repository\MasteryLevelRepository;
 use App\Repository\UserRepository;
 use Exception;
-use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Serializer\Encoder\JsonEncoder;
-use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
-use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
@@ -149,7 +145,7 @@ class MasteryLevelController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="mastery_level_show", methods={"GET"})
+     * @Route("/{id<\d+>}", name="mastery_level_show", methods={"GET"})
      */
     public function getMasterLevel($id, MasteryLevelRepository $masteryLevelRepository): Response
     {
@@ -162,7 +158,7 @@ class MasteryLevelController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="mastery_level_edit", methods={"PUT"})
+     * @Route("/{id<\d+>}", name="mastery_level_edit", methods={"PUT"})
      */
     public function putMasterLevel(Request $request, $id, MasteryLevelRepository $masteryLevelRepository): Response
     {
@@ -279,7 +275,7 @@ class MasteryLevelController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="mastery_level_delete", methods={"DELETE"})
+     * @Route("/{id<\d+>}", name="mastery_level_delete", methods={"DELETE"})
      */
     public function deleteMasteryLevel(Request $request, $id, MasteryLevelRepository $masteryLevelRepository, UserRepository $userRepository, ExerciseRepository $exerciseRepository): Response
     {

@@ -3,20 +3,17 @@
 namespace App\Controller;
 
 use App\Entity\Hint;
-use App\Form\HintType;
 use App\Repository\HintRepository;
-use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Serializer\Encoder\JsonEncoder;
-use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
-use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 /**
  * @Route("/api/hint")
+ * @IsGranted("ROLE_ADMIN", statusCode=401, message="Access Denied")
  */
 class HintController extends AbstractController
 {
@@ -25,6 +22,7 @@ class HintController extends AbstractController
      */
     public function getHints(HintRepository $hintRepository): Response
     {
+        
         $hints = $hintRepository->findAll();
 
         return $this->json($hints, Response::HTTP_OK, [], ['groups' => 'hint']);
@@ -98,7 +96,7 @@ class HintController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="hint_show", methods={"GET"})
+     * @Route("/{id<\d+>}", name="hint_show", methods={"GET"})
      */
     public function getHint($id, HintRepository $hintRepository): Response
     {
@@ -111,7 +109,7 @@ class HintController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="hint_edit", methods={"PUT"})
+     * @Route("/{id<\d+>}", name="hint_edit", methods={"PUT"})
      */
     public function putHint(Request $request, $id, HintRepository $hintRepository): Response
     {
@@ -182,7 +180,7 @@ class HintController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="hint_delete", methods={"DELETE"})
+     * @Route("/{id<\d+>}", name="hint_delete", methods={"DELETE"})
      */
     public function deleteHint(Request $request, $id, HintRepository $hintRepository): Response
     {
