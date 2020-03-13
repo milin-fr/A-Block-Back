@@ -19,15 +19,5 @@ class MainController extends AbstractController
             'data' => ["admin home"],
         ]);
     }
-
-
-     /**
-     * @Route("/admin", name="admin")
-     */
-    public function admin()
-    {
-        return $this->json([
-            "page admin"
-        ]);
-    }
+    
 }
