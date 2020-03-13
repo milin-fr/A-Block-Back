@@ -16,7 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class ExerciseCommentController extends AbstractController
 {
     /**
-     * @Route("/", name="exercise_comment_index", methods={"GET"})
+     * @Route("/", name="admin_exercise_comment_index", methods={"GET"})
      */
     public function index(ExerciseCommentRepository $exerciseCommentRepository): Response
     {
@@ -26,7 +26,7 @@ class ExerciseCommentController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="exercise_comment_new", methods={"GET","POST"})
+     * @Route("/new", name="admin_exercise_comment_new", methods={"GET","POST"})
      */
     public function new(Request $request): Response
     {
@@ -49,7 +49,7 @@ class ExerciseCommentController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="exercise_comment_show", methods={"GET"})
+     * @Route("/{id}", name="admin_exercise_comment_show", methods={"GET"})
      */
     public function show(ExerciseComment $exerciseComment): Response
     {
@@ -59,7 +59,7 @@ class ExerciseCommentController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="exercise_comment_edit", methods={"GET","POST"})
+     * @Route("/{id}/edit", name="admin_exercise_comment_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, ExerciseComment $exerciseComment): Response
     {
@@ -79,7 +79,7 @@ class ExerciseCommentController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="exercise_comment_delete", methods={"DELETE"})
+     * @Route("/{id}", name="admin_exercise_comment_delete", methods={"DELETE"})
      */
     public function delete(Request $request, ExerciseComment $exerciseComment): Response
     {
