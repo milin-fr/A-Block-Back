@@ -28,7 +28,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 /**
- * @Route("/exercise")
+ * @Route("/admin/exercise")
  */
 class ExerciseController extends AbstractController
 {
@@ -43,27 +43,74 @@ class ExerciseController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="exercise_new", methods={"GET","POST"})
+     * @Route("/new", name="admin_exercise_new", methods={"GET","POST"})
      */
-    public function new(Request $request): Response
+    public function new(Request $request, HintRepository $hintRepository, PrerequisiteRepository $prerequisiteRepository, ProgramRepository $programRepository, MasteryLevelRepository $masteryLevelRepository): Response
     {
         $exercise = new Exercise();
         $form = $this->createForm(ExerciseType::class, $exercise);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $someNewFilename = ''; // mettre le nom du fichier
-            $file = $form['img_path']->getData(); // a verifier si recupere le nom ou le fichier en en entier
-            $file->move($directory, $someNewFilename);
+            $imgFile = $form->get('img_path')->getData(); // a verifier si recupere le nom ou le fichier en en entier
+            if ($imgFile) {
+                $originalFilename = pathinfo($imgFile->getClientOriginalName(), PATHINFO_FILENAME);
+                // this is needed to safely include the file name as part of the URL
+                $safeFilename = iconv('UTF-8', 'ASCII//TRANSLIT', $originalFilename);
+                $newFilename = $safeFilename.'-'.uniqid().'.'.$imgFile->guessExtension();
+
+                // Move the file to the directory where brochures are stored
+                try {
+                    $imgFile->move(
+                        $this->getParameter('exercise_img_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+
+                // updates the 'imgFilename' property to store the PDF file name
+                // instead of its contents
+            }
+
             $entityManager = $this->getDoctrine()->getManager();
-            // + gestion des entites filles
+            $exercise->setCreatedAt(new \DateTime());
+            $exercise->setTitle($form->get("title")->getData());
+            $exercise->setTime($form->get("time")->getData());
+            $exercise->setImgPath($newFilename);
+            $exercise->setDescription($form->get("description")->getData());
+            $exercise->setScore($form->get("score")->getData());
+
+            foreach($form->get("hints")->getData() as $id){
+                $hint = $hintRepository->find($id);
+                if($hint){
+                    $exercise->addHint($hint);
+                }
+            }
+            foreach($form->get("prerequisites")->getData() as $id){
+                $prerequisite = $prerequisiteRepository->find($id);
+                if($prerequisite){
+                    $exercise->addPrerequisite($prerequisite);
+                }
+            }
+            foreach($form->get("programs")->getData() as $id){
+                $program = $programRepository->find($id);
+                if($program){
+                    $exercise->addProgram($program);
+                }
+            }
+            $exercise->setMasteryLevel($masteryLevelRepository->find($form->get("mastery_level")->getData()));
+            
             $entityManager->persist($exercise);
             $entityManager->flush();
 
+            return $this->json($exercise, Response::HTTP_CREATED, [], ['groups' => 'exercise']);
             return $this->redirectToRoute('exercise_back_list');
         }
 
-        return $this->render('back/exercise/add.html.twig', [
+
+
+        return $this->render('admin/exercise/new.html.twig', [
             'exercise' => $exercise,
             'form' => $form->createView(),
         ]);
@@ -110,10 +157,10 @@ class ExerciseController extends AbstractController
                      // ... handle exception if something happens during file upload
                  }
  
-                 // updates the 'brochureFilename' property to store the PDF file name
+                 // updates the 'imgFilename' property to store the PDF file name
                  // instead of its contents
                  $exercise->setImgPath(
-                    new File($this->getParameter('brochures_directory').'/'.$product->getBrochureFilename())
+                    new File($this->getParameter('brochures_directory').'/'.$product->getimgFilename())
                 );
              }
             $this->getDoctrine()->getManager()->flush();

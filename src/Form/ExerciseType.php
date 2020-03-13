@@ -39,21 +39,25 @@ class ExerciseType extends AbstractType
             ])
             ->add('description')
             ->add('score', IntegerType::class)
-            ->add('created_at', DateType::class)
-            ->add('updated_at', DateType::class) // à supprimer si pas utile par Admin
             ->add('hints', EntityType::class, [
                 'class' => Hint::class,
                 'choice_label' => 'text',
+                'expanded' => true,
+                'multiple' => true,
             ]
             )
             ->add('prerequisites', EntityType::class, [
                 'class' => Prerequisite::class,
                 'choice_label' => 'description',
+                'expanded' => true,
+                'multiple' => true,
             ]
             )
             ->add('programs', EntityType::class, [
                 'class' => Program::class,
                 'choice_label' => 'title',
+                'expanded' => true,
+                'multiple' => true,
             ]
             )
             ->add('mastery_level', EntityType::class, [
