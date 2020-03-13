@@ -16,7 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class MasteryLevelController extends AbstractController
 {
     /**
-     * @Route("/", name="mastery_level_index", methods={"GET"})
+     * @Route("/", name="admin_mastery_level_index", methods={"GET"})
      */
     public function index(MasteryLevelRepository $masteryLevelRepository): Response
     {
@@ -26,7 +26,7 @@ class MasteryLevelController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="mastery_level_new", methods={"GET","POST"})
+     * @Route("/new", name="admin_mastery_level_new", methods={"GET","POST"})
      */
     public function new(Request $request): Response
     {
@@ -49,7 +49,7 @@ class MasteryLevelController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="mastery_level_show", methods={"GET"})
+     * @Route("/{id}", name="admin_mastery_level_show", methods={"GET"})
      */
     public function show(MasteryLevel $masteryLevel): Response
     {
@@ -59,7 +59,7 @@ class MasteryLevelController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="mastery_level_edit", methods={"GET","POST"})
+     * @Route("/{id}/edit", name="admin_mastery_level_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, MasteryLevel $masteryLevel): Response
     {
@@ -79,7 +79,7 @@ class MasteryLevelController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="mastery_level_delete", methods={"DELETE"})
+     * @Route("/{id}", name="admin_mastery_level_delete", methods={"DELETE"})
      */
     public function delete(Request $request, MasteryLevel $masteryLevel): Response
     {

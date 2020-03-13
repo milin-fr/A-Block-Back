@@ -16,7 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class PrerequisiteController extends AbstractController
 {
     /**
-     * @Route("/", name="prerequisite_index", methods={"GET"})
+     * @Route("/", name="admin_prerequisite_index", methods={"GET"})
      */
     public function index(PrerequisiteRepository $prerequisiteRepository): Response
     {
@@ -26,7 +26,7 @@ class PrerequisiteController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="prerequisite_new", methods={"GET","POST"})
+     * @Route("/new", name="admin_prerequisite_new", methods={"GET","POST"})
      */
     public function new(Request $request): Response
     {
@@ -49,7 +49,7 @@ class PrerequisiteController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="prerequisite_show", methods={"GET"})
+     * @Route("/{id}", name="admin_prerequisite_show", methods={"GET"})
      */
     public function show(Prerequisite $prerequisite): Response
     {
@@ -59,7 +59,7 @@ class PrerequisiteController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="prerequisite_edit", methods={"GET","POST"})
+     * @Route("/{id}/edit", name="admin_prerequisite_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, Prerequisite $prerequisite): Response
     {
@@ -79,7 +79,7 @@ class PrerequisiteController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="prerequisite_delete", methods={"DELETE"})
+     * @Route("/{id}", name="admin_prerequisite_delete", methods={"DELETE"})
      */
     public function delete(Request $request, Prerequisite $prerequisite): Response
     {
