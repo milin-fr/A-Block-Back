@@ -19,8 +19,8 @@
                 <td>{{ exercise_comment.id }}</td>
                 <td>{{ exercise_comment.text }}</td>
                 <td>
-                    <a href="{{ path('exercise_comment_show', {'id': exercise_comment.id}) }}">show</a>
-                    <a href="{{ path('exercise_comment_edit', {'id': exercise_comment.id}) }}">edit</a>
+                    <a href="{{ path('admin_exercise_comment_show', {'id': exercise_comment.id}) }}">show</a>
+                    <a href="{{ path('admin_exercise_comment_edit', {'id': exercise_comment.id}) }}">edit</a>
                 </td>
             </tr>
         {% else %}
@@ -31,5 +31,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('exercise_comment_new') }}">Create new</a>
+    <a href="{{ path('admin_exercise_comment_new') }}">Create new</a>
 {% endblock %}

@@ -5,9 +5,9 @@
 {% block body %}
     <h1>Edit Hint</h1>
 
-    {{ include('hint/_form.html.twig', {'button_label': 'Update'}) }}
+    {{ include('admin/hint/_form.html.twig', {'button_label': 'Update'}) }}
 
     <a href="{{ path('admin_hint_index') }}">back to list</a>
 
-    {{ include('hint/_delete_form.html.twig') }}
+    {{ include('admin/hint/_delete_form.html.twig') }}
 {% endblock %}

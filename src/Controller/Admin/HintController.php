@@ -20,13 +20,13 @@ class HintController extends AbstractController
      */
     public function index(HintRepository $hintRepository): Response
     {
-        return $this->render('hint/index.html.twig', [
+        return $this->render('admin/hint/index.html.twig', [
             'hints' => $hintRepository->findAll(),
         ]);
     }
 
     /**
-     * @Route("/new", name="hint_new", methods={"GET","POST"})
+     * @Route("/new", name="admin_hint_new", methods={"GET","POST"})
      */
     public function new(Request $request): Response
     {
@@ -39,27 +39,27 @@ class HintController extends AbstractController
             $entityManager->persist($hint);
             $entityManager->flush();
 
-            return $this->redirectToRoute('hint_index');
+            return $this->redirectToRoute('admin_hint_index');
         }
 
-        return $this->render('hint/new.html.twig', [
+        return $this->render('admin/hint/new.html.twig', [
             'hint' => $hint,
             'form' => $form->createView(),
         ]);
     }
 
     /**
-     * @Route("/{id}", name="hint_show", methods={"GET"})
+     * @Route("/{id}", name="admin_hint_show", methods={"GET"})
      */
     public function show(Hint $hint): Response
     {
-        return $this->render('hint/show.html.twig', [
+        return $this->render('admin/hint/show.html.twig', [
             'hint' => $hint,
         ]);
     }
 
     /**
-     * @Route("/{id}/edit", name="hint_edit", methods={"GET","POST"})
+     * @Route("/{id}/edit", name="admin_hint_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, Hint $hint): Response
     {
@@ -69,17 +69,17 @@ class HintController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('hint_index');
+            return $this->redirectToRoute('admin_hint_index');
         }
 
-        return $this->render('hint/edit.html.twig', [
+        return $this->render('admin/hint/edit.html.twig', [
             'hint' => $hint,
             'form' => $form->createView(),
         ]);
     }
 
     /**
-     * @Route("/{id}", name="hint_delete", methods={"DELETE"})
+     * @Route("/{id}", name="admin_hint_delete", methods={"DELETE"})
      */
     public function delete(Request $request, Hint $hint): Response
     {
@@ -89,6 +89,6 @@ class HintController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('hint_index');
+        return $this->redirectToRoute('admin_hint_index');
     }
 }

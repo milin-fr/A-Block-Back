@@ -20,13 +20,13 @@ class PrerequisiteController extends AbstractController
      */
     public function index(PrerequisiteRepository $prerequisiteRepository): Response
     {
-        return $this->render('prerequisite/index.html.twig', [
+        return $this->render('admin/prerequisite/index.html.twig', [
             'prerequisites' => $prerequisiteRepository->findAll(),
         ]);
     }
 
     /**
-     * @Route("/new", name="prerequisite_new", methods={"GET","POST"})
+     * @Route("/new", name="admin_prerequisite_new", methods={"GET","POST"})
      */
     public function new(Request $request): Response
     {
@@ -42,24 +42,24 @@ class PrerequisiteController extends AbstractController
             return $this->redirectToRoute('prerequisite_index');
         }
 
-        return $this->render('prerequisite/new.html.twig', [
+        return $this->render('admin/prerequisite/new.html.twig', [
             'prerequisite' => $prerequisite,
             'form' => $form->createView(),
         ]);
     }
 
     /**
-     * @Route("/{id}", name="prerequisite_show", methods={"GET"})
+     * @Route("/{id}", name="admin_prerequisite_show", methods={"GET"})
      */
     public function show(Prerequisite $prerequisite): Response
     {
-        return $this->render('prerequisite/show.html.twig', [
+        return $this->render('admin/prerequisite/show.html.twig', [
             'prerequisite' => $prerequisite,
         ]);
     }
 
     /**
-     * @Route("/{id}/edit", name="prerequisite_edit", methods={"GET","POST"})
+     * @Route("/{id}/edit", name="admin_prerequisite_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, Prerequisite $prerequisite): Response
     {
@@ -69,17 +69,17 @@ class PrerequisiteController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('prerequisite_index');
+            return $this->redirectToRoute('admin_prerequisite_index');
         }
 
-        return $this->render('prerequisite/edit.html.twig', [
+        return $this->render('admin/prerequisite/edit.html.twig', [
             'prerequisite' => $prerequisite,
             'form' => $form->createView(),
         ]);
     }
 
     /**
-     * @Route("/{id}", name="prerequisite_delete", methods={"DELETE"})
+     * @Route("/{id}", name="admin_prerequisite_delete", methods={"DELETE"})
      */
     public function delete(Request $request, Prerequisite $prerequisite): Response
     {
@@ -89,6 +89,6 @@ class PrerequisiteController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('prerequisite_index');
+        return $this->redirectToRoute('admin_prerequisite_index');
     }
 }

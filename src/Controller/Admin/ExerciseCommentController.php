@@ -30,13 +30,13 @@ class ExerciseCommentController extends AbstractController
      */
     public function show(ExerciseComment $exerciseComment): Response
     {
-        return $this->render('exercise_comment/show.html.twig', [
+        return $this->render('admin/exercise_comment/show.html.twig', [
             'exercise_comment' => $exerciseComment,
         ]);
     }
 
     /**
-     * @Route("/{id}/edit", name="exercise_comment_edit", methods={"GET","POST"})
+     * @Route("/{id}/edit", name="admin_exercise_comment_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, ExerciseComment $exerciseComment): Response
     {
@@ -46,7 +46,7 @@ class ExerciseCommentController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('exercise_comment_index');
+            return $this->redirectToRoute('admin_exercise_comment_index');
         }
 
         return $this->render('admin/exercise_comment/edit.html.twig', [
@@ -56,7 +56,7 @@ class ExerciseCommentController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="exercise_comment_delete", methods={"DELETE"})
+     * @Route("/{id}", name="admin_exercise_comment_delete", methods={"DELETE"})
      */
     public function delete(Request $request, ExerciseComment $exerciseComment): Response
     {
@@ -66,6 +66,6 @@ class ExerciseCommentController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('exercise_comment_index');
+        return $this->redirectToRoute('admin_exercise_comment_index');
     }
 }

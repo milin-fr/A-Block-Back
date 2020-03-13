@@ -20,13 +20,13 @@ class MasteryLevelController extends AbstractController
      */
     public function index(MasteryLevelRepository $masteryLevelRepository): Response
     {
-        return $this->render('mastery_level/index.html.twig', [
+        return $this->render('admin/mastery_level/index.html.twig', [
             'mastery_levels' => $masteryLevelRepository->findAll(),
         ]);
     }
 
     /**
-     * @Route("/new", name="mastery_level_new", methods={"GET","POST"})
+     * @Route("/new", name="admin_mastery_level_new", methods={"GET","POST"})
      */
     public function new(Request $request): Response
     {
@@ -39,27 +39,27 @@ class MasteryLevelController extends AbstractController
             $entityManager->persist($masteryLevel);
             $entityManager->flush();
 
-            return $this->redirectToRoute('mastery_level_index');
+            return $this->redirectToRoute('admin_mastery_level_index');
         }
 
-        return $this->render('mastery_level/new.html.twig', [
+        return $this->render('admin/mastery_level/new.html.twig', [
             'mastery_level' => $masteryLevel,
             'form' => $form->createView(),
         ]);
     }
 
     /**
-     * @Route("/{id}", name="mastery_level_show", methods={"GET"})
+     * @Route("/{id}", name="admin_mastery_level_show", methods={"GET"})
      */
     public function show(MasteryLevel $masteryLevel): Response
     {
-        return $this->render('mastery_level/show.html.twig', [
+        return $this->render('admin/mastery_level/show.html.twig', [
             'mastery_level' => $masteryLevel,
         ]);
     }
 
     /**
-     * @Route("/{id}/edit", name="mastery_level_edit", methods={"GET","POST"})
+     * @Route("/{id}/edit", name="admin_mastery_level_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, MasteryLevel $masteryLevel): Response
     {
@@ -69,17 +69,17 @@ class MasteryLevelController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('mastery_level_index');
+            return $this->redirectToRoute('admin_mastery_level_index');
         }
 
-        return $this->render('mastery_level/edit.html.twig', [
+        return $this->render('admin/mastery_level/edit.html.twig', [
             'mastery_level' => $masteryLevel,
             'form' => $form->createView(),
         ]);
     }
 
     /**
-     * @Route("/{id}", name="mastery_level_delete", methods={"DELETE"})
+     * @Route("/{id}", name="admin_mastery_level_delete", methods={"DELETE"})
      */
     public function delete(Request $request, MasteryLevel $masteryLevel): Response
     {
@@ -89,6 +89,6 @@ class MasteryLevelController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('mastery_level_index');
+        return $this->redirectToRoute('admin_mastery_level_index');
     }
 }

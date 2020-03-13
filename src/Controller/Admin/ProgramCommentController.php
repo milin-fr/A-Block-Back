@@ -20,13 +20,13 @@ class ProgramCommentController extends AbstractController
      */
     public function index(ProgramCommentRepository $programCommentRepository): Response
     {
-        return $this->render('program_comment/index.html.twig', [
+        return $this->render('admin/program_comment/index.html.twig', [
             'program_comments' => $programCommentRepository->findAll(),
         ]);
     }
 
     /**
-     * @Route("/new", name="program_comment_new", methods={"GET","POST"})
+     * @Route("/new", name="admin_program_comment_new", methods={"GET","POST"})
      */
     public function new(Request $request): Response
     {
@@ -39,27 +39,27 @@ class ProgramCommentController extends AbstractController
             $entityManager->persist($programComment);
             $entityManager->flush();
 
-            return $this->redirectToRoute('program_comment_index');
+            return $this->redirectToRoute('admin_program_comment_index');
         }
 
-        return $this->render('program_comment/new.html.twig', [
+        return $this->render('admin/program_comment/new.html.twig', [
             'program_comment' => $programComment,
             'form' => $form->createView(),
         ]);
     }
 
     /**
-     * @Route("/{id}", name="program_comment_show", methods={"GET"})
+     * @Route("/{id}", name="admin_program_comment_show", methods={"GET"})
      */
     public function show(ProgramComment $programComment): Response
     {
-        return $this->render('program_comment/show.html.twig', [
+        return $this->render('admin/program_comment/show.html.twig', [
             'program_comment' => $programComment,
         ]);
     }
 
     /**
-     * @Route("/{id}/edit", name="program_comment_edit", methods={"GET","POST"})
+     * @Route("/{id}/edit", name="admin_program_comment_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, ProgramComment $programComment): Response
     {
@@ -69,17 +69,17 @@ class ProgramCommentController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('program_comment_index');
+            return $this->redirectToRoute('admin_program_comment_index');
         }
 
-        return $this->render('program_comment/edit.html.twig', [
+        return $this->render('admin/program_comment/edit.html.twig', [
             'program_comment' => $programComment,
             'form' => $form->createView(),
         ]);
     }
 
     /**
-     * @Route("/{id}", name="program_comment_delete", methods={"DELETE"})
+     * @Route("/{id}", name="admin_program_comment_delete", methods={"DELETE"})
      */
     public function delete(Request $request, ProgramComment $programComment): Response
     {
@@ -89,6 +89,6 @@ class ProgramCommentController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('program_comment_index');
+        return $this->redirectToRoute('admin_program_comment_index');
     }
 }

@@ -20,13 +20,13 @@ class ProgramController extends AbstractController
      */
     public function index(ProgramRepository $programRepository): Response
     {
-        return $this->render('program/index.html.twig', [
+        return $this->render('admin/program/index.html.twig', [
             'programs' => $programRepository->findAll(),
         ]);
     }
 
     /**
-     * @Route("/new", name="program_new", methods={"GET","POST"})
+     * @Route("/new", name="admin_program_new", methods={"GET","POST"})
      */
     public function new(Request $request): Response
     {
@@ -39,27 +39,27 @@ class ProgramController extends AbstractController
             $entityManager->persist($program);
             $entityManager->flush();
 
-            return $this->redirectToRoute('program_index');
+            return $this->redirectToRoute('admin_program_index');
         }
 
-        return $this->render('program/new.html.twig', [
+        return $this->render('admin/program/new.html.twig', [
             'program' => $program,
             'form' => $form->createView(),
         ]);
     }
 
     /**
-     * @Route("/{id}", name="program_show", methods={"GET"})
+     * @Route("/{id}", name="admin_program_show", methods={"GET"})
      */
     public function show(Program $program): Response
     {
-        return $this->render('program/show.html.twig', [
+        return $this->render('admin/program/show.html.twig', [
             'program' => $program,
         ]);
     }
 
     /**
-     * @Route("/{id}/edit", name="program_edit", methods={"GET","POST"})
+     * @Route("/{id}/edit", name="admin_program_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, Program $program): Response
     {
@@ -69,17 +69,17 @@ class ProgramController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('program_index');
+            return $this->redirectToRoute('admin_program_index');
         }
 
-        return $this->render('program/edit.html.twig', [
+        return $this->render('admin/program/edit.html.twig', [
             'program' => $program,
             'form' => $form->createView(),
         ]);
     }
 
     /**
-     * @Route("/{id}", name="program_delete", methods={"DELETE"})
+     * @Route("/{id}", name="admin_program_delete", methods={"DELETE"})
      */
     public function delete(Request $request, Program $program): Response
     {
@@ -89,6 +89,6 @@ class ProgramController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('program_index');
+        return $this->redirectToRoute('admin_program_index');
     }
 }
