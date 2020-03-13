@@ -28,6 +28,7 @@ class ExerciseType extends AbstractType
             ->add('time', IntegerType::class, [
             'label' => 'Time (in minutes)'])
             ->add('img_path', FileType::class, [
+                'mapped' => false,
                 'label' => 'Upload Image Exercise',
                 'constraints' => [
                     new File([
