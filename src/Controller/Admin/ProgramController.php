@@ -20,7 +20,7 @@ class ProgramController extends AbstractController
      */
     public function index(ProgramRepository $programRepository): Response
     {
-        return $this->render('program/index.html.twig', [
+        return $this->render('admin/program/index.html.twig', [
             'programs' => $programRepository->findAll(),
         ]);
     }
@@ -39,10 +39,10 @@ class ProgramController extends AbstractController
             $entityManager->persist($program);
             $entityManager->flush();
 
-            return $this->redirectToRoute('program_index');
+            return $this->redirectToRoute('admin_program_index');
         }
 
-        return $this->render('program/new.html.twig', [
+        return $this->render('admin/program/new.html.twig', [
             'program' => $program,
             'form' => $form->createView(),
         ]);
@@ -53,7 +53,7 @@ class ProgramController extends AbstractController
      */
     public function show(Program $program): Response
     {
-        return $this->render('program/show.html.twig', [
+        return $this->render('admin/program/show.html.twig', [
             'program' => $program,
         ]);
     }
@@ -69,10 +69,10 @@ class ProgramController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('program_index');
+            return $this->redirectToRoute('admin_program_index');
         }
 
-        return $this->render('program/edit.html.twig', [
+        return $this->render('admin/program/edit.html.twig', [
             'program' => $program,
             'form' => $form->createView(),
         ]);
@@ -89,6 +89,6 @@ class ProgramController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('program_index');
+        return $this->redirectToRoute('admin_program_index');
     }
 }

@@ -20,7 +20,7 @@ class MasteryLevelController extends AbstractController
      */
     public function index(MasteryLevelRepository $masteryLevelRepository): Response
     {
-        return $this->render('mastery_level/index.html.twig', [
+        return $this->render('admin/mastery_level/index.html.twig', [
             'mastery_levels' => $masteryLevelRepository->findAll(),
         ]);
     }
@@ -39,10 +39,10 @@ class MasteryLevelController extends AbstractController
             $entityManager->persist($masteryLevel);
             $entityManager->flush();
 
-            return $this->redirectToRoute('mastery_level_index');
+            return $this->redirectToRoute('admin_mastery_level_index');
         }
 
-        return $this->render('mastery_level/new.html.twig', [
+        return $this->render('admin/mastery_level/new.html.twig', [
             'mastery_level' => $masteryLevel,
             'form' => $form->createView(),
         ]);
@@ -53,7 +53,7 @@ class MasteryLevelController extends AbstractController
      */
     public function show(MasteryLevel $masteryLevel): Response
     {
-        return $this->render('mastery_level/show.html.twig', [
+        return $this->render('admin/mastery_level/show.html.twig', [
             'mastery_level' => $masteryLevel,
         ]);
     }
@@ -69,10 +69,10 @@ class MasteryLevelController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('mastery_level_index');
+            return $this->redirectToRoute('admin_mastery_level_index');
         }
 
-        return $this->render('mastery_level/edit.html.twig', [
+        return $this->render('admin/mastery_level/edit.html.twig', [
             'mastery_level' => $masteryLevel,
             'form' => $form->createView(),
         ]);
@@ -89,6 +89,6 @@ class MasteryLevelController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('mastery_level_index');
+        return $this->redirectToRoute('admin_mastery_level_index');
     }
 }

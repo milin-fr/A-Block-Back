@@ -20,7 +20,7 @@ class PrerequisiteController extends AbstractController
      */
     public function index(PrerequisiteRepository $prerequisiteRepository): Response
     {
-        return $this->render('prerequisite/index.html.twig', [
+        return $this->render('admin/prerequisite/index.html.twig', [
             'prerequisites' => $prerequisiteRepository->findAll(),
         ]);
     }
@@ -42,7 +42,7 @@ class PrerequisiteController extends AbstractController
             return $this->redirectToRoute('prerequisite_index');
         }
 
-        return $this->render('prerequisite/new.html.twig', [
+        return $this->render('admin/prerequisite/new.html.twig', [
             'prerequisite' => $prerequisite,
             'form' => $form->createView(),
         ]);
@@ -53,7 +53,7 @@ class PrerequisiteController extends AbstractController
      */
     public function show(Prerequisite $prerequisite): Response
     {
-        return $this->render('prerequisite/show.html.twig', [
+        return $this->render('admin/prerequisite/show.html.twig', [
             'prerequisite' => $prerequisite,
         ]);
     }
@@ -69,10 +69,10 @@ class PrerequisiteController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('prerequisite_index');
+            return $this->redirectToRoute('admin_prerequisite_index');
         }
 
-        return $this->render('prerequisite/edit.html.twig', [
+        return $this->render('admin/prerequisite/edit.html.twig', [
             'prerequisite' => $prerequisite,
             'form' => $form->createView(),
         ]);
@@ -89,6 +89,6 @@ class PrerequisiteController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('prerequisite_index');
+        return $this->redirectToRoute('admin_prerequisite_index');
     }
 }

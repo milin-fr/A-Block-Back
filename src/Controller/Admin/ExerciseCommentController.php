@@ -20,7 +20,7 @@ class ExerciseCommentController extends AbstractController
      */
     public function index(ExerciseCommentRepository $exerciseCommentRepository): Response
     {
-        return $this->render('exercise_comment/index.html.twig', [
+        return $this->render('admin/exercise_comment/index.html.twig', [
             'exercise_comments' => $exerciseCommentRepository->findAll(),
         ]);
     }
@@ -39,10 +39,10 @@ class ExerciseCommentController extends AbstractController
             $entityManager->persist($exerciseComment);
             $entityManager->flush();
 
-            return $this->redirectToRoute('exercise_comment_index');
+            return $this->redirectToRoute('admin_exercise_comment_index');
         }
 
-        return $this->render('exercise_comment/new.html.twig', [
+        return $this->render('admin/exercise_comment/new.html.twig', [
             'exercise_comment' => $exerciseComment,
             'form' => $form->createView(),
         ]);
@@ -53,7 +53,7 @@ class ExerciseCommentController extends AbstractController
      */
     public function show(ExerciseComment $exerciseComment): Response
     {
-        return $this->render('exercise_comment/show.html.twig', [
+        return $this->render('admin/exercise_comment/show.html.twig', [
             'exercise_comment' => $exerciseComment,
         ]);
     }
@@ -69,10 +69,10 @@ class ExerciseCommentController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('exercise_comment_index');
+            return $this->redirectToRoute('admin_exercise_comment_index');
         }
 
-        return $this->render('exercise_comment/edit.html.twig', [
+        return $this->render('admin/exercise_comment/edit.html.twig', [
             'exercise_comment' => $exerciseComment,
             'form' => $form->createView(),
         ]);
@@ -89,6 +89,6 @@ class ExerciseCommentController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('exercise_comment_index');
+        return $this->redirectToRoute('admin_exercise_comment_index');
     }
 }
