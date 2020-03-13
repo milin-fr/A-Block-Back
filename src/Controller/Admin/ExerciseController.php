@@ -189,9 +189,6 @@ class ExerciseController extends AbstractController
             $entityManager->flush();
         }
 
-        // Un flash message aléatoire
-        $this->addFlash('success', $messageGenerator->getHappyMessage());
-
-        return $this->redirectToRoute('exercise_back_list');
+        return $this->redirectToRoute('admin_exercise_index');
     }
 }

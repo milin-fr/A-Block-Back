@@ -11,12 +11,12 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/mastery/level")
+ * @Route("/mastery-level")
  */
 class MasteryLevelController extends AbstractController
 {
     /**
-     * @Route("/", name="mastery_level_index", methods={"GET"})
+     * @Route("/", name="admin_mastery_level_index", methods={"GET"})
      */
     public function index(MasteryLevelRepository $masteryLevelRepository): Response
     {

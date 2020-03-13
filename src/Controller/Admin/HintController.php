@@ -16,7 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class HintController extends AbstractController
 {
     /**
-     * @Route("/", name="hint_index", methods={"GET"})
+     * @Route("/", name="admin_hint_index", methods={"GET"})
      */
     public function index(HintRepository $hintRepository): Response
     {

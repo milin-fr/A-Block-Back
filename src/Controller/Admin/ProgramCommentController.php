@@ -11,12 +11,12 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/program/comment")
+ * @Route("/program-comment")
  */
 class ProgramCommentController extends AbstractController
 {
     /**
-     * @Route("/", name="program_comment_index", methods={"GET"})
+     * @Route("/", name="admin_program_comment_index", methods={"GET"})
      */
     public function index(ProgramCommentRepository $programCommentRepository): Response
     {

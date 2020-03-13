@@ -11,40 +11,17 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/exercise/comment")
+ * @Route("/exercise-comment")
  */
 class ExerciseCommentController extends AbstractController
 {
     /**
-     * @Route("/", name="exercise_comment_index", methods={"GET"})
+     * @Route("/", name="admin_exercise_comment_index", methods={"GET"})
      */
     public function index(ExerciseCommentRepository $exerciseCommentRepository): Response
     {
-        return $this->render('exercise_comment/index.html.twig', [
+        return $this->render('admin/exercise_comment/index.html.twig', [
             'exercise_comments' => $exerciseCommentRepository->findAll(),
-        ]);
-    }
-
-    /**
-     * @Route("/new", name="exercise_comment_new", methods={"GET","POST"})
-     */
-    public function new(Request $request): Response
-    {
-        $exerciseComment = new ExerciseComment();
-        $form = $this->createForm(ExerciseCommentType::class, $exerciseComment);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($exerciseComment);
-            $entityManager->flush();
-
-            return $this->redirectToRoute('exercise_comment_index');
-        }
-
-        return $this->render('exercise_comment/new.html.twig', [
-            'exercise_comment' => $exerciseComment,
-            'form' => $form->createView(),
         ]);
     }
 

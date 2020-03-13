@@ -16,7 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class ProgramController extends AbstractController
 {
     /**
-     * @Route("/", name="program_index", methods={"GET"})
+     * @Route("/", name="admin_program_index", methods={"GET"})
      */
     public function index(ProgramRepository $programRepository): Response
     {

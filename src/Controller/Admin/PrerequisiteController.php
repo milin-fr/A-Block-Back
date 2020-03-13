@@ -16,7 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class PrerequisiteController extends AbstractController
 {
     /**
-     * @Route("/", name="prerequisite_index", methods={"GET"})
+     * @Route("/", name="admin_prerequisite_index", methods={"GET"})
      */
     public function index(PrerequisiteRepository $prerequisiteRepository): Response
     {
