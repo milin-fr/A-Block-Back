@@ -19,8 +19,8 @@
                 <td>{{ program_comment.id }}</td>
                 <td>{{ program_comment.text }}</td>
                 <td>
-                    <a href="{{ path('program_comment_show', {'id': program_comment.id}) }}">show</a>
-                    <a href="{{ path('program_comment_edit', {'id': program_comment.id}) }}">edit</a>
+                    <a href="{{ path('admin_program_comment_show', {'id': program_comment.id}) }}">show</a>
+                    <a href="{{ path('admin_program_comment_edit', {'id': program_comment.id}) }}">edit</a>
                 </td>
             </tr>
         {% else %}
@@ -31,5 +31,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('program_comment_new') }}">Create new</a>
+    <a href="{{ path('admin_program_comment_new') }}">Create new</a>
 {% endblock %}

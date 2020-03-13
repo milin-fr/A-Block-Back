@@ -19,8 +19,8 @@
                 <td>{{ mastery_level.id }}</td>
                 <td>{{ mastery_level.title }}</td>
                 <td>
-                    <a href="{{ path('mastery_level_show', {'id': mastery_level.id}) }}">show</a>
-                    <a href="{{ path('mastery_level_edit', {'id': mastery_level.id}) }}">edit</a>
+                    <a href="{{ path('admin_mastery_level_show', {'id': mastery_level.id}) }}">show</a>
+                    <a href="{{ path('admin_mastery_level_edit', {'id': mastery_level.id}) }}">edit</a>
                 </td>
             </tr>
         {% else %}
@@ -31,5 +31,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('mastery_level_new') }}">Create new</a>
+    <a href="{{ path('admin_mastery_level_new') }}">Create new</a>
 {% endblock %}
