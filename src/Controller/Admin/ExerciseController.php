@@ -58,7 +58,7 @@ class ExerciseController extends AbstractController
                 $originalFilename = pathinfo($imgFile->getClientOriginalName(), PATHINFO_FILENAME);
                 // this is needed to safely include the file name as part of the URL
                 $safeFilename = iconv('UTF-8', 'ASCII//TRANSLIT', $originalFilename);
-                $newFilename = $safeFilename.'-'.uniqid().'.'.$imgFile->guessExtension();
+                $newFilename = $safeFilename.'-'.uniqid().'.'.$imgFile->guessExtension(); // former le nom avec id d'exercise et remplacer l'image deja existante, supprimer a la suppression de l'exercise
 
                 // Move the file to the directory where brochures are stored
                 try {
@@ -73,36 +73,20 @@ class ExerciseController extends AbstractController
                 // updates the 'imgFilename' property to store the PDF file name
                 // instead of its contents
                 $exercise->setImgPath($newFilename);
+            }else{
+                $exercise->setImgPath("exercise_image_default.png");
             }
 
             $entityManager = $this->getDoctrine()->getManager();
             $exercise->setCreatedAt(new \DateTime());
-            $exercise->setTitle($form->get("title")->getData());
-            $exercise->setTime($form->get("time")->getData());
-            $exercise->setDescription($form->get("description")->getData());
-            $exercise->setScore($form->get("score")->getData());
 
-            foreach($form->get("hints")->getData() as $id){
-                $hint = $hintRepository->find($id);
-                if($hint){
-                    $exercise->addHint($hint);
-                }
-            }
-            foreach($form->get("prerequisites")->getData() as $id){
-                $prerequisite = $prerequisiteRepository->find($id);
-                if($prerequisite){
-                    $exercise->addPrerequisite($prerequisite);
-                }
-            }
             foreach($form->get("programs")->getData() as $id){
                 $program = $programRepository->find($id);
                 if($program){
-                    $exercise->addProgram($program);
+                    $program->addExercise($exercise);
                 }
             }
 
-            $exercise->setMasteryLevel($masteryLevelRepository->find($form->get("mastery_level")->getData()));
-            
             $entityManager->persist($exercise);
             $entityManager->flush();
 

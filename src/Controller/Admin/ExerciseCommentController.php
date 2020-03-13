@@ -72,7 +72,7 @@ class ExerciseCommentController extends AbstractController
             return $this->redirectToRoute('exercise_comment_index');
         }
 
-        return $this->render('exercise_comment/edit.html.twig', [
+        return $this->render('admin/exercise_comment/edit.html.twig', [
             'exercise_comment' => $exerciseComment,
             'form' => $form->createView(),
         ]);

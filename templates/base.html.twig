@@ -12,12 +12,13 @@
         {% block body %}{% endblock %}
         {% block javascripts %}
             <script>
-                $('.custom-file-input').on('change', function(event) {
-                    var inputFile = event.currentTarget;
-                    $(inputFile).parent()
-                        .find('.custom-file-label')
-                        .html(inputFile.files[0].name);
-                });
+                var imgField = document.getElementsByClassName('custom-file-input')[0];
+                function message(event){
+                    var bits = event.target.value.split('\\');
+                    var fileName = bits[bits.length-1];
+                    document.getElementsByClassName("custom-file-label")[0].innerText = fileName;
+                }
+                imgField.addEventListener("change", message);
             </script>
         {% endblock %}
     </body>
