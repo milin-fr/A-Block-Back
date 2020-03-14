@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/mastery-level")
+ * @Route("/admin/mastery-level")
  */
 class MasteryLevelController extends AbstractController
 {
