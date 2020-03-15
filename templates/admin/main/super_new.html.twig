@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Super Admin New User{% endblock %}
+{% block header %}{% endblock %}
+
+{% block body %}
+    <h1>Create new User</h1>
+
+    {{ include('admin/user/_form.html.twig') }}
+
+    <a href="{{ path('super_admin_home') }}">back to list</a>
+{% endblock %}

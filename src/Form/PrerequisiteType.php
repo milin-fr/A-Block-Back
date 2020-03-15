@@ -13,9 +13,6 @@ class PrerequisiteType extends AbstractType
     {
         $builder
             ->add('description')
-            ->add('created_at')
-            ->add('updated_at')
-            ->add('exercises')
         ;
     }
 

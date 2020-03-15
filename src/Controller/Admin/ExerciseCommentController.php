@@ -26,7 +26,7 @@ class ExerciseCommentController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="exercise_comment_show", methods={"GET"})
+     * @Route("/{id<\d+>}", name="admin_exercise_comment_show", methods={"GET"})
      */
     public function show(ExerciseComment $exerciseComment): Response
     {
@@ -36,7 +36,7 @@ class ExerciseCommentController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="admin_exercise_comment_edit", methods={"GET","POST"})
+     * @Route("/{id<\d+>}/edit", name="admin_exercise_comment_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, ExerciseComment $exerciseComment): Response
     {
@@ -44,6 +44,7 @@ class ExerciseCommentController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $exerciseComment->setUpdatedAt(new \DateTime());
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('admin_exercise_comment_index');
@@ -56,7 +57,7 @@ class ExerciseCommentController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="admin_exercise_comment_delete", methods={"DELETE"})
+     * @Route("/{id<\d+>}", name="admin_exercise_comment_delete", methods={"DELETE"})
      */
     public function delete(Request $request, ExerciseComment $exerciseComment): Response
     {

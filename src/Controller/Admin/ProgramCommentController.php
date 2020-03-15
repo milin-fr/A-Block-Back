@@ -26,30 +26,7 @@ class ProgramCommentController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="admin_program_comment_new", methods={"GET","POST"})
-     */
-    public function new(Request $request): Response
-    {
-        $programComment = new ProgramComment();
-        $form = $this->createForm(ProgramCommentType::class, $programComment);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($programComment);
-            $entityManager->flush();
-
-            return $this->redirectToRoute('admin_program_comment_index');
-        }
-
-        return $this->render('admin/program_comment/new.html.twig', [
-            'program_comment' => $programComment,
-            'form' => $form->createView(),
-        ]);
-    }
-
-    /**
-     * @Route("/{id}", name="admin_program_comment_show", methods={"GET"})
+     * @Route("/{id<\d+>}", name="admin_program_comment_show", methods={"GET"})
      */
     public function show(ProgramComment $programComment): Response
     {
@@ -59,7 +36,7 @@ class ProgramCommentController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="admin_program_comment_edit", methods={"GET","POST"})
+     * @Route("/{id<\d+>}/edit", name="admin_program_comment_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, ProgramComment $programComment): Response
     {
@@ -67,6 +44,7 @@ class ProgramCommentController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $programComment->setUpdatedAt(new \DateTime());
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('admin_program_comment_index');
@@ -79,7 +57,7 @@ class ProgramCommentController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="admin_program_comment_delete", methods={"DELETE"})
+     * @Route("/{id<\d+>}", name="admin_program_comment_delete", methods={"DELETE"})
      */
     public function delete(Request $request, ProgramComment $programComment): Response
     {

@@ -49,7 +49,7 @@ class MasteryLevelController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="admin_mastery_level_show", methods={"GET"})
+     * @Route("/{id<\d+>}", name="admin_mastery_level_show", methods={"GET"})
      */
     public function show(MasteryLevel $masteryLevel): Response
     {
@@ -59,7 +59,7 @@ class MasteryLevelController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="admin_mastery_level_edit", methods={"GET","POST"})
+     * @Route("/{id<\d+>}/edit", name="admin_mastery_level_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, MasteryLevel $masteryLevel): Response
     {
@@ -79,7 +79,7 @@ class MasteryLevelController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="admin_mastery_level_delete", methods={"DELETE"})
+     * @Route("/{id<\d+>}", name="admin_mastery_level_delete", methods={"DELETE"})
      */
     public function delete(Request $request, MasteryLevel $masteryLevel): Response
     {

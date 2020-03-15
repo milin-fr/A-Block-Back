@@ -13,8 +13,6 @@ class HintType extends AbstractType
     {
         $builder
             ->add('text')
-            ->add('created_at')
-            ->add('updated_at')
         ;
     }
 

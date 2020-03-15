@@ -49,7 +49,7 @@ class HintController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="admin_hint_show", methods={"GET"})
+     * @Route("/{id<\d+>}", name="admin_hint_show", methods={"GET"})
      */
     public function show(Hint $hint): Response
     {
@@ -59,7 +59,7 @@ class HintController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="admin_hint_edit", methods={"GET","POST"})
+     * @Route("/{id<\d+>}/edit", name="admin_hint_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, Hint $hint): Response
     {
@@ -79,7 +79,7 @@ class HintController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="admin_hint_delete", methods={"DELETE"})
+     * @Route("/{id<\d+>}", name="admin_hint_delete", methods={"DELETE"})
      */
     public function delete(Request $request, Hint $hint): Response
     {
