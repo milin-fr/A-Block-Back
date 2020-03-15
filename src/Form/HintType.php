@@ -22,6 +22,9 @@ class HintType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Hint::class,
+            'attr' => [
+                'novalidate' => 'novalidate',
+            ]
         ]);
     }
 }
