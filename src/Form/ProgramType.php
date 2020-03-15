@@ -27,7 +27,7 @@ class ProgramType extends AbstractType
                 'label' => 'Program Title'])
             ->add('description')
             ->add('time', IntegerType::class, [
-            'label' => 'Time (in minutes)'])
+            'label' => 'Time (in sessions)'])
             ->add('img_path', FileType::class, [
                 'mapped' => false,
                 'label' => 'Upload Image Program',

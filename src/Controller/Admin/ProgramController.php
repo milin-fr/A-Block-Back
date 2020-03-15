@@ -122,7 +122,58 @@ class ProgramController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+            $imgFile = $form->get('img_path')->getData();
+            if ($imgFile) {
+                $originalFilename = pathinfo($imgFile->getClientOriginalName(), PATHINFO_FILENAME);
+                // this is needed to safely include the file name as part of the URL
+                $safeFilename = iconv('UTF-8', 'ASCII//TRANSLIT', $originalFilename);
+                $newFilename = $safeFilename.'-'.uniqid().'.'.$imgFile->guessExtension(); // former le nom avec id d'exercise et remplacer l'image deja existante, supprimer a la suppression de l'exercise
+
+                // Move the file to the directory where brochures are stored
+                try {
+                    $imgFile->move(
+                        $this->getParameter('program_img_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                    $newFilename = "program_image_default.png"; // if something goes wrong, assign default value
+                }
+                // updates the 'imgFilename' property to store the PDF file name
+                // instead of its contents
+                $program->setImgPath($newFilename);
+            }
+            // identify the most frequent mastery level among exercises related to this program
+            $masteryLevelIdList = []; // list of mastery ids
+            $masteryLevelList = []; // list of mastery objects
+
+            $programExercises = $form->get("exercises")->getData();
+            foreach($programExercises as $exercise){
+                if($exercise){ // checking if exercise id, provided from front, exists in bdd
+                    $program->addExercise($exercise);
+                    $masteryLevelId = $exercise->getMasteryLevel()->getId();
+                    $masteryLevelIdList[] = $masteryLevelId;
+                    $masteryLevelList[$masteryLevelId] = $exercise->getMasteryLevel(); // storing mastery objects by id for later use
+                }
+            }
+        
+            if(!empty($masteryLevelIdList)){ // checking if there were at least 1 bdd match for mastery
+                $idFrequencies = array_count_values($masteryLevelIdList); // getting a list with ids as keys and number of id as value
+                $mostFrequentMasteryId = $masteryLevelIdList[0]; // assuming that the most frequent id is the first one
+                foreach($idFrequencies as $id => $frequencie){
+                    if($idFrequencies[$mostFrequentMasteryId] < $frequencie){ // checking if assumption was right, if not updating the id
+                        $mostFrequentMasteryId = $id;
+                    }
+                }
+            
+                $program->setMasteryLevel($masteryLevelList[$mostFrequentMasteryId]); // pulling mastery object by most frequent id and adding it to program
+            }
+            // end of mastery level treatment
+            
+            $program->setUpdatedAt(new \DateTime());
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->flush();
 
             return $this->redirectToRoute('admin_program_index');
         }

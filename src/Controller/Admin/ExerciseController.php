@@ -68,6 +68,7 @@ class ExerciseController extends AbstractController
                     );
                 } catch (FileException $e) {
                     // ... handle exception if something happens during file upload
+                    $newFilename = "exercise_image_default.png"; // if something goes wrong, assign default value
                 }
 
                 // updates the 'imgFilename' property to store the PDF file name
@@ -144,8 +145,6 @@ class ExerciseController extends AbstractController
                 // updates the 'imgFilename' property to store the PDF file name
                 // instead of its contents
                 $exercise->setImgPath($newFilename);
-            }else{
-                $exercise->setImgPath("exercise_image_default.png");
             }
 
             $exercise->setUpdatedAt(new \DateTime());
