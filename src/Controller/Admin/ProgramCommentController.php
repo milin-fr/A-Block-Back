@@ -26,29 +26,6 @@ class ProgramCommentController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="admin_program_comment_new", methods={"GET","POST"})
-     */
-    public function new(Request $request): Response
-    {
-        $programComment = new ProgramComment();
-        $form = $this->createForm(ProgramCommentType::class, $programComment);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($programComment);
-            $entityManager->flush();
-
-            return $this->redirectToRoute('admin_program_comment_index');
-        }
-
-        return $this->render('admin/program_comment/new.html.twig', [
-            'program_comment' => $programComment,
-            'form' => $form->createView(),
-        ]);
-    }
-
-    /**
      * @Route("/{id}", name="admin_program_comment_show", methods={"GET"})
      */
     public function show(ProgramComment $programComment): Response
