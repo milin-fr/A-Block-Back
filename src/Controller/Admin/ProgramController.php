@@ -104,7 +104,7 @@ class ProgramController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="admin_program_show", methods={"GET"})
+     * @Route("/{id<\d+>}", name="admin_program_show", methods={"GET"})
      */
     public function show(Program $program): Response
     {
@@ -114,7 +114,7 @@ class ProgramController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="admin_program_edit", methods={"GET","POST"})
+     * @Route("/{id<\d+>}/edit", name="admin_program_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, Program $program): Response
     {
@@ -185,7 +185,7 @@ class ProgramController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="admin_program_delete", methods={"DELETE"})
+     * @Route("/{id<\d+>}", name="admin_program_delete", methods={"DELETE"})
      */
     public function delete(Request $request, Program $program): Response
     {

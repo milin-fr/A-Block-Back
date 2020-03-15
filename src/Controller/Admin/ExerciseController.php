@@ -101,7 +101,7 @@ class ExerciseController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="admin_exercise_show", methods={"GET"})
+     * @Route("/{id<\d+>}", name="admin_exercise_show", methods={"GET"})
      */
     public function show(Exercise $exercise): Response
     {
@@ -111,7 +111,7 @@ class ExerciseController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="admin_exercise_edit", methods={"GET","POST"})
+     * @Route("/{id<\d+>}/edit", name="admin_exercise_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, $id, ExerciseRepository $exerciseRepository, HintRepository $hintRepository, PrerequisiteRepository $prerequisiteRepository, ProgramRepository $programRepository, MasteryLevelRepository $masteryLevelRepository): Response
     {
@@ -181,7 +181,7 @@ class ExerciseController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="admin_exercise_delete", methods={"DELETE"})
+     * @Route("/{id<\d+>}", name="admin_exercise_delete", methods={"DELETE"})
      */
     public function delete(Request $request, Exercise $exercise): Response
     {
