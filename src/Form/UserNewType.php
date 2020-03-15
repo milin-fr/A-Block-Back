@@ -18,6 +18,7 @@ use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use App\Entity\MasteryLevel;
 
 class UserNewType extends AbstractType
 {
@@ -47,6 +48,13 @@ class UserNewType extends AbstractType
                     ])
                 ],
             ])
+            ->add('mastery_level', EntityType::class, [
+                'class' => MasteryLevel::class,
+                'choice_label' => 'title',
+                'expanded' => true,
+                'multiple' => false,
+            ]
+            )
             ->add('available_time', IntegerType::class, [
                 'label' => 'Available Time per Week'])
             ->add('score', IntegerType::class, [

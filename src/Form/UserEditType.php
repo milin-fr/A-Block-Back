@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\User;
 use App\Entity\Program;
 use App\Entity\Exercise;
+use App\Entity\MasteryLevel;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -51,6 +52,13 @@ class UserEditType extends AbstractType
                     ])
                 ],
             ])
+            ->add('mastery_level', EntityType::class, [
+                'class' => MasteryLevel::class,
+                'choice_label' => 'title',
+                'expanded' => true,
+                'multiple' => false,
+            ]
+            )
             ->add('available_time', IntegerType::class, [
                 'label' => 'Available Time per Week'])
             ->add('score', IntegerType::class, [

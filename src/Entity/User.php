@@ -129,6 +129,7 @@ class User implements UserInterface
         $this->exercise_comments = new ArrayCollection();
         $this->program_comments = new ArrayCollection();
         $this->created_at = new \DateTime();
+        $this->img_path = "user_image_default.png";
     }
 
     public function getId(): ?int
