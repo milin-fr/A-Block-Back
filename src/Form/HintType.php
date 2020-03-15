@@ -13,8 +13,6 @@ class HintType extends AbstractType
     {
         $builder
             ->add('text')
-            ->add('created_at')
-            ->add('updated_at')
         ;
     }
 
@@ -22,6 +20,9 @@ class HintType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Hint::class,
+            'attr' => [
+                'novalidate' => 'novalidate',
+            ]
         ]);
     }
 }

@@ -14,7 +14,7 @@
     <body>
         {% block header %}
             <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <img src="../asset/images/logo_abloc.png" alt="Logo Abloc" style="width:30px;">
+            <img src="{{ asset('asset/images/logo_abloc.png') }}" alt="Logo Abloc" style="width:30px;">
             <a class="navbar-brand" href="{{ path('admin_home') }}">A'Bloc Admin v1</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>

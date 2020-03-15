@@ -13,9 +13,6 @@ class PrerequisiteType extends AbstractType
     {
         $builder
             ->add('description')
-            ->add('created_at')
-            ->add('updated_at')
-            ->add('exercises')
         ;
     }
 
@@ -23,6 +20,9 @@ class PrerequisiteType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Prerequisite::class,
+            'attr' => [
+                'novalidate' => 'novalidate',
+            ]
         ]);
     }
 }

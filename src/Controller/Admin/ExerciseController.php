@@ -53,7 +53,7 @@ class ExerciseController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $imgFile = $form->get('img_path')->getData(); // a verifier si recupere le nom ou le fichier en en entier
+            $imgFile = $form->get('img_path')->getData();
             if ($imgFile) {
                 $originalFilename = pathinfo($imgFile->getClientOriginalName(), PATHINFO_FILENAME);
                 // this is needed to safely include the file name as part of the URL
@@ -68,6 +68,7 @@ class ExerciseController extends AbstractController
                     );
                 } catch (FileException $e) {
                     // ... handle exception if something happens during file upload
+                    $newFilename = "exercise_image_default.png"; // if something goes wrong, assign default value
                 }
 
                 // updates the 'imgFilename' property to store the PDF file name
@@ -100,7 +101,7 @@ class ExerciseController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="admin_exercise_show", methods={"GET"})
+     * @Route("/{id<\d+>}", name="admin_exercise_show", methods={"GET"})
      */
     public function show(Exercise $exercise): Response
     {
@@ -110,7 +111,7 @@ class ExerciseController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="admin_exercise_edit", methods={"GET","POST"})
+     * @Route("/{id<\d+>}/edit", name="admin_exercise_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, $id, ExerciseRepository $exerciseRepository, HintRepository $hintRepository, PrerequisiteRepository $prerequisiteRepository, ProgramRepository $programRepository, MasteryLevelRepository $masteryLevelRepository): Response
     {
@@ -138,6 +139,7 @@ class ExerciseController extends AbstractController
                     );
                 } catch (FileException $e) {
                     // ... handle exception if something happens during file upload
+                    $newFilename = "exercise_image_default.png"; // if something goes wrong, assign default value
                 }
 
                 // updates the 'imgFilename' property to store the PDF file name
@@ -179,7 +181,7 @@ class ExerciseController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="admin_exercise_delete", methods={"DELETE"})
+     * @Route("/{id<\d+>}", name="admin_exercise_delete", methods={"DELETE"})
      */
     public function delete(Request $request, Exercise $exercise): Response
     {

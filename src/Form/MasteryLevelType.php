@@ -13,8 +13,6 @@ class MasteryLevelType extends AbstractType
     {
         $builder
             ->add('title')
-            ->add('created_at')
-            ->add('updated_at')
         ;
     }
 
@@ -22,6 +20,9 @@ class MasteryLevelType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => MasteryLevel::class,
+            'attr' => [
+                'novalidate' => 'novalidate',
+            ]
         ]);
     }
 }

@@ -3,7 +3,7 @@
 {% block title %}Program index{% endblock %}
 
 {% block body %}
-<a href="{{ path('admin_exercise_new') }}" button type="button" class="btn btn-primary btn-block">Create New</a>
+<a href="{{ path('admin_program_new') }}" button type="button" class="btn btn-primary btn-block">Create New</a>
 
     <table class="table">
         <thead>
@@ -21,6 +21,7 @@
                 <td>
                     <a href="{{ path('admin_program_show', {'id': program.id}) }}">show</a>
                     <a href="{{ path('admin_program_edit', {'id': program.id}) }}">edit</a>
+                    <a href="{{ path('admin_program_delete', {'id': program.id}) }}">delete</a>
                 </td>
             </tr>
         {% else %}

@@ -73,6 +73,9 @@ class ExerciseType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Exercise::class,
+            'attr' => [
+                'novalidate' => 'novalidate',
+            ]
         ]);
     }
 }
