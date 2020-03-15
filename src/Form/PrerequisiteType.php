@@ -23,6 +23,9 @@ class PrerequisiteType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Prerequisite::class,
+            'attr' => [
+                'novalidate' => 'novalidate',
+            ]
         ]);
     }
 }

@@ -53,7 +53,7 @@ class ExerciseController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $imgFile = $form->get('img_path')->getData(); // a verifier si recupere le nom ou le fichier en en entier
+            $imgFile = $form->get('img_path')->getData();
             if ($imgFile) {
                 $originalFilename = pathinfo($imgFile->getClientOriginalName(), PATHINFO_FILENAME);
                 // this is needed to safely include the file name as part of the URL
@@ -138,11 +138,14 @@ class ExerciseController extends AbstractController
                     );
                 } catch (FileException $e) {
                     // ... handle exception if something happens during file upload
+                    $newFilename = "exercise_image_default.png"; // if something goes wrong, assign default value
                 }
 
                 // updates the 'imgFilename' property to store the PDF file name
                 // instead of its contents
                 $exercise->setImgPath($newFilename);
+            }else{
+                $exercise->setImgPath("exercise_image_default.png");
             }
 
             $exercise->setUpdatedAt(new \DateTime());
