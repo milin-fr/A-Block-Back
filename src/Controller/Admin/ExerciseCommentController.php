@@ -44,6 +44,7 @@ class ExerciseCommentController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $exerciseComment->setUpdatedAt(new \DateTime());
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('admin_exercise_comment_index');

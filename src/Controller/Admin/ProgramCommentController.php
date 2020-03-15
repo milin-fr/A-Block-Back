@@ -44,6 +44,7 @@ class ProgramCommentController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $programComment->setUpdatedAt(new \DateTime());
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('admin_program_comment_index');
