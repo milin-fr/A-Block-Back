@@ -26,7 +26,7 @@ class ExerciseCommentController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="exercise_comment_show", methods={"GET"})
+     * @Route("/{id}", name="admin_exercise_comment_show", methods={"GET"})
      */
     public function show(ExerciseComment $exerciseComment): Response
     {

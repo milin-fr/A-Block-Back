@@ -5,9 +5,9 @@
 {% block body %}
     <h1>Edit ProgramComment</h1>
 
-    {{ include('program_comment/_form.html.twig', {'button_label': 'Update'}) }}
+    {{ include('admin/program_comment/_form.html.twig', {'button_label': 'Update'}) }}
 
     <a href="{{ path('admin_program_comment_index') }}">back to list</a>
 
-    {{ include('program_comment/_delete_form.html.twig') }}
+    {{ include('admin/program_comment/_delete_form.html.twig') }}
 {% endblock %}
