@@ -72,6 +72,7 @@ class MasteryLevel
     {
         $this->exercises = new ArrayCollection();
         $this->programs = new ArrayCollection();
+        $this->created_at = new \DateTime();
     }
 
     public function getId(): ?int

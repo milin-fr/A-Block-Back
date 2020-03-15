@@ -84,6 +84,7 @@ class Program
         $this->exercises = new ArrayCollection();
         $this->comments = new ArrayCollection();
         $this->users = new ArrayCollection();
+        $this->created_at = new \DateTime();
     }
 
     public function getId(): ?int

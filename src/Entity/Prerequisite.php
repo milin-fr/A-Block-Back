@@ -47,6 +47,7 @@ class Prerequisite
     public function __construct()
     {
         $this->exercises = new ArrayCollection();
+        $this->created_at = new \DateTime();
     }
 
     public function getId(): ?int

@@ -79,7 +79,6 @@ class ExerciseController extends AbstractController
             }
 
             $entityManager = $this->getDoctrine()->getManager();
-            $exercise->setCreatedAt(new \DateTime());
 
             foreach($form->get("programs")->getData() as $id){
                 $program = $programRepository->find($id);

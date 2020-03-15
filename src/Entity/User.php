@@ -128,6 +128,7 @@ class User implements UserInterface
         $this->followed_programs = new ArrayCollection();
         $this->exercise_comments = new ArrayCollection();
         $this->program_comments = new ArrayCollection();
+        $this->created_at = new \DateTime();
     }
 
     public function getId(): ?int

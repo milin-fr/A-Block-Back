@@ -87,8 +87,6 @@ class ProgramController extends AbstractController
                 $program->setMasteryLevel($masteryLevelList[$mostFrequentMasteryId]); // pulling mastery object by most frequent id and adding it to program
             }
             // end of mastery level treatment
-            
-            $program->setCreatedAt(new \DateTime());
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($program);
