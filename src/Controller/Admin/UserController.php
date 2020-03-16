@@ -42,20 +42,18 @@ class UserController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $imgFile = $form->get('img_path')->getData();
             if ($imgFile) {
-                $originalFilename = pathinfo($imgFile->getClientOriginalName(), PATHINFO_FILENAME);
-                // this is needed to safely include the file name as part of the URL
-                $safeFilename = iconv('UTF-8', 'ASCII//IGNORE', $originalFilename);
-                $newFilename = $safeFilename.'-'.uniqid().'.'.$imgFile->guessExtension(); // former le nom avec id d'exercise et remplacer l'image deja existante, supprimer a la suppression de l'exercise
+                $safeFilename = 'user-'.$user->getId();
+                $newFilename = $safeFilename.'.'.$imgFile->guessExtension();
 
                 // Move the file to the directory where brochures are stored
                 try {
                     $imgFile->move(
-                        $this->getParameter('exercise_img_directory'),
+                        $this->getParameter('user_img_directory'),
                         $newFilename
                     );
                 } catch (FileException $e) {
                     // ... handle exception if something happens during file upload
-                    $newFilename = "exercise_image_default.png"; // if something goes wrong, assign default value
+                    $newFilename = "user_image_default.png"; // if something goes wrong, assign default value
                 }
 
                 // updates the 'imgFilename' property to store the PDF file name
@@ -97,12 +95,10 @@ class UserController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $imgFile = $form->get('img_path')->getData(); // a verifier si recupere le nom ou le fichier en en entier
+            $imgFile = $form->get('img_path')->getData();// a verifier si recupere le nom ou le fichier en en entier
             if ($imgFile) {
-                $originalFilename = pathinfo($imgFile->getClientOriginalName(), PATHINFO_FILENAME);
-                // this is needed to safely include the file name as part of the URL
-                $safeFilename = iconv('UTF-8', 'ASCII//IGNORE', $originalFilename);
-                $newFilename = $safeFilename.'-'.uniqid().'.'.$imgFile->guessExtension();
+                $safeFilename = 'user-'.$user->getId();
+                $newFilename = $safeFilename.'.'.$imgFile->guessExtension();
 
                 // Move the file to the directory where brochures are stored
                 try {

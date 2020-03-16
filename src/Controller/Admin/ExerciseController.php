@@ -55,12 +55,8 @@ class ExerciseController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $imgFile = $form->get('img_path')->getData();
             if ($imgFile) {
-                $originalFilename = pathinfo($imgFile->getClientOriginalName(), PATHINFO_FILENAME);
-                // this is needed to safely include the file name as part of the URL
-                $safeFilename = iconv('UTF-8', 'ASCII//IGNORE', $originalFilename);
-                $newFilename = $safeFilename.'-'.uniqid().'.'.$imgFile->guessExtension(); // former le nom avec id d'exercise et remplacer l'image deja existante, supprimer a la suppression de l'exercise
-
-                // Move the file to the directory where brochures are stored
+                $safeFilename = 'exercise-'.$exercise->getId();
+                $newFilename = $safeFilename.'.'.$imgFile->guessExtension();
                 try {
                     $imgFile->move(
                         $this->getParameter('exercise_img_directory'),
@@ -124,12 +120,8 @@ class ExerciseController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $imgFile = $form->get('img_path')->getData(); // a verifier si recupere le nom ou le fichier en en entier
             if ($imgFile) {
-                $originalFilename = pathinfo($imgFile->getClientOriginalName(), PATHINFO_FILENAME);
-                // this is needed to safely include the file name as part of the URL
-                $safeFilename = iconv('UTF-8', 'ASCII//IGNORE', $originalFilename);
-                $newFilename = $safeFilename.'-'.uniqid().'.'.$imgFile->guessExtension();
-
-                // Move the file to the directory where brochures are stored
+                $safeFilename = 'exercise-'.$exercise->getId();
+                $newFilename = $safeFilename.'.'.$imgFile->guessExtension();
                 try {
                     $imgFile->move(
                         $this->getParameter('exercise_img_directory'),
