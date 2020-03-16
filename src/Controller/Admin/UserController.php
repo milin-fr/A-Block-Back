@@ -86,7 +86,7 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/edit/password/{id<\d+>}", name="user_edit_password")
+     * @Route("/edit/password/{id<\d+>}", name="admin_user_edit_password")
      */
     public function editPassword(Request $request, UserPasswordEncoderInterface $encoder)
     {

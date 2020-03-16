@@ -19,14 +19,10 @@
                 <th>Roles</th>
                 <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
             </tr>
-            <tr>
-                <th>Password</th>
-                <td>{{ user.password }}</td>
-            </tr>
         </tbody>
     </table>
-
-    <a href="{{ path('admin_user_index') }}">back to list</a>
+        <a href="{{ path('admin_user_edit_password', {'id': user.id})  }}" button type="button" class="btn btn-primary btn-block">Edit Password</a>
+        <a href="{{ path('admin_user_index') }}" button type="button" class="btn btn-primary btn-block">Back to list</a>
 
     <a href="{{ path('admin_user_edit', {'id': user.id}) }}">edit</a>
 
