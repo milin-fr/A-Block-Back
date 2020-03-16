@@ -92,7 +92,7 @@ class ExerciseController extends AbstractController
 
             return $this->redirectToRoute('admin_exercise_index');
         }
-
+        $this->addFlash('success', 'Exercise Created!');
         return $this->render('admin/exercise/new.html.twig', [
             'exercise' => $exercise,
             'form' => $form->createView(),
@@ -172,7 +172,7 @@ class ExerciseController extends AbstractController
 
             return $this->redirectToRoute('admin_exercise_index');
         }
-
+        $this->addFlash('success', 'Exercise Edited!');
         return $this->render('admin/exercise/new.html.twig', [
             'exercise' => $exercise,
             'form' => $form->createView(),
@@ -189,7 +189,7 @@ class ExerciseController extends AbstractController
             $entityManager->remove($exercise);
             $entityManager->flush();
         }
-
+        $this->addFlash('success', 'Exercise Deleted!');
         return $this->redirectToRoute('admin_exercise_index');
     }
 }

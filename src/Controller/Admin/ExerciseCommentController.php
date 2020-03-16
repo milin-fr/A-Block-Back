@@ -49,7 +49,7 @@ class ExerciseCommentController extends AbstractController
 
             return $this->redirectToRoute('admin_exercise_comment_index');
         }
-
+        $this->addFlash('success', 'Comment Edited!');
         return $this->render('admin/exercise_comment/edit.html.twig', [
             'exercise_comment' => $exerciseComment,
             'form' => $form->createView(),
@@ -66,7 +66,7 @@ class ExerciseCommentController extends AbstractController
             $entityManager->remove($exerciseComment);
             $entityManager->flush();
         }
-
+        $this->addFlash('success', 'Comment Deleted!');
         return $this->redirectToRoute('admin_exercise_comment_index');
     }
 }

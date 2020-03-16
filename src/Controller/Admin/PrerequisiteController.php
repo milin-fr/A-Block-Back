@@ -41,7 +41,7 @@ class PrerequisiteController extends AbstractController
 
             return $this->redirectToRoute('admin_prerequisite_index');
         }
-
+        $this->addFlash('success', 'Prerequisite Created!');
         return $this->render('admin/prerequisite/new.html.twig', [
             'prerequisite' => $prerequisite,
             'form' => $form->createView(),
@@ -71,7 +71,7 @@ class PrerequisiteController extends AbstractController
 
             return $this->redirectToRoute('admin_prerequisite_index');
         }
-
+        $this->addFlash('success', 'Prerequisite Edited!');
         return $this->render('admin/prerequisite/edit.html.twig', [
             'prerequisite' => $prerequisite,
             'form' => $form->createView(),
@@ -88,7 +88,7 @@ class PrerequisiteController extends AbstractController
             $entityManager->remove($prerequisite);
             $entityManager->flush();
         }
-
+        $this->addFlash('success', 'Prerequisite Deleted!');
         return $this->redirectToRoute('admin_prerequisite_index');
     }
 }

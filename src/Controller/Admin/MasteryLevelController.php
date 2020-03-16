@@ -41,7 +41,7 @@ class MasteryLevelController extends AbstractController
 
             return $this->redirectToRoute('admin_mastery_level_index');
         }
-
+        $this->addFlash('success', 'MasteryLevel Created!');
         return $this->render('admin/mastery_level/new.html.twig', [
             'mastery_level' => $masteryLevel,
             'form' => $form->createView(),
@@ -71,7 +71,7 @@ class MasteryLevelController extends AbstractController
 
             return $this->redirectToRoute('admin_mastery_level_index');
         }
-
+        $this->addFlash('success', 'MasteryLevel Edited!');
         return $this->render('admin/mastery_level/edit.html.twig', [
             'mastery_level' => $masteryLevel,
             'form' => $form->createView(),
@@ -88,7 +88,7 @@ class MasteryLevelController extends AbstractController
             $entityManager->remove($masteryLevel);
             $entityManager->flush();
         }
-
+        $this->addFlash('success', 'MasteryLevel Deleted!');
         return $this->redirectToRoute('admin_mastery_level_index');
     }
 }

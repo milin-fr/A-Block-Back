@@ -43,7 +43,7 @@ class UserController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
             $entityManager->flush();
-
+            $this->addFlash('success', 'User Created!');
             return $this->redirectToRoute('admin_user_index');
         }
 
@@ -77,7 +77,7 @@ class UserController extends AbstractController
 
             return $this->redirectToRoute('admin_user_index');
         }
-
+        $this->addFlash('success', 'User Edited!');
         return $this->render('admin/user/edit.html.twig', [
             'user' => $user,
             'form' => $form->createView(),
@@ -102,7 +102,7 @@ class UserController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->flush();
 
-            $this->addFlash('success', 'Mot de passe modifié.');
+            $this->addFlash('success', 'User Password Edited!');
 
             return $this->redirectToRoute('admin_user_index');
         }
