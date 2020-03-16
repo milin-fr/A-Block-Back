@@ -38,7 +38,7 @@ class HintController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($hint);
             $entityManager->flush();
-
+            $this->addFlash('success', 'Hint Created!');
             return $this->redirectToRoute('admin_hint_index');
         }
 
