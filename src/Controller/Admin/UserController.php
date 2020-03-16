@@ -74,10 +74,10 @@ class UserController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $user->setUpdatedAt(new \DateTime());
             $this->getDoctrine()->getManager()->flush();
-
+            $this->addFlash('success', 'User Edited!');
             return $this->redirectToRoute('admin_user_index');
         }
-        $this->addFlash('success', 'User Edited!');
+
         return $this->render('admin/user/edit.html.twig', [
             'user' => $user,
             'form' => $form->createView(),
