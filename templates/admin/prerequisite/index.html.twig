@@ -19,9 +19,9 @@
                 <td>{{ prerequisite.id }}</td>
                 <td>{{ prerequisite.description }}</td>
                 <td>
-                    <a href="{{ path('admin_prerequisite_show', {'id': prerequisite.id}) }}">show</a>
-                    <a href="{{ path('admin_prerequisite_edit', {'id': prerequisite.id}) }}">edit</a>
-                    <a href="{{ path('admin_prerequisite_delete', {'id': prerequisite.id}) }}">delete</a>
+                    <a href="{{ path('admin_prerequisite_show', {'id': prerequisite.id}) }}" class="btn btn-primary">show</a>
+                    <a href="{{ path('admin_prerequisite_edit', {'id': prerequisite.id}) }}" class="btn btn-warning">edit</a>
+                    <a href="{{ path('admin_prerequisite_delete', {'id': prerequisite.id}) }}" class="btn btn-danger">delete</a>
                 </td>
             </tr>
         {% else %}

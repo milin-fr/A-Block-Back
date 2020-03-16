@@ -19,9 +19,9 @@
                 <td>{{ program.id }}</td>
                 <td>{{ program.title }}</td>
                 <td>
-                    <a href="{{ path('admin_program_show', {'id': program.id}) }}">show</a>
-                    <a href="{{ path('admin_program_edit', {'id': program.id}) }}">edit</a>
-                    <a href="{{ path('admin_program_delete', {'id': program.id}) }}">delete</a>
+                    <a href="{{ path('admin_program_show', {'id': program.id}) }}" class="btn btn-primary">show</a>
+                    <a href="{{ path('admin_program_edit', {'id': program.id}) }}" class="btn btn-warning">edit</a>
+                    <a href="{{ path('admin_program_delete', {'id': program.id}) }}" class="btn btn-danger">delete</a>
                 </td>
             </tr>
         {% else %}

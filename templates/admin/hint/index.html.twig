@@ -19,9 +19,9 @@
                 <td>{{ hint.id }}</td>
                 <td>{{ hint.text }}</td>
                 <td>
-                    <a href="{{ path('admin_hint_show', {'id': hint.id}) }}">show</a>
-                    <a href="{{ path('admin_hint_edit', {'id': hint.id}) }}">edit</a>
-                    <a href="{{ path('admin_hint_delete', {'id': hint.id}) }}">delete</a>
+                    <a href="{{ path('admin_hint_show', {'id': hint.id}) }}" class="btn btn-primary">show</a>
+                    <a href="{{ path('admin_hint_edit', {'id': hint.id}) }}" class="btn btn-warning">edit</a>
+                    <a href="{{ path('admin_hint_delete', {'id': hint.id}) }}" class="btn btn-danger">delete</a>
                 </td>
             </tr>
         {% else %}

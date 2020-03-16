@@ -20,9 +20,9 @@
                 <td>{{ exercise.title }}</td>
                 <td><img src="{{ asset('uploads/exercise_img/'~ exercise.imgPath) }}" alt="Logo Abloc" style="width:30px;"></td>
                 <td>
-                    <a href="{{ path('admin_exercise_show', {'id': exercise.id}) }}">show</a>
-                    <a href="{{ path('admin_exercise_edit', {'id': exercise.id}) }}">edit</a>
-                    <a href="{{ path('admin_exercise_delete', {'id': exercise.id}) }}">delete</a>
+                    <a href="{{ path('admin_exercise_show', {'id': exercise.id}) }}" class="btn btn-primary">show</a>
+                    <a href="{{ path('admin_exercise_edit', {'id': exercise.id}) }}" class="btn btn-warning">edit</a>
+                    <a href="{{ path('admin_exercise_delete', {'id': exercise.id}) }}" class="btn btn-danger">delete</a>
                 </td>
             </tr>
         {% else %}
