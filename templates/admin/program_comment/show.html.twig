@@ -17,10 +17,11 @@
             </tr>
         </tbody>
     </table>
-
-    <a href="{{ path('admin_program_comment_index') }}">back to list</a>
-
-    <a href="{{ path('admin_program_comment_edit', {'id': program_comment.id}) }}">edit</a>
-
-    {{ include('admin/program_comment/_delete_form.html.twig') }}
+    <table class="table">
+        <tbody>
+            <td><a href="{{ path('admin_program_comment_edit', {'id': program_comment.id}) }}" class="btn btn-success btn-block">Edit Comment</a></td>
+            <td>{{ include('admin/program_comment/_delete_form.html.twig') }}</td>
+        </tbody>
+    </table>
+                <a href="{{ path('admin_program_comment_index') }}" button type="button" class="btn btn-primary btn-block">Back to list</a>
 {% endblock %}
