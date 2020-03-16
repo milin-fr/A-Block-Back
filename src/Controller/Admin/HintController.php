@@ -41,7 +41,7 @@ class HintController extends AbstractController
             $this->addFlash('success', 'Hint Created!');
             return $this->redirectToRoute('admin_hint_index');
         }
-
+        $this->addFlash('error', 'Check all entries!');
         return $this->render('admin/hint/new.html.twig', [
             'hint' => $hint,
             'form' => $form->createView(),
@@ -68,7 +68,7 @@ class HintController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
-
+            $this->addFlash('success', 'Hint Edited!');
             return $this->redirectToRoute('admin_hint_index');
         }
 

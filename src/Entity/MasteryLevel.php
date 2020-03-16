@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\MasteryLevelRepository")
@@ -23,6 +24,7 @@ class MasteryLevel
     /**
      * @ORM\Column(type="string", length=64)
      * @Groups({"mastery_level", "abloc_user", "exercise", "program"})
+     * @Assert\NotBlank
      */
     private $title;
 
