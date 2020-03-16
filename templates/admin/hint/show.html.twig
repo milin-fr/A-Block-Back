@@ -17,10 +17,11 @@
             </tr>
         </tbody>
     </table>
-
-    <a href="{{ path('admin_hint_index') }}">back to list</a>
-
-    <a href="{{ path('admin_hint_edit', {'id': hint.id}) }}">edit</a>
-
-    {{ include('admin/hint/_delete_form.html.twig') }}
+    <table class="table">
+        <tbody>
+            <td><a href="{{ path('admin_hint_edit', {'id': hint.id}) }}" class="btn btn-success btn-block">Edit hint</a></td>
+            <td>{{ include('admin/hint/_delete_form.html.twig') }}</td>
+        </tbody>
+    </table>
+                <a href="{{ path('admin_hint_index') }}" button type="button" class="btn btn-primary btn-block">Back to list</a>
 {% endblock %}

@@ -21,10 +21,12 @@
             </tr>
         </tbody>
     </table>
-        <a href="{{ path('admin_user_edit_password', {'id': user.id})  }}" button type="button" class="btn btn-primary btn-block">Edit Password</a>
-        <a href="{{ path('admin_user_index') }}" button type="button" class="btn btn-primary btn-block">Back to list</a>
-
-    <a href="{{ path('admin_user_edit', {'id': user.id}) }}">edit</a>
-
-    {{ include('admin/user/_delete_form.html.twig') }}
+    <table class="table">
+        <tbody>
+            <td><a href="{{ path('admin_user_edit', {'id': user.id}) }}" class="btn btn-success btn-block">Edit User</a></td>
+            <td><a href="{{ path('admin_user_edit_password', {'id': user.id})  }}" button type="button" class="btn btn-warning btn-block">Edit Password</a></td>
+            <td>{{ include('admin/user/_delete_form.html.twig') }}</td>
+        </tbody>
+    </table>
+                <a href="{{ path('admin_user_index') }}" button type="button" class="btn btn-primary btn-block">Back to list</a>
 {% endblock %}
