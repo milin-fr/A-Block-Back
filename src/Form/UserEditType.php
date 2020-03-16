@@ -43,7 +43,7 @@ class UserEditType extends AbstractType
             ->add('account_name', TextType::class)
             ->add('img_path', FileType::class, [
                 'mapped' => false,
-                'label' => 'Upload Image User',
+                'label' => 'Upload Image Exercise',
                 'constraints' => [
                     new File([
                         'maxSize' => '2048k',
