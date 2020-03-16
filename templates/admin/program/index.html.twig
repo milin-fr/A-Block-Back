@@ -10,7 +10,8 @@
             <tr>
                 <th>Id</th>
                 <th>Title</th>
-                <th>actions</th>
+                <th>Image</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -18,6 +19,7 @@
             <tr>
                 <td>{{ program.id }}</td>
                 <td>{{ program.title }}</td>
+                <td><img src="{{ asset('uploads/program_img/'~ program.imgPath) }}" alt="Program Image Abloc" style="width:30px;"></td>
                 <td>
                     <a href="{{ path('admin_program_show', {'id': program.id}) }}" class="btn btn-primary">show</a>
                     <a href="{{ path('admin_program_edit', {'id': program.id}) }}" class="btn btn-warning">edit</a>
