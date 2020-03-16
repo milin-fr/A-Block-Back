@@ -9,6 +9,7 @@
             <tr>
                 <th>Id</th>
                 <th>Title</th>
+                <th>Image</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -17,6 +18,7 @@
             <tr>
                 <td>{{ exercise.id }}</td>
                 <td>{{ exercise.title }}</td>
+                <td><img src="{{ asset('uploads/exercise_img/'~ exercise.imgPath) }}" alt="Logo Abloc" style="width:30px;"></td>
                 <td>
                     <a href="{{ path('admin_exercise_show', {'id': exercise.id}) }}">show</a>
                     <a href="{{ path('admin_exercise_edit', {'id': exercise.id}) }}">edit</a>

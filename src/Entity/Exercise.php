@@ -99,6 +99,7 @@ class Exercise
         $this->prerequisites = new ArrayCollection();
         $this->programs = new ArrayCollection();
         $this->comments = new ArrayCollection();
+        $this->created_at = new \DateTime();
     }
 
     public function getId(): ?int

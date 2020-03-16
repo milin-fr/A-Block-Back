@@ -79,7 +79,6 @@ class ExerciseController extends AbstractController
             }
 
             $entityManager = $this->getDoctrine()->getManager();
-            $exercise->setCreatedAt(new \DateTime());
 
             foreach($form->get("programs")->getData() as $id){
                 $program = $programRepository->find($id);
@@ -128,7 +127,7 @@ class ExerciseController extends AbstractController
             if ($imgFile) {
                 $originalFilename = pathinfo($imgFile->getClientOriginalName(), PATHINFO_FILENAME);
                 // this is needed to safely include the file name as part of the URL
-                $safeFilename = iconv('UTF-8', 'ASCII//TRANSLIT', $originalFilename);
+                $safeFilename = iconv('UTF-8', 'ASCII//IGNORE', $originalFilename);
                 $newFilename = $safeFilename.'-'.uniqid().'.'.$imgFile->guessExtension();
 
                 // Move the file to the directory where brochures are stored

@@ -39,7 +39,7 @@ class PrerequisiteController extends AbstractController
             $entityManager->persist($prerequisite);
             $entityManager->flush();
 
-            return $this->redirectToRoute('prerequisite_index');
+            return $this->redirectToRoute('admin_prerequisite_index');
         }
 
         return $this->render('admin/prerequisite/new.html.twig', [

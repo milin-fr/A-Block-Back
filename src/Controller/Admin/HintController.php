@@ -38,10 +38,9 @@ class HintController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($hint);
             $entityManager->flush();
-
+            $this->addFlash('success', 'Hint Created!');
             return $this->redirectToRoute('admin_hint_index');
         }
-
         return $this->render('admin/hint/new.html.twig', [
             'hint' => $hint,
             'form' => $form->createView(),
@@ -68,10 +67,10 @@ class HintController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
-
+            $this->addFlash('success', 'Hint Edited!');
             return $this->redirectToRoute('admin_hint_index');
         }
-
+        $this->addFlash('success', 'Hint Edited!');
         return $this->render('admin/hint/edit.html.twig', [
             'hint' => $hint,
             'form' => $form->createView(),
@@ -88,6 +87,7 @@ class HintController extends AbstractController
             $entityManager->remove($hint);
             $entityManager->flush();
         }
+        $this->addFlash('success', 'Hint Deleted!');
 
         return $this->redirectToRoute('admin_hint_index');
     }
