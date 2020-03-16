@@ -3,16 +3,8 @@
 {% block title %}Admin home{% endblock %}
 
 {% block body %}
-    <h1>admin home</h1>
-<div>
-    <a href="{{ path('admin_exercise_comment_index') }}" class="btn btn-danger">Manage exercise comments</a>
-    <a href="{{ path('admin_program_comment_index') }}" class="btn btn-danger">Manage program comments</a>
-    <a href="{{ path('admin_exercise_index') }}" class="btn btn-danger">Manage exercises</a>
-    <a href="{{ path('admin_program_index') }}" class="btn btn-danger">Manage programs</a>
-    <a href="{{ path('admin_hint_index') }}" class="btn btn-danger">Manage hints</a>
-    <a href="{{ path('admin_prerequisite_index') }}" class="btn btn-danger">Manage prerequisites</a>
-    <a href="{{ path('admin_mastery_level_index') }}" class="btn btn-danger">Manage mastery levels</a>
-    <a href="{{ path('admin_user_index') }}" class="btn btn-danger">Manage users</a>
+<div class="admin-homepage">
+<img src="{{ asset('asset/images/logo_abloc.png') }}" alt="Logo Abloc" style="width:100px;">
+<h1>A'Bloc Admin v1</h1>
 </div>
-
 {% endblock %}
