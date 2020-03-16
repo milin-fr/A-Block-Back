@@ -19,6 +19,10 @@
                 <th>Roles</th>
                 <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
             </tr>
+            <tr>
+                <th>Image</th>
+                <td><img src="{{ asset('uploads/user_img/'~ user.imgPath) }}" alt="User Image Abloc" style="width:50px;"></td>
+            </tr>          
         </tbody>
     </table>
     <table class="table">
