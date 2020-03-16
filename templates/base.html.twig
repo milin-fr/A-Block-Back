@@ -93,6 +93,11 @@
                   <a class="dropdown-item" href="{{ path('admin_mastery_level_new') }}">Add</a>
                 </div>
               </li>
+              {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+              <li class="nav-item active">
+                  <a class="btn btn-sm btn-outline-danger" href="{{ path('admin_app_logout') }}">Logout <span class="sr-only">(current)</span></a>
+              </li>
+              {% endif %} 
             </ul>
             </div>
             </nav>
