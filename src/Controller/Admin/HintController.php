@@ -70,7 +70,7 @@ class HintController extends AbstractController
             $this->addFlash('success', 'Hint Edited!');
             return $this->redirectToRoute('admin_hint_index');
         }
-        $this->addFlash('success', 'Hint Edited!');
+
         return $this->render('admin/hint/edit.html.twig', [
             'hint' => $hint,
             'form' => $form->createView(),

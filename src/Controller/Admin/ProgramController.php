@@ -91,10 +91,10 @@ class ProgramController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($program);
             $entityManager->flush();
-
+            $this->addFlash('success', 'Program Created!');
             return $this->redirectToRoute('admin_program_index');
         }
-        $this->addFlash('success', 'Program Created!');
+
         return $this->render('admin/program/new.html.twig', [
             'program' => $program,
             'form' => $form->createView(),
@@ -172,10 +172,10 @@ class ProgramController extends AbstractController
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->flush();
-
+            $this->addFlash('success', 'Program Edited!');
             return $this->redirectToRoute('admin_program_index');
         }
-        $this->addFlash('success', 'Program Edited!');
+
         return $this->render('admin/program/edit.html.twig', [
             'program' => $program,
             'form' => $form->createView(),

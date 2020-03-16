@@ -46,10 +46,10 @@ class ProgramCommentController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $programComment->setUpdatedAt(new \DateTime());
             $this->getDoctrine()->getManager()->flush();
-
+            $this->addFlash('success', 'Comment Edited!');
             return $this->redirectToRoute('admin_program_comment_index');
         }
-        $this->addFlash('success', 'Comment Edited!');
+
         return $this->render('admin/program_comment/edit.html.twig', [
             'program_comment' => $programComment,
             'form' => $form->createView(),

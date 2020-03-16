@@ -38,10 +38,10 @@ class PrerequisiteController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($prerequisite);
             $entityManager->flush();
-
+            $this->addFlash('success', 'Prerequisite Created!');
             return $this->redirectToRoute('admin_prerequisite_index');
         }
-        $this->addFlash('success', 'Prerequisite Created!');
+
         return $this->render('admin/prerequisite/new.html.twig', [
             'prerequisite' => $prerequisite,
             'form' => $form->createView(),
@@ -68,10 +68,10 @@ class PrerequisiteController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
-
+            $this->addFlash('success', 'Prerequisite Edited!');
             return $this->redirectToRoute('admin_prerequisite_index');
         }
-        $this->addFlash('success', 'Prerequisite Edited!');
+
         return $this->render('admin/prerequisite/edit.html.twig', [
             'prerequisite' => $prerequisite,
             'form' => $form->createView(),

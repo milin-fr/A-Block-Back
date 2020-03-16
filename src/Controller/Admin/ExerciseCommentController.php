@@ -46,10 +46,10 @@ class ExerciseCommentController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $exerciseComment->setUpdatedAt(new \DateTime());
             $this->getDoctrine()->getManager()->flush();
-
+            $this->addFlash('success', 'Comment Edited!');
             return $this->redirectToRoute('admin_exercise_comment_index');
         }
-        $this->addFlash('success', 'Comment Edited!');
+
         return $this->render('admin/exercise_comment/edit.html.twig', [
             'exercise_comment' => $exerciseComment,
             'form' => $form->createView(),

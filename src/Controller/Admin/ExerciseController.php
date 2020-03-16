@@ -168,10 +168,10 @@ class ExerciseController extends AbstractController
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->flush();
-
+            $this->addFlash('success', 'Exercise Edited!');
             return $this->redirectToRoute('admin_exercise_index');
         }
-        $this->addFlash('success', 'Exercise Edited!');
+
         return $this->render('admin/exercise/new.html.twig', [
             'exercise' => $exercise,
             'form' => $form->createView(),
