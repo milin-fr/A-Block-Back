@@ -12,7 +12,8 @@
                 <th>Email</th>
                 <th>Roles</th>
                 <th>Image</th>
-                <th>actions</th>
+                <th>Actions</th>
+                <th>Password</th>
             </tr>
         </thead>
         <tbody>
@@ -27,6 +28,8 @@
                     <a href="{{ path('admin_user_edit', {'id': user.id}) }}" class="btn btn-warning">edit</a>
                     <a href="{{ path('admin_user_delete', {'id': user.id}) }}" class="btn btn-danger">delete</a>
                 </td>
+                <td> <a href="{{ path('admin_user_edit_password', {'id': user.id}) }}" class="btn btn-warning">edit Password</a></td>
+
             </tr>
         {% else %}
             <tr>
