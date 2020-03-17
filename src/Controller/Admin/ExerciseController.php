@@ -77,11 +77,11 @@ class ExerciseController extends AbstractController
                     // ... handle exception if something happens during file upload
                     $newFilename = "exercise_image_default.png"; // if something goes wrong, assign default value
                 }
-                $entityManager->flush();
                 // updates the 'imgFilename' property to store the PDF file name
                 // instead of its contents
                 $exercise->setImgPath($newFilename);
             }
+            $entityManager->flush();
             $this->addFlash('success', 'Exercise Created!');
             return $this->redirectToRoute('admin_exercise_index');
         }
