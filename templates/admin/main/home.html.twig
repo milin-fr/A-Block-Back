@@ -3,8 +3,40 @@
 {% block title %}Admin home{% endblock %}
 
 {% block body %}
-<div class="admin-homepage">
-<img src="{{ asset('asset/images/logo_abloc.png') }}" alt="Logo Abloc" style="width:100px;">
-<h1>A'Bloc Admin v1</h1>
-</div>
+	<div class="login text-center">
+		<div class="container-login">
+			<div class="wrap-login p-l-55 p-r-55 p-t-65 p-b-50">
+        <div class="logo">
+        <img src="{{ asset('asset/images/logo_abloc.png') }}" alt="Logo Abloc" style="width:60px">
+        </div>
+				<form class="form validate-form">
+					<div class="email-input">
+						<input class="input" type="text" name="email" placeholder="Email">
+					</div>
+
+					<div class="password-input" data-validate="Password is required">
+						<input class="input" type="password" name="pass" placeholder="Password">
+					</div>
+
+					<div class="signin-form-btn m-t-20">
+						<button class="btn btn-outline-warning">
+							Login
+						</button>
+					</div>
+
+					<div class="p-t-45 p-b-4">
+						<span>
+							Forgot
+						</span>
+
+						<a href="#">
+							Username / Password?
+						</a>
+					</div>
+
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
 {% endblock %}
