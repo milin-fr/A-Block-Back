@@ -33,17 +33,30 @@ class UserController extends AbstractController
     /**
      * @Route("/new", name="admin_user_new", methods={"GET","POST"})
      */
-    public function new(Request $request, UserRepository $userRepository, UserPasswordEncoderInterface $encoder): Response
+    public function new(Request $request, UserPasswordEncoderInterface $encoder): Response
     {
         $user = new User();
         $form = $this->createForm(UserNewType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            
+            $user->setImgPath("user_image_default.png");
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($user);
+            if($user->getAccountName() == ""){
+                $user->setAccountName("Anonyme");
+            }
+            if($user->getAvailableTime() == ""){
+                $user->setAvailableTime(0);
+            }
+            if($user->getScore() == ""){
+                $user->setScore(0);
+            }
+            $entityManager->flush();
             $imgFile = $form->get('img_path')->getData();
             if ($imgFile) {
-                $existingUsers = $userRepository->findAll();
-                $safeFilename = 'user-'.(count($existingUsers)+1);
+                $safeFilename = 'user-'.$user->getId();
                 $newFilename = $safeFilename.'.'.($imgFile->guessExtension());
 
                 // Move the file to the directory where brochures are stored
@@ -60,12 +73,7 @@ class UserController extends AbstractController
                 // updates the 'imgFilename' property to store the PDF file name
                 // instead of its contents
                 $user->setImgPath($newFilename);
-            }else{
-                $user->setImgPath("user_image_default.png");
             }
-
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($user);
             $entityManager->flush();
             $this->addFlash('success', 'User Created!');
             return $this->redirectToRoute('admin_user_index');
@@ -115,6 +123,15 @@ class UserController extends AbstractController
                 // updates the 'imgFilename' property to store the PDF file name
                 // instead of its contents
                 $user->setImgPath($newFilename);
+            }
+            if($user->getAccountName() == ""){
+                $user->setAccountName("Anonyme");
+            }
+            if($user->getAvailableTime() == ""){
+                $user->setAvailableTime(0);
+            }
+            if($user->getScore() == ""){
+                $user->setScore(0);
             }
             $user->setUpdatedAt(new \DateTime());
             $this->getDoctrine()->getManager()->flush();

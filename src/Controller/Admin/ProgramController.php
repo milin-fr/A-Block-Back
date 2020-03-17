@@ -38,26 +38,7 @@ class ProgramController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $imgFile = $form->get('img_path')->getData();
-            if ($imgFile) {
-                $existingPrograms = $programRepository->findAll();
-                $safeFilename = 'program-'.(count($existingPrograms)+1);
-                $newFilename = $safeFilename.'.'.($imgFile->guessExtension());
-                try {
-                    $imgFile->move(
-                        $this->getParameter('program_img_directory'),
-                        $newFilename
-                    );
-                } catch (FileException $e) {
-                    // ... handle exception if something happens during file upload
-                    $newFilename = "program_image_default.png"; // if something goes wrong, assign default value
-                }
-
-                // updates the 'imgFilename' property to store the PDF file name
-                // instead of its contents
-                $program->setImgPath($newFilename);
-            }else{
-                $program->setImgPath("program_image_default.png");
-            }
+            
             // identify the most frequent mastery level among exercises related to this program
             $masteryLevelIdList = []; // list of mastery ids
             $masteryLevelList = []; // list of mastery objects
@@ -84,9 +65,27 @@ class ProgramController extends AbstractController
                 $program->setMasteryLevel($masteryLevelList[$mostFrequentMasteryId]); // pulling mastery object by most frequent id and adding it to program
             }
             // end of mastery level treatment
-
+            $program->setImgPath("program_image_default.png");
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($program);
+            $entityManager->flush();
+            if ($imgFile) {
+                $safeFilename = 'program-'.$program->getId();
+                $newFilename = $safeFilename.'.'.($imgFile->guessExtension());
+                try {
+                    $imgFile->move(
+                        $this->getParameter('program_img_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                    $newFilename = "program_image_default.png"; // if something goes wrong, assign default value
+                }
+
+                // updates the 'imgFilename' property to store the PDF file name
+                // instead of its contents
+                $program->setImgPath($newFilename);
+            }
             $entityManager->flush();
             $this->addFlash('success', 'Program Created!');
             return $this->redirectToRoute('admin_program_index');

@@ -54,9 +54,19 @@ class ExerciseController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $imgFile = $form->get('img_path')->getData();
+            $entityManager = $this->getDoctrine()->getManager();
+
+            foreach($form->get("programs")->getData() as $id){
+                $program = $programRepository->find($id);
+                if($program){
+                    $program->addExercise($exercise);
+                }
+            }
+            $exercise->setImgPath("exercise_image_default.png");
+            $entityManager->persist($exercise);
+            $entityManager->flush();
             if ($imgFile) {
-                $existingExercises = $exerciseRepository->findAll();
-                $safeFilename = 'exercise-'.(count($existingExercises)+1);
+                $safeFilename = 'exercise-'.$exercise->getId();
                 $newFilename = $safeFilename.'.'.($imgFile->guessExtension());
                 try {
                     $imgFile->move(
@@ -67,25 +77,11 @@ class ExerciseController extends AbstractController
                     // ... handle exception if something happens during file upload
                     $newFilename = "exercise_image_default.png"; // if something goes wrong, assign default value
                 }
-
+                $entityManager->flush();
                 // updates the 'imgFilename' property to store the PDF file name
                 // instead of its contents
                 $exercise->setImgPath($newFilename);
-            }else{
-                $exercise->setImgPath("exercise_image_default.png");
             }
-
-            $entityManager = $this->getDoctrine()->getManager();
-
-            foreach($form->get("programs")->getData() as $id){
-                $program = $programRepository->find($id);
-                if($program){
-                    $program->addExercise($exercise);
-                }
-            }
-
-            $entityManager->persist($exercise);
-            $entityManager->flush();
             $this->addFlash('success', 'Exercise Created!');
             return $this->redirectToRoute('admin_exercise_index');
         }
