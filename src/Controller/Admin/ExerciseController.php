@@ -46,7 +46,7 @@ class ExerciseController extends AbstractController
     /**
      * @Route("/new", name="admin_exercise_new", methods={"GET","POST"})
      */
-    public function new(Request $request, HintRepository $hintRepository, PrerequisiteRepository $prerequisiteRepository, ProgramRepository $programRepository, MasteryLevelRepository $masteryLevelRepository): Response
+    public function new(Request $request, ExerciseRepository $exerciseRepository, HintRepository $hintRepository, PrerequisiteRepository $prerequisiteRepository, ProgramRepository $programRepository, MasteryLevelRepository $masteryLevelRepository): Response
     {
         $exercise = new Exercise();
         $form = $this->createForm(ExerciseType::class, $exercise);
@@ -55,7 +55,8 @@ class ExerciseController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $imgFile = $form->get('img_path')->getData();
             if ($imgFile) {
-                $safeFilename = 'exercise-'.$exercise->getId();
+                $existingExercises = $exerciseRepository->findAll();
+                $safeFilename = 'exercise-'.(count($existingExercises)+1);
                 $newFilename = $safeFilename.'.'.$imgFile->guessExtension();
                 try {
                     $imgFile->move(

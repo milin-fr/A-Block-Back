@@ -33,7 +33,7 @@ class UserController extends AbstractController
     /**
      * @Route("/new", name="admin_user_new", methods={"GET","POST"})
      */
-    public function new(Request $request, UserPasswordEncoderInterface $encoder): Response
+    public function new(Request $request, UserRepository $userRepository, UserPasswordEncoderInterface $encoder): Response
     {
         $user = new User();
         $form = $this->createForm(UserNewType::class, $user);
@@ -42,7 +42,8 @@ class UserController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $imgFile = $form->get('img_path')->getData();
             if ($imgFile) {
-                $safeFilename = 'user-'.$user->getId();
+                $existingUsers = $userRepository->findAll();
+                $safeFilename = 'user-'.(count($existingUsers)+1);
                 $newFilename = $safeFilename.'.'.$imgFile->guessExtension();
 
                 // Move the file to the directory where brochures are stored

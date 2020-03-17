@@ -30,7 +30,7 @@ class ProgramController extends AbstractController
     /**
      * @Route("/new", name="admin_program_new", methods={"GET","POST"})
      */
-    public function new(Request $request): Response
+    public function new(Request $request, ProgramRepository $programRepository): Response
     {
         $program = new Program();
         $form = $this->createForm(ProgramType::class, $program);
@@ -39,7 +39,8 @@ class ProgramController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $imgFile = $form->get('img_path')->getData();
             if ($imgFile) {
-                $safeFilename = 'program-'.$program->getId();
+                $existingPrograms = $programRepository->findAll();
+                $safeFilename = 'program-'.(count($existingPrograms)+1);
                 $newFilename = $safeFilename.'.'.$imgFile->guessExtension();
                 try {
                     $imgFile->move(
