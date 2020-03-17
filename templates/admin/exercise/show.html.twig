@@ -3,24 +3,47 @@
 {% block title %}Exercise{% endblock %}
 
 {% block body %}
-    <h1>Exercise</h1>
+    <h1>Exercise {{exercise.id}}</h1>
 
     <table class="table">
         <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ exercise.id }}</td>
-            </tr>
             <tr>
                 <th>Title</th>
                 <td>{{ exercise.title }}</td>
             </tr>
             <tr>
+                <th>Description</th>
+                <td>{{ exercise.description }}</td>
+            </tr>
+            <tr>
                 <th>Image</th>
                 <td><img src="{{ asset('uploads/exercise_img/'~ exercise.imgPath) }}" alt="Exercise Image Abloc" style="width:50px;"></td>
-            </tr>   
+            </tr>
+            <tr>
+                <th>Score</th>
+                <td>{{ exercise.score }}</td>
+            </tr>
+            <tr>
         </tbody>
     </table>
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Hints</th>
+                {% for hint in exercise.hints %}
+                <td>{{ hint.text }}
+                 {% endfor %}</td>
+            </tr>
+                <th>Programs</th>
+                {% for program in exercise.programs %}
+                <td>{{ program.title }}
+                 {% endfor %}</td>
+            </tr>
+                <th>Prerequisites</th>
+                {% for prerequisite in exercise.prerequisites %}
+                <td>{{ prerequisite.description }}
+                 {% endfor %}</td>
+            </tr>
     <table class="table">
         <tbody>
             <td><a href="{{ path('admin_exercise_edit', {'id': exercise.id}) }}" class="btn btn-success btn-block">Edit Exercise</a></td>
