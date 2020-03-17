@@ -42,3 +42,12 @@ tr:nth-of-type(odd) {
     background: transparent;
     border: none;
 }
+
+.image {
+    border: 2px solid black;
+
+}
+
+.image-set-default {
+    border: 2px solid black;
+}

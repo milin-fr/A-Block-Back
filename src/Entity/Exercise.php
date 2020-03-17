@@ -100,6 +100,7 @@ class Exercise
         $this->programs = new ArrayCollection();
         $this->comments = new ArrayCollection();
         $this->created_at = new \DateTime();
+        $this->img_path = 'exercise_default_image.png';
     }
 
     public function getId(): ?int

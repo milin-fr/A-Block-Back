@@ -62,7 +62,7 @@ class ExerciseController extends AbstractController
                     $program->addExercise($exercise);
                 }
             }
-            $exercise->setImgPath("exercise_image_default.png");
+            $exercise->setImgPath("exercise_default_image.png");
             $entityManager->persist($exercise);
             $entityManager->flush();
             if ($imgFile) {
@@ -75,7 +75,7 @@ class ExerciseController extends AbstractController
                     );
                 } catch (FileException $e) {
                     // ... handle exception if something happens during file upload
-                    $newFilename = "exercise_image_default.png"; // if something goes wrong, assign default value
+                    $newFilename = "exercise_default_image.png"; // if something goes wrong, assign default value
                 }
                 // updates the 'imgFilename' property to store the PDF file name
                 // instead of its contents
@@ -115,7 +115,10 @@ class ExerciseController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $imgFile = $form->get('img_path')->getData(); // a verifier si recupere le nom ou le fichier en en entier
+            $defaultImg = $form->get('set_default_image');
+            if ($defaultImg == true)
+            $exercise->setImgPath('exercise_default_image.png');
+            $imgFile = $form->get('img_path')->getData();
             if ($imgFile) {
                 $safeFilename = 'exercise-'.$exercise->getId();
                 $newFilename = $safeFilename.'.'.($imgFile->guessExtension());
@@ -126,7 +129,7 @@ class ExerciseController extends AbstractController
                     );
                 } catch (FileException $e) {
                     // ... handle exception if something happens during file upload
-                    $newFilename = "exercise_image_default.png"; // if something goes wrong, assign default value
+                    $newFilename = "exercise_default_image.png"; // if something goes wrong, assign default value
                 }
 
                 // updates the 'imgFilename' property to store the PDF file name

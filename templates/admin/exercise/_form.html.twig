@@ -1,7 +1,18 @@
 {{ form_start(form) }}
-     {{ form_row(form.title) }}
+    <div class="image">
+    <img src="{{ asset('media/cache/squared_thumbnail_small/uploads/exercise_img/'~ exercise.imgPath)|imagine_filter('squared_thumbnail_small') }}" height="100">
+         {{ form_row(form.title) }}
+    </div>
      {{ form_row(form.time) }}
-     {{ form_row(form.img_path) }}
+     {{ form_row(form.img_path, {
+                attr: {
+                    'placeholder': 'Select an exercise image'
+                }
+            }) }}
+     {{ form_row(form.set_default_image) }}
+                <div class="image">
+                <img src="{{ asset('media/cache/squared_thumbnail_small/uploads/exercise_img/exercise_default_image.png')|imagine_filter('squared_thumbnail_small') }}" height="60">
+                </div>
      {{ form_row(form.description) }}
      {{ form_row(form.score) }}
      {{ form_row(form.hints) }}
