@@ -41,7 +41,7 @@ class ProgramController extends AbstractController
             if ($imgFile) {
                 $existingPrograms = $programRepository->findAll();
                 $safeFilename = 'program-'.(count($existingPrograms)+1);
-                $newFilename = $safeFilename.'.'.($imgFile->getExtension());
+                $newFilename = $safeFilename.'.'.($imgFile->guessExtension());
                 try {
                     $imgFile->move(
                         $this->getParameter('program_img_directory'),
@@ -120,7 +120,7 @@ class ProgramController extends AbstractController
             $imgFile = $form->get('img_path')->getData();
             if ($imgFile) {
                 $safeFilename = 'program-'.$program->getId();
-                $newFilename = $safeFilename.'.'.($imgFile->getExtension());
+                $newFilename = $safeFilename.'.'.($imgFile->guessExtension());
                 try {
                     $imgFile->move(
                         $this->getParameter('program_img_directory'),
