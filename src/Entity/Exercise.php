@@ -34,7 +34,7 @@ class Exercise
 
     /**
      * @ORM\Column(type="string", length=64, nullable=true)
-     * @Groups("exercise")
+     * @Groups({"exercise", "program"})
      */
     private $img_path;
 
@@ -82,7 +82,7 @@ class Exercise
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\ExerciseComment", mappedBy="exercise", orphanRemoval=true)
-     * @Groups("exercise")
+     * @Groups({"exercise", "program"})
      */
     private $comments;
 
