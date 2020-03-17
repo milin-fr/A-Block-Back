@@ -40,7 +40,7 @@ class Exercise
 
     /**
      * @ORM\Column(type="text", nullable=true)
-     * @Groups("exercise")
+     * @Groups({"exercise", "program"})
      */
     private $description;
 
