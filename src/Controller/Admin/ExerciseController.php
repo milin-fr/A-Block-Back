@@ -57,7 +57,7 @@ class ExerciseController extends AbstractController
             if ($imgFile) {
                 $existingExercises = $exerciseRepository->findAll();
                 $safeFilename = 'exercise-'.(count($existingExercises)+1);
-                $newFilename = $safeFilename.'.'.$imgFile->guessExtension();
+                $newFilename = $safeFilename.'.'.($imgFile->getExtension());
                 try {
                     $imgFile->move(
                         $this->getParameter('exercise_img_directory'),
@@ -122,7 +122,7 @@ class ExerciseController extends AbstractController
             $imgFile = $form->get('img_path')->getData(); // a verifier si recupere le nom ou le fichier en en entier
             if ($imgFile) {
                 $safeFilename = 'exercise-'.$exercise->getId();
-                $newFilename = $safeFilename.'.'.$imgFile->guessExtension();
+                $newFilename = $safeFilename.'.'.($imgFile->getExtension());
                 try {
                     $imgFile->move(
                         $this->getParameter('exercise_img_directory'),

@@ -44,7 +44,7 @@ class UserController extends AbstractController
             if ($imgFile) {
                 $existingUsers = $userRepository->findAll();
                 $safeFilename = 'user-'.(count($existingUsers)+1);
-                $newFilename = $safeFilename.'.'.$imgFile->guessExtension();
+                $newFilename = $safeFilename.'.'.($imgFile->getExtension());
 
                 // Move the file to the directory where brochures are stored
                 try {
@@ -99,7 +99,7 @@ class UserController extends AbstractController
             $imgFile = $form->get('img_path')->getData();// a verifier si recupere le nom ou le fichier en en entier
             if ($imgFile) {
                 $safeFilename = 'user-'.$user->getId();
-                $newFilename = $safeFilename.'.'.$imgFile->guessExtension();
+                $newFilename = $safeFilename.'.'.($imgFile->getExtension());
 
                 // Move the file to the directory where brochures are stored
                 try {
