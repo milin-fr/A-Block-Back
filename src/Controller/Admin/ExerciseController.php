@@ -161,7 +161,7 @@ class ExerciseController extends AbstractController
             return $this->redirectToRoute('admin_exercise_index');
         }
 
-        return $this->render('admin/exercise/new.html.twig', [
+        return $this->render('admin/exercise/edit.html.twig', [
             'exercise' => $exercise,
             'form' => $form->createView(),
         ]);
