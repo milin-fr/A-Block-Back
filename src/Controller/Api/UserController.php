@@ -4,6 +4,7 @@ namespace App\Controller\Api;
 
 use Exception;
 use App\Entity\User;
+use App\notifications\Registration;
 use App\Repository\UserRepository;
 use App\Repository\ProgramRepository;
 use App\Repository\ExerciseRepository;
@@ -21,6 +22,7 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
  */
 class UserController extends AbstractController
 {
+
     /**
      * @Route("/", name="user_list", methods={"GET"})
      * @IsGranted("ROLE_ADMIN", statusCode=403, message="Access Denied")
@@ -35,7 +37,7 @@ class UserController extends AbstractController
     /**
      * @Route("/", name="user_new", methods={"POST"})
      */
-    public function postAblocUser(Request $request, MasteryLevelRepository $masteryLevelRepository, UserRepository $userRepository, UserPasswordEncoderInterface $passwordEncoder): Response
+    public function postAblocUser(Request $request, MasteryLevelRepository $masteryLevelRepository, UserRepository $userRepository, UserPasswordEncoderInterface $passwordEncoder, \Swift_Mailer $mailer): Response
     {
 
         /*
@@ -201,7 +203,23 @@ class UserController extends AbstractController
         
         $em = $this->getDoctrine()->getManager();
         $em->persist($user);
+
+        // sending confirmation message start
+        $message = (new \Swift_Message('Bienvenue chez Abloc !'))
+        ->setFrom("email.delivery.service.fr@gmail.com")
+        ->setTo($userEmail)
+        ->setBody(
+            $this->renderView(
+                "emails/registration.html.twig",
+                ["accountName" => $userAccountName]
+            ),
+            "text/html"
+        );
+        $mailer->send($message);
+        // sending confirmation message end
+
         $em->flush();
+
         return $this->json($user, Response::HTTP_CREATED, [], ['groups' => 'abloc_user']);
     }
 
