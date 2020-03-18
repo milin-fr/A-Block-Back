@@ -5,23 +5,31 @@
 {% block body %}
     <h1>MasteryLevel</h1>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ mastery_level.id }}</td>
-            </tr>
-            <tr>
-                <th>Title</th>
-                <td>{{ mastery_level.title }}</td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table">
-        <tbody>
-            <td><a href="{{ path('admin_mastery_level_edit', {'id': mastery_level.id}) }}" class="btn btn-success btn-block">Edit Mastery Level</a></td>
-            <td>{{ include('admin/mastery_level/_delete_form.html.twig') }}</td>
-        </tbody>
-    </table>
-                <a href="{{ path('admin_mastery_level_index') }}" button type="button" class="btn btn-primary btn-block">Back to list</a>
+<div class="wrapper">
+  <div class="table">
+    <div class="row header">
+      <div class="cell">
+        Id
+      </div>
+      <div class="cell">
+        Title
+      </div>
+      <div class="cell">
+        Actions
+      </div>
+    </div>
+    <div class="row">
+      <div class="cell" data-title="Id">
+        {{ mastery_level.id }}
+      </div>
+      <div class="cell" data-title="Title">
+        {{ mastery_level.title }}
+      </div>
+      <div class="cell" data-title="Actions">
+          <a href="{{ path('admin_mastery_level_edit', {'id': mastery_level.id}) }}" class="btn btn-success btn-block">Edit Mastery Level</a>
+        {{ include('admin/mastery_level/_delete_form.html.twig') }}
+      </div>
+    </div>
+  </div>
+<a href="{{ path('admin_mastery_level_index') }}" button type="button" class="btn btn-primary btn-block">Back to list</a>
 {% endblock %}

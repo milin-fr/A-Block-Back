@@ -5,32 +5,43 @@
 {% block body %}
     <h1>User</h1>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ user.id }}</td>
-            </tr>
-            <tr>
-                <th>Email</th>
-                <td>{{ user.email }}</td>
-            </tr>
-            <tr>
-                <th>Roles</th>
-                <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
-            </tr>
-            <tr>
-                <th>Image</th>
-                <td><img src="{{ asset('uploads/user_img/'~ user.imgPath) }}" alt="User Image Abloc" style="width:50px;"></td>
-            </tr>          
-        </tbody>
-    </table>
-    <table class="table">
-        <tbody>
-            <td><a href="{{ path('admin_user_edit', {'id': user.id}) }}" class="btn btn-success btn-block">Edit User</a></td>
-            <td><a href="{{ path('admin_user_edit_password', {'id': user.id})  }}" button type="button" class="btn btn-warning btn-block">Edit Password</a></td>
-            <td>{{ include('admin/user/_delete_form.html.twig') }}</td>
-        </tbody>
-    </table>
-                <a href="{{ path('admin_user_index') }}" button type="button" class="btn btn-primary btn-block">Back to list</a>
+</table><div class="wrapper">
+  <div class="table">
+    <div class="row header">
+      <div class="cell">
+        Id
+      </div>
+      <div class="cell">
+        Email
+      </div>
+      <div class="cell">
+        Roles
+      </div>
+      <div class="cell">
+        Image
+      </div>
+      <div class="cell">
+        Actions
+      </div>
+    </div>
+    <div class="row">
+      <div class="cell" data-title="Id">
+        {{ user.id }}
+      </div>
+      <div class="cell" data-title="Email">
+        {{ user.email }}
+      </div>
+      <div class="cell" data-title="Roles">
+        {{ user.roles ? user.roles|json_encode : '' }}
+      </div>
+      <div class="cell" data-title="Image">
+        <img src="{{ asset('uploads/user_img/'~ user.imgPath) }}" alt="User Image Abloc" style="width:50px;">
+      </div>
+      <div class="cell" data-title="Actions">
+          <a href="{{ path('admin_user_edit', {'id': user.id}) }}" class="btn btn-success btn-block">Edit User</a>
+        {{ include('admin/user/_delete_form.html.twig') }}
+      </div>
+    </div>
+  </div>
+<a href="{{ path('admin_user_index') }}" button type="button" class="btn btn-primary btn-block">Back to list</a>
 {% endblock %}

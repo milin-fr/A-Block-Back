@@ -5,23 +5,31 @@
 {% block body %}
     <h1>Prerequisite</h1>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ prerequisite.id }}</td>
-            </tr>
-            <tr>
-                <th>Description</th>
-                <td>{{ prerequisite.description }}</td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table">
-        <tbody>
-            <td><a href="{{ path('admin_prerequisite_edit', {'id': prerequisite.id}) }}" class="btn btn-success btn-block">Edit Prerequisite</a></td>
-            <td>{{ include('admin/prerequisite/_delete_form.html.twig') }}</td>
-        </tbody>
-    </table>
-                <a href="{{ path('admin_prerequisite_index') }}" button type="button" class="btn btn-primary btn-block">Back to list</a>
+<div class="wrapper">
+  <div class="table">
+    <div class="row header">
+      <div class="cell">
+        Id
+      </div>
+      <div class="cell">
+        Description
+      </div>
+      <div class="cell">
+        Actions
+      </div>
+    </div>
+    <div class="row">
+      <div class="cell" data-title="Id">
+        {{ prerequisite.id }}
+      </div>
+      <div class="cell" data-title="Description">
+        {{ prerequisite.description }}
+      </div>
+      <div class="cell" data-title="Actions">
+          <a href="{{ path('admin_prerequisite_edit', {'id': prerequisite.id}) }}" class="btn btn-success btn-block">Edit Prerequisite</a>
+        {{ include('admin/prerequisite/_delete_form.html.twig') }}
+      </div>
+    </div>
+  </div>
+<a href="{{ path('admin_prerequisite_index') }}" button type="button" class="btn btn-primary btn-block">Back to list</a>
 {% endblock %}
