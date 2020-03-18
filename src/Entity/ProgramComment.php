@@ -27,7 +27,7 @@ class ProgramComment
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="program_comments")
      * @ORM\JoinColumn(nullable=false)
-     * @Groups("program_comment")
+     * @Groups({"program", "program_comment"})
      */
     private $user;
 

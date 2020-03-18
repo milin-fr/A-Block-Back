@@ -181,7 +181,7 @@ class UserController extends AbstractController
 
         $user->setAccountName($userAccountName);
         if($userImgPath === ""){
-            $userImgPath = "default_user.png";
+            $userImgPath = "user_image_default.png";
         }
         $user->setImgPath($userImgPath);
         if($userAvailableTime === ""){
@@ -454,7 +454,7 @@ class UserController extends AbstractController
         $ablocUser->setAccountName($userAccountName);
         
         if($userImgPath === ""){
-            $userImgPath = "default_user.png";
+            $userImgPath = "user_image_default.png";
         }
         $ablocUser->setImgPath($userImgPath);
         if($userAvailableTime === ""){
