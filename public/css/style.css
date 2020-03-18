@@ -1,44 +1,57 @@
 tr:nth-of-type(odd) {
     background-color: lightgray;
 }
-.login {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background-image: url("../asset/images/background_back.png");
-    background-size: 100%;
+
+/* ----- LOGIN Form ----- A'Bloc ----- */
+@import url('https://fonts.googleapis.com/css?family=Numans');
+
+html,body{
+    background-image: url('../asset/images/background_back.png');
+    background-size: cover;
     background-repeat: no-repeat;
-    color: white;
-}
-.container-login {
-    background: #343A40;
-    border-radius: 30px;
+    height: 100%;
+    font-family: 'Numans', sans-serif;
+    }
+    
+    .container{
+    height: 100%;
+    align-content: center;
+    }
+    
+    .card{
+    text-align: center;
+    height: 350px;
+    margin-top: auto;
+    margin-bottom: auto;
     width: 300px;
-    height: 300px;
-    padding: 30px;
-    border: 2px solid #FFC107;
-}
+    background-color: rgba(0,0,0,0.5);
+    }
+    
+    .card-header h3{
+    color: white;
+    }
+    
+    .input-group-prepend span{
+    width: 50px;
+    background-color: #FFC312;
+    color: black;
+    border:0;
+    }
+    
+    input:focus{
+    outline: 0 0 0 0;
+    box-shadow: 0 0 0 0;
+    
+    }
+    
+    .login_btn{
+    color: black;
+    background-color: #FFC312;
+    width: 100px;
 
-.logo {
-    padding-bottom: 30px;
-}
-
-.signin-form-btn {
-    padding-top: 10px;
-    padding-bottom: 10px;
-}
-
-.email-input {
-    border: 2px solid #FFC107;
-    margin-bottom: 10px;
-}
-
-.password-input {
-    border: 2px solid #FFC107; 
-}
-
-.input{
-    background: transparent;
-    border: none;
-}
+    }
+    
+    .login_btn:hover{
+    color: black;
+    background-color: #ff864f;
+    }
