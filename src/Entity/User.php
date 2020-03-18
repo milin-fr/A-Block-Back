@@ -42,13 +42,13 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=64)
-     * @Groups({"abloc_user", "exercise_comment", "program_comment", "program", "exercise"})
+     * @Groups({"abloc_user", "exercise_comment", "program_comment"})
      */
     private $account_name;
 
     /**
      * @ORM\Column(type="string", length=64, nullable=true)
-     * @Groups({"abloc_user", "exercise_comment", "program_comment", "program", "exercise"})
+     * @Groups({"abloc_user", "exercise_comment", "program_comment"})
      */
     private $img_path;
 
