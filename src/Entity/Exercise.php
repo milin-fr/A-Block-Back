@@ -89,7 +89,7 @@ class Exercise
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\MasteryLevel", inversedBy="exercises")
      * @ORM\JoinColumn(nullable=false)
-     * @Groups("exercise")
+     * @Groups({"exercise", "program"})
      */
     private $mastery_level;
 
