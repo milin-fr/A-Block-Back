@@ -14,20 +14,20 @@ class ExerciseComment
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups({"exercise", "abloc_user", "exercise_comment"})
+     * @Groups({"exercise", "program", "abloc_user", "exercise_comment"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="text")
-     * @Groups({"exercise", "abloc_user", "exercise_comment"})
+     * @Groups({"exercise", "program", "abloc_user", "exercise_comment"})
      */
     private $text;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="exercise_comments")
      * @ORM\JoinColumn(nullable=false)
-     * @Groups("exercise_comment")
+     * @Groups({"exercise", "program", "abloc_user", "exercise_comment"})
      */
     private $user;
 
