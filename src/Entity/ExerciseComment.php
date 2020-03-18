@@ -21,6 +21,7 @@ class ExerciseComment
     /**
      * @ORM\Column(type="text")
      * @Groups({"exercise", "program", "abloc_user", "exercise_comment"})
+     * @Assert\NotBlank
      */
     private $text;
 
@@ -28,6 +29,7 @@ class ExerciseComment
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="exercise_comments")
      * @ORM\JoinColumn(nullable=false)
      * @Groups({"exercise", "program", "abloc_user", "exercise_comment"})
+     * @Assert\NotBlank
      */
     private $user;
 
@@ -35,6 +37,7 @@ class ExerciseComment
      * @ORM\ManyToOne(targetEntity="App\Entity\Exercise", inversedBy="comments")
      * @ORM\JoinColumn(nullable=false)
      * @Groups("exercise_comment")
+     * @Assert\NotBlank
      */
     private $exercise;
 

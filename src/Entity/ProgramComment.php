@@ -21,6 +21,7 @@ class ProgramComment
     /**
      * @ORM\Column(type="text")
      * @Groups({"program", "abloc_user", "program_comment"})
+     * @Assert\NotBlank
      */
     private $text;
 
@@ -28,6 +29,7 @@ class ProgramComment
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="program_comments")
      * @ORM\JoinColumn(nullable=false)
      * @Groups({"program", "program_comment"})
+     * @Assert\NotBlank
      */
     private $user;
 

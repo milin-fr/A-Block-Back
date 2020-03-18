@@ -25,6 +25,7 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string", length=180, unique=true)
      * @Groups("abloc_user")
+     * @Assert\NotBlank
      */
     private $email;
 
@@ -36,12 +37,14 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank
      */
     private $password;
 
     /**
      * @ORM\Column(type="string", length=64)
      * @Groups({"abloc_user", "exercise_comment", "program_comment", "exercise", "program"})
+     * @Assert\NotBlank
      */
     private $account_name;
 

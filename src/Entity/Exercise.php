@@ -23,12 +23,14 @@ class Exercise
     /**
      * @ORM\Column(type="string", length=64)
      * @Groups({"exercise", "prerequisite", "program", "abloc_user", "mastery_level", "exercise_comment"})
+     * @Assert\NotBlank
      */
     private $title;
 
     /**
      * @ORM\Column(type="smallint")
      * @Groups({"exercise", "program"})
+     * @Assert\NotBlank
      */
     private $time;
 
@@ -41,12 +43,14 @@ class Exercise
     /**
      * @ORM\Column(type="text", nullable=true)
      * @Groups({"exercise", "program"})
+     * @Assert\NotBlank
      */
     private $description;
 
     /**
      * @ORM\Column(type="smallint", nullable=true)
      * @Groups({"exercise", "program"})
+     * @Assert\NotBlank
      */
     private $score;
 
