@@ -3,33 +3,30 @@
 {% block title %}ProgramComment{% endblock %}
 
 {% block body %}
-    <h1>ProgramComment</h1>
-
-    </table><div class="wrapper">
-  <div class="table">
-    <div class="row header">
-      <div class="cell">
-        Id
-      </div>
-      <div class="cell">
-        Text
-      </div>
-      <div class="cell">
-        Actions
-      </div>
-    </div>
-    <div class="row">
-      <div class="cell" data-title="Id">
-        {{ program_comment.id }}
-      </div>
-      <div class="cell" data-title="Text">
-        {{ program_comment.text }}
-      </div>
-      <div class="cell" data-title="Actions">
-          <a href="{{ path('admin_program_comment_edit', {'id': program_comment.id}) }}" class="btn btn-success btn-block">Edit Comment</a>
-        {{ include('admin/program_comment/_delete_form.html.twig') }}
-      </div>
-    </div>
-  </div>
-<a href="{{ path('admin_program_comment_index') }}" button type="button" class="btn btn-primary btn-block">Back to list</a>
+<div class="wrapper-entity-form">
+    <p class="d-flex justify-content-end">Program Comment</p>
+    <table class="table table-striped table-dark">
+        <thead class="thead">
+            <tr>
+                <th>Id</th>
+                <th>Text</th>
+                <th>User</th>
+                <th>Program</th>  
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{ program_comment.id }}</td>
+                <td>{{ program_comment.text }}</td>
+                <td>{{ program_comment.user.email }}</td>
+                <td>{{ program_comment.program.title }}</td>
+                <td>
+                    <a href="{{ path('admin_program_comment_edit', {'id': program_comment.id}) }}" class="btn btn-warning fas fa-edit"></a>
+                    <a href="{{ path('admin_program_comment_delete', {'id': program_comment.id}) }}" class="btn btn-danger fas fa-trash-alt"></a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
 {% endblock %}

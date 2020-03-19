@@ -3,6 +3,7 @@
 {% block title %}Edit MasteryLevel{% endblock %}
 
 {% block body %}
+<div class="wrapper-entity-form">
     <h1>Edit MasteryLevel</h1>
 
     {{ include('admin/mastery_level/_form.html.twig', {'button_label': 'Update'}) }}
@@ -10,4 +11,5 @@
     {{ include('admin/mastery_level/_delete_form.html.twig') }}
 
     <a href="{{ path('admin_prerequisite_index') }}" button type="button" class="btn btn-primary btn-block">Back to list</a>
+</div>
 {% endblock %}

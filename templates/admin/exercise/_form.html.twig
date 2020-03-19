@@ -1,12 +1,24 @@
-{{ form_start(form) }}
-     {{ form_row(form.title) }}
-     {{ form_row(form.time) }}
-     {{ form_row(form.img_path) }}
-     {{ form_row(form.description) }}
-     {{ form_row(form.score) }}
-     {{ form_row(form.hints) }}
-     {{ form_row(form.prerequisites) }}
-     {{ form_row(form.programs) }}
-     {{ form_row(form.mastery_level) }}
-    <button class="btn btn-success btn-block">{{ button_label|default('Save') }}</button>
-{{ form_end(form) }}
+<div class="exercise-card">
+    <div class="exercise-card-principal">
+    {{ form_start(form) }}
+         {{ form_row(form.title) }}
+         {{ form_row(form.time) }}
+         {{ form_row(form.img_path) }}
+         {{ form_row(form.description) }}
+         {{ form_row(form.score) }}
+        <div class="exercise-card-hints">
+             {{ form_row(form.hints) }}
+        <div class="exercise-card-prerequisites">
+             {{ form_row(form.prerequisites) }}
+        <div class="exercise-card-program">
+             {{ form_row(form.programs) }}
+        <div class="exercise-card-mastery-level">
+             {{ form_row(form.mastery_level) }}
+            <button class="btn btn-success btn-block">{{ button_label|default('Save') }}</button>
+    {{ form_end(form) }}
+        </div>
+        </div>
+        </div>
+        </div>
+    </div>
+</div>

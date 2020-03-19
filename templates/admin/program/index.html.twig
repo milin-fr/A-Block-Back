@@ -3,10 +3,11 @@
 {% block title %}Program index{% endblock %}
 
 {% block body %}
-<a href="{{ path('admin_program_new') }}" button type="button" class="btn btn-primary btn-block">Create New</a>
-
-    <table class="table">
-        <thead>
+<div class="wrapper-entity-form">
+<a href="{{ path('admin_program_new') }}" button type="button" class="btn btn-success position-absolute">Create New</a>
+    <p class="d-flex justify-content-end">Program index</p>
+    <table class="table table-striped table-dark">
+        <thead class="thead">
             <tr>
                 <th>Id</th>
                 <th>Title</th>
@@ -21,9 +22,9 @@
                 <td>{{ program.title }}</td>
                 <td><img src="{{ asset('uploads/program_img/'~ program.imgPath) }}" alt="Program Image Abloc" style="width:30px;"></td>
                 <td>
-                    <a href="{{ path('admin_program_show', {'id': program.id}) }}" class="btn btn-primary">show</a>
-                    <a href="{{ path('admin_program_edit', {'id': program.id}) }}" class="btn btn-warning">edit</a>
-                    <a href="{{ path('admin_program_delete', {'id': program.id}) }}" class="btn btn-danger">delete</a>
+                    <a href="{{ path('admin_program_show', {'id': program.id}) }}" class="btn btn-primary fas fa-search-plus"></a>
+                    <a href="{{ path('admin_program_edit', {'id': program.id}) }}" class="btn btn-warning fas fa-edit"></a>
+                    <a href="{{ path('admin_program_delete', {'id': program.id}) }}" class="btn btn-danger fas fa-trash-alt"></a>
                 </td>
             </tr>
         {% else %}
@@ -33,5 +34,5 @@
         {% endfor %}
         </tbody>
     </table>
-
+</div>
 {% endblock %}
