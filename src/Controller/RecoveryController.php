@@ -2,9 +2,11 @@
 
 namespace App\Controller;
 
+use App\Form\PasswordRecoveryType;
 use App\Form\UserNewType;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -15,53 +17,66 @@ class RecoveryController extends AbstractController
 /**
      * @Route("/password-recovery", name="password_recovery", methods={"GET","POST"})
      */
-    public function passwordRecovery(Request $request, UserPasswordEncoderInterface $encoder, UserRepository $userRepository): Response
+    public function passwordRecovery(Request $request, UserPasswordEncoderInterface $encoder, UserRepository $userRepository, \Swift_Mailer $mailer): Response
     {
-        $form = $this->createForm(UserNewType::class, $user);
+        $defaultData = ['email' => ''];
+        $form = $this->createFormBuilder($defaultData)
+        ->add('email', EmailType::class)
+        ->getForm();
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $email = $form->get('email')->getData();
+            $ablocUser = $userRepository->findOneBy(["email" => $email]);
             
-            $user->setImgPath("user_image_default.png");
+            if(!$ablocUser){ // user was not found in bdd
+                $this->addFlash('warning', 'Une erreur est survenue !');
+                return $this->redirectToRoute('password_recovery');
+            }
+            
+            // user was found in bdd
+            // generating new password
+            $newPassword = "";
+            $stringOfCharacters = "abcdefghijklmnopqrstuvwxyz0123456789";
+            for($i = 0; $i<6; $i++){
+                $newPassword = $newPassword . $stringOfCharacters[random_int(0, 35)];
+            }
+            
+            // assigning new password to user
+
+            $ablocUser->setPassword($encoder->encodePassword($ablocUser, $newPassword));
+
+            // sending confirmation message start
+            $message = (new \Swift_Message('Bienvenue chez Abloc !'))
+            ->setFrom("email.delivery.service.fr@gmail.com")
+            ->setTo($userEmail)
+            ->setBody(
+                $this->renderView(
+                    "emails/registration.html.twig",
+                    ["accountName" => $userAccountName]
+                ),
+                "text/html"
+            );
+            $mailer->send($message);
+            // sending confirmation message end
+
+
+
+            $this->addFlash('success', 'Vous allez recevoir un nouveau mot de passe sur votre e-mail !');
+            return $this->redirectToRoute('password_recovery');
+            
+            
+            
             $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($user);
-            if($user->getAccountName() == ""){
-                $user->setAccountName("Anonyme");
-            }
-            if($user->getAvailableTime() == ""){
-                $user->setAvailableTime(0);
-            }
-            if($user->getScore() == ""){
-                $user->setScore(0);
-            }
-            $entityManager->flush();
-            $imgFile = $form->get('img_path')->getData();
-            if ($imgFile) {
-                $safeFilename = 'user-'.$user->getId();
-                $newFilename = $safeFilename.'.'.($imgFile->guessExtension());
 
-                // Move the file to the directory where brochures are stored
-                try {
-                    $imgFile->move(
-                        $this->getParameter('user_img_directory'),
-                        $newFilename
-                    );
-                } catch (FileException $e) {
-                    // ... handle exception if something happens during file upload
-                    $newFilename = "user_image_default.png"; // if something goes wrong, assign default value
-                }
 
-                // updates the 'imgFilename' property to store the PDF file name
-                // instead of its contents
-                $user->setImgPath($newFilename);
-            }
             $entityManager->flush();
-            $this->addFlash('success', 'User Created!');
-            return $this->redirectToRoute('admin_user_index');
+            $this->addFlash('success', 'Vous allez recevoir un nouveau mot de passe sur votre e-mail !');
+            return $this->redirectToRoute('password_recovery');
         }
 
-        return $this->render('admin/user/new.html.twig', [
-            'user' => $user,
+        return $this->render('recovery/recover_password.html.twig', [
+            'defaultData' => $defaultData,
             'form' => $form->createView(),
         ]);
     }
