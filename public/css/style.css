@@ -1,10 +1,11 @@
 /* ----- LOGIN Form ----- A'Bloc ----- */
 @import url('https://fonts.googleapis.com/css?family=Numans');
 
-body{
+html,body{
     background-image: url('../asset/images/background_back.png');
-    background-size: auto cover;
+    background-size: cover;
     background-repeat: no-repeat;
+    height: 100%;
     font-family: 'Numans', sans-serif;
     }
     
