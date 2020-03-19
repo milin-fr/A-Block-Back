@@ -45,32 +45,28 @@ class RecoveryController extends AbstractController
             // assigning new password to user
 
             $ablocUser->setPassword($encoder->encodePassword($ablocUser, $newPassword));
+            
+            // saving user with new password
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->flush();
 
             // sending confirmation message start
-            $message = (new \Swift_Message('Bienvenue chez Abloc !'))
+            $message = (new \Swift_Message('Abloc - Nouveau mot de passe !'))
             ->setFrom("email.delivery.service.fr@gmail.com")
-            ->setTo($userEmail)
+            ->setTo($email)
             ->setBody(
                 $this->renderView(
-                    "emails/registration.html.twig",
-                    ["accountName" => $userAccountName]
+                    "emails/recovery.html.twig",
+                    [
+                        "accountName" => $ablocUser->getAccountName(),
+                        "password" => $newPassword
+                    ]
                 ),
                 "text/html"
             );
             $mailer->send($message);
             // sending confirmation message end
 
-
-
-            $this->addFlash('success', 'Vous allez recevoir un nouveau mot de passe sur votre e-mail !');
-            return $this->redirectToRoute('password_recovery');
-            
-            
-            
-            $entityManager = $this->getDoctrine()->getManager();
-
-
-            $entityManager->flush();
             $this->addFlash('success', 'Vous allez recevoir un nouveau mot de passe sur votre e-mail !');
             return $this->redirectToRoute('password_recovery');
         }
