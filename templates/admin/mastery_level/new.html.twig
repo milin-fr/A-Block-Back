@@ -4,10 +4,22 @@
 
 {% block body %}
 <div class="wrapper-entity-form">
-    <h1>Create new MasteryLevel</h1>
-
-    {{ include('admin/mastery_level/_form.html.twig') }}
-
-    <a href="{{ path('admin_program_comment_index') }}" button type="button" class="btn btn-primary btn-block">Back to list</a>
+    <p class="d-flex justify-content-end">Edit Mastery Level</p>
+    <table class="table table-striped table-dark">
+        <thead class="thead">
+            <tr>
+                <th>Id</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{ mastery_level.id }}</td>
+                <td>    {{ include('admin/mastery_level/_form.html.twig', {'button_label': 'Create'}) }}
+                </td>
+            </tr>
+        </tbody>
+    </table>
+        <a href="{{ path('admin_mastery_level_index') }}" button type="button" class="btn btn-primary btn-block">Back to list</a>
 </div>
 {% endblock %}

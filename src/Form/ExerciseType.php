@@ -16,6 +16,7 @@ use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
 class ExerciseType extends AbstractType
@@ -37,6 +38,10 @@ class ExerciseType extends AbstractType
                         'mimeTypesMessage' => 'Please upload a valid Image : JPEG or PNG, less than 2MB',
                     ])
                 ],
+            ])
+            ->add('set_default_image',CheckboxType::class, [
+                'label' => 'Set Default image',
+                'mapped' => false,
             ])
             ->add('description')
             ->add('score', IntegerType::class)

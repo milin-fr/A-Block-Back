@@ -68,7 +68,7 @@ class RecoveryController extends AbstractController
             // sending confirmation message end
 
             $this->addFlash('success', 'Vous allez recevoir un nouveau mot de passe sur votre e-mail !');
-            return $this->redirectToRoute('password_recovery');
+            return $this->redirectToRoute('admin_app_login');
         }
 
         return $this->render('recovery/recover_password.html.twig', [
