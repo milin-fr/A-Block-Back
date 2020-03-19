@@ -30,19 +30,19 @@ class Program
 
     /**
      * @ORM\Column(type="text", nullable=true)
-     * @Groups("program")
+     * {"program", "abloc_user"}
      */
     private $description;
 
     /**
      * @ORM\Column(type="smallint")
-     * @Groups("program")
+     * {"program", "abloc_user"}
      */
     private $time;
 
     /**
      * @ORM\Column(type="string", length=64, nullable=true)
-     * @Groups("program")
+     * {"program", "abloc_user"}
      */
     private $img_path;
 
