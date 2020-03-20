@@ -13,8 +13,9 @@
         <tbody>
             <tr>
                 <td>
-                    <div class="new-card d-flex d-flex justify-content-around">
-                        <div class="edit-card--entity d-flex align-items-center">
+                    <div class="new-card">
+                        <div class="new-card--entity">
+                        {{ form_start(form) }}
                             {{ form_label(form.title) }}
                             {{ form_widget(form.title) }}
 
@@ -23,24 +24,29 @@
 
                             {{ form_label(form.time) }}
                             {{ form_widget(form.time) }}
-                     </div>
-                     <div class="image-card d-flex justify-content-around align-items-center">
-                    {{ form_label(form.img_path) }}
-                    {{ form_widget(form.img_path) }}
-                     </div>
-                        </div>  
-                        <div class="new-card--relation">
-                        <div class="relation-card">
-                        {{ form_label(form.exercises) }}
-                        {{ form_widget(form.exercises) }}
                         </div>
+                     <div class="image-card d-flex justify-content-around align-items-center">
+                        {{ form_label(form.img_path) }}
+                        {{ form_widget(form.img_path) }}
+                    <div class="hidden-content">
+                        {{ form_label(form.set_image_default) }}
+                        {{ form_widget(form.set_image_default) }}
+                    </div>
+                    </div>
+                    </div>  
+                        <div class="new-card--relation d-flex justify-content-around">
+                            <div class="relation-card">
+                            {{ form_label(form.exercises) }}
+                            {{ form_widget(form.exercises) }}
+                            </div>
                         </div>
                     </div>
                     <button class="btn btn-success btn-block">{{ button_label|default('Create') }}</button>
+                    {{ form_end(form) }}
                 </td>
             </tr>
         </tbody>
     </table>
-        <a href="{{ path('admin_program_index') }}" button type="button" class="btn btn-primary btn-block">Back to list</a>
+        <a href="{{ path('admin_exercise_index') }}" button type="button" class="btn btn-primary btn-block">Back to list</a>
 </div>
 {% endblock %}

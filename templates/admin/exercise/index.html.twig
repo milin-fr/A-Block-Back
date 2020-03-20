@@ -20,7 +20,7 @@
             <tr>
                 <td>{{ exercise.id }}</td>
                 <td>{{ exercise.title }}</td>
-                <td><img src="{{ asset('uploads/exercise_img/'~ exercise.imgPath) }}" alt="Exercise Image Abloc" style="width:30px;"></td>
+                <td><img src="{{ asset('uploads/exercise_img/'~ exercise.imgPath) }}" alt="Exercise Image Abloc"></td>
                 <td>
                     <a href="{{ path('admin_exercise_show', {'id': exercise.id}) }}" class="btn btn-primary fas fa-search-plus"></a>
                     <a href="{{ path('admin_exercise_edit', {'id': exercise.id}) }}" class="btn btn-warning fas fa-edit"></a>

@@ -41,7 +41,7 @@
                 <td>{{ exercise.title }}</td>
                 <td>{{ exercise.score }}</td>
                 <td>{{ exercise.time }}</td>
-                <td><img src="{{ asset('uploads/exercise_img/'~ exercise.imgPath) }}" alt="Exercise Image Abloc" style="width:30px;"></td>
+                <td><img src="{{ asset('uploads/exercise_img/'~ exercise.imgPath) }}" alt="Exercise Image Abloc"></td>
                 <td>{{ exercise.masteryLevel.title }}</td>
                 <td>
                     <a href="{{ path('admin_exercise_edit', {'id': exercise.id}) }}" class="btn btn-warning fas fa-edit"></a>
@@ -97,7 +97,7 @@
                           </thead>
                           <tbody>
                             <tr>
-                              <th scope="row"><img class="img-responsive user-photo" src="{{ asset('uploads/user_img/'~ user.imgPath) }}"</th>
+                              <th scope="row"><img src="{{ asset('uploads/user_img/'~ user.imgPath) }}" alt="Exercise Image Abloc"</th>
                               <td class="comment-user">@{{ comment.user.accountName }}</td>
                               <td class="comment-content">"{{ comment.text }}"</td>
                               <td class="comment-date">{{ comment.createdAt|date("m/d/Y") }}</td>
@@ -105,15 +105,14 @@
                             </table>
                             {% endfor %}
                             {% endfor %}
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tbody>
-                            </table>
+                            </div>
                         </div>
-
+                    </div>
+                </div>
+            </td>
+        </tbody>
+    </table>
+</div>
 <!-- @TODO include fichier js pr supprimer ici -->
 <script>$('#objects-list a').on('click', function (e) {
   e.preventDefault()

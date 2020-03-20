@@ -3,42 +3,40 @@
 {% block title %}Log in!{% endblock %}
 
 {% block body %}
-<div class="container">
-	<div class="d-flex justify-content-center h-100">
-		<div class="card">
-			<div class="card-header">
-				<h3>Sign In</h3>
-			</div>
-			<div class="card-body">
-                <form method="post">
-					<div class="input-group form-group">
-						<div class="input-group-prepend">
-							<span class="input-group-text"><i class="fas fa-user"></i></span>
-						</div>
-						<input type="email" name="email" id="inputEmail" class="form-control" placeholder="Email" required autofocus>
+<div class="login-container d-flex justify-content-center">
+	<div class="login-card">
+		<div class="login-card-header flex-column">
+			<h3>Sign In</h3>
+		</div>
+		<div class="login-card-body">
+        	<form method="post">
+				<div class="login-input-group form-group">
+					<div class="login-input-group-prepend">
+					<span class="login-input-group-text"><i class="fas fa-user"></i></span>
 					</div>
-					<div class="input-group form-group">
-						<div class="input-group-prepend">
-							<span class="input-group-text"><i class="fas fa-key"></i></span>
-						</div>
-						<input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password" required>
-					</div>
-					<div class="form-group">
-						<input type="submit" value="Login" class="btn center login_btn">
-					</div>
-					<div>
-					    <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-					</div>
-				</form>
-			</div>
-			<div class="card-footer">
-				<div class="d-flex justify-content-center">
-					<a href="{{ path('password_recovery') }}">Forgot your password?</a>
+					<input type="email" name="email" id="inputEmail" class="form-control" placeholder="Email" required autofocus>
 				</div>
-			</div>
+				<div class="login-input-group form-group">
+					<div class="login-input-group-prepend">
+					<span class="login-input-group-text"><i class="fas fa-key"></i></span>
+					</div>
+					<input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password" required>
+				</div>
+				<div class="login-form-group">
+					<input type="submit" value="Login" class="btn center login_btn">
+				</div>
+				<div class="hidden-content">
+					<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+				</div>
+			</form>
+		</div>
+		<div class="login-card-footer">
+		<a href="{{ path('password_recovery') }}">Forgot your password?</a>
 		</div>
 	</div>
 </div>
-<footer class="sc-AxhCb eSwYtm"><p>Developpé par A'Bloc Ⓒ 2020</p>
+
+<footer class="login-footer d-flex justify-content-center">
+	<p>Developpé par A'Bloc Ⓒ 2020</p>
 </footer>
 {% endblock %}

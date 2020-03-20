@@ -39,8 +39,7 @@
                     <td>{{ program.id }}</td>
                     <td>{{ program.title }}</td>
                     <td>{{ program.time }}</td>
-                    <td><img src="{{ asset('uploads/program_img/'~ program.imgPath) }}" alt="Program Image Abloc"
-                            style="width:30px;"></td>
+                    <td><img src="{{ asset('uploads/program_img/'~ program.imgPath) }}" alt="Program Image Abloc"></td>
                     <td>{{ program.masteryLevel.title }}</td>
                     <td>
                         <a href="{{ path('admin_program_edit', {'id': program.id}) }}"

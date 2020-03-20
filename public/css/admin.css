@@ -1,85 +1,82 @@
-/* ----- LOGIN Form ----- A'Bloc ----- */
-@import url('https://fonts.googleapis.com/css?family=Numans');
-
-html,body{
-
-    background-size: cover;
-    background-repeat: no-repeat;
-    height: 100%;
-    font-family: 'Numans', sans-serif;
-    }
-    
-    .container{
-    height: auto;
-    align-content: center;
-    }
-    
-.object-table{
-  display:flex;
-  justify-content:center;
-}
-.card-text{
-  color:rgb(238, 98, 33);
-}
-.card{
-  text-align: center;
-  height: auto;
-  margin-top: auto;
-  margin-bottom: auto;
-  width: 300px;
-  background-color: white;
-}
-    
-    .card-header h3{
-    color: white;
-    }
-    .card-footer > .d-flex > a{
-color: rgb(252, 152, 66)
-    }
-    .card-footer > .d-flex > a:hover{
-      color: rgb(238, 98, 33);
-          }   
-    .input-group-prepend span{
-    width: 100%;
+/* ----- NAVBAR ----- A'Bloc ----- */
+.navbar-nav > .nav-item > .nav-link{
+  color: rgb(238, 98, 33);
+  }
+  .dropdown-menu {
     background-color: rgb(238, 98, 33);
-    color: black;
-    border:0;
-    }
-    
-    input:focus{
-    outline: 0 0 0 0;
-    box-shadow: 0 0 0 0;
-    }
-    
-    .login_btn{
+  }
+  .dropdown-menu > .dropdown-item {
     color: white;
-    background-color: rgb(252, 152, 66);
-    width: 100%;
-    }
-    
-    .login_btn:hover{
-    color: white;
-    background-color: rgb(238, 98, 33);
-    }
+  }
+  .dropdown-menu > .dropdown-item:hover {
+    color: rgb(238, 98, 33);
+  }
 
 /* ----- BOOTSTRAP CUSTOM BUTTONS ----- A'Bloc ----- */
 
 .btn-primary:hover {
   background-color: rgb(0, 0, 255);
 }
-
 .btn-warning:hover {
   background-color: rgb(255, 255, 0);
 }
-
 .btn-danger:hover {
   background-color: rgb(255, 0, 0);
 }
-
 .btn-success:hover{
   background-color: rgb(0, 255, 0)
 }
 
+/* ----- LOGIN Form ----- A'Bloc ----- */
+
+html,body{
+  background-size: cover;
+  background-repeat: no-repeat;
+  height: 100%;
+  font-family: 'Roboto', sans-serif;
+}
+.login-container{
+  height: auto;
+  align-content: center;
+  padding: 100px;
+}
+.login-card-header h3{
+  color: rgb(238, 98, 33);
+}
+.login-card-footer > a{
+  color: rgb(252, 152, 66)
+}
+.login-card-footer > a:hover{
+  color: rgb(126, 109, 102);
+}   
+.login-card{
+  text-align: center;
+  height: auto;
+  padding: 20px;
+  width: 300px;
+  background-color: white;
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 0.5rem 1rem;
+}
+.login-input-group-prepend{
+  width: 100%;
+  background-color: rgb(238, 98, 33);
+  border-radius: 3px;
+}
+.login-input-group-prepend span{
+width: 100%;
+background-color: rgb(238, 98, 33);
+color: white;
+
+}
+.login_btn{
+color: white;
+background-color: rgb(252, 152, 66);
+width: 100%;
+}
+.login_btn:hover{
+color: white;
+background-color: rgb(238, 98, 33);
+}
 
 /* ----- SHOW View----- A'Bloc ----- */
       
@@ -114,20 +111,6 @@ thead {
   box-shadow: rgba(0, 0, 0, 0.15) 0px 0.5rem 1rem;
   margin: auto; 
 }
-.navbar-nav > .nav-item > .nav-link{
-color: rgb(238, 98, 33);
-}
-.dropdown-menu {
-  background-color: rgb(238, 98, 33);
-}
-.dropdown-menu > .dropdown-item {
-  color: white;
-}
-.dropdown-menu > .dropdown-item:hover {
-  color: rgb(238, 98, 33);
-}
-
-
 
 /* ----- COMMENTS ----- A'Bloc ----- */
 
@@ -211,4 +194,16 @@ border-width:8px;
 }
 .hidden-content {
   display: none;
+}
+
+
+
+
+
+
+
+
+.object-table{
+  display:flex;
+  justify-content:center;
 }
