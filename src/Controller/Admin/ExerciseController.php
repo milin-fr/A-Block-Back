@@ -116,9 +116,9 @@ class ExerciseController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             //Image par défaut
-            $defaultImg = $form->get('set_default_image');
+            $defaultImg = $form->get('set_image_default');
             if ($defaultImg == true)
-            $exercise->setImgPath('exercise_default_image.png');
+            $exercise->setImgPath('exercise_image_default.png');
 
             $imgFile = $form->get('img_path')->getData(); // a verifier si recupere le nom ou le fichier en en entier
             if ($imgFile) {

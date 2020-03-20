@@ -4,17 +4,14 @@
 
 {% block body %}
 <div class="wrapper-entity-form">
-    <p class="d-flex justify-content-end">Create New Hint</p>
-    <table class="table table-striped table-dark">
+    <table class="table table-striped table-bordered table-light text-center">
         <thead class="thead">
             <tr>
-                <th>Id</th>
-                <th></th>
+                <th>New Hint</th>
             </tr>
         </thead>
         <tbody>
             <tr>
-                <td>{{ hint.id }}</td>
                 <td>    {{ include('admin/hint/_form.html.twig', {'button_label': 'Create'}) }}
                 </td>
             </tr>

@@ -30,7 +30,7 @@ class ExerciseType extends AbstractType
             'label' => 'Time (in minutes)'])
             ->add('img_path', FileType::class, [
                 'mapped' => false,
-                'label' => 'Upload Image Exercise',
+                'label' => 'Upload Image',
                 'constraints' => [
                     new File([
                         'maxSize' => '2048k',
@@ -39,7 +39,7 @@ class ExerciseType extends AbstractType
                     ])
                 ],
             ])
-            ->add('set_default_image',CheckboxType::class, [
+            ->add('set_image_default',CheckboxType::class, [
                 'label' => 'Set Default image',
                 'mapped' => false,
             ])

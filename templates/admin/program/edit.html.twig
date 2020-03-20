@@ -5,18 +5,49 @@
 {% block body %}
 <div class="wrapper-entity-form">
     <p class="d-flex justify-content-end">Edit Program</p>
-    <table class="table table-striped table-dark">
+    <table class="table table-striped table-bordered table-light text-center">
         <thead class="thead">
             <tr>
-                <th>Id</th>
-                <th></th>
+                <th>Program ID : {{ program.id }}</th>
             </tr>
         </thead>
-        <tbody>
+                <tbody>
             <tr>
-                <td>{{ program.id }}</td>
-                <td>    {{ include('admin/program/_form.html.twig', {'button_label': 'Update'}) }}
-                        {{ include('admin/program/_delete_form.html.twig') }}
+                <td>
+                    <div class="edit-card">
+                        <div class="edit-card--entity">
+                        {{ form_start(form) }}
+                            {{ form_label(form.title) }}
+                            {{ form_widget(form.title) }}
+
+                            {{ form_label(form.description) }}
+                            {{ form_widget(form.description) }}
+
+                            {{ form_label(form.time) }}
+                            {{ form_widget(form.time) }}
+
+                     <div class="image-card d-flex justify-content-around align-items-center">
+                    <div class="image-card d-flex justify-content-around align-items-center">
+                    <p class="current-image">Current Image</p>
+                     <img src="{{ asset('uploads/program_img/'~ program.imgPath) }}" alt="Program Image Abloc" style="margin:2px";>
+                                          </div>
+                    {{ form_label(form.img_path) }}
+                    {{ form_widget(form.img_path) }}
+                    {{ form_label(form.set_image_default) }}
+                    {{ form_widget(form.set_image_default) }}
+                     </div>
+                        </div>  
+                        <div class="edit-card--relation d-flex justify-content-around">
+                            <div class="relation-card">
+                            {{ form_label(form.exercises) }}
+                            {{ form_widget(form.exercises) }}
+                            </div>
+                        </div>
+                    </div>
+                    <button class="btn btn-success btn-block">{{ button_label|default('Update') }}</button>
+                    {{ form_end(form) }}
+                    
+                    {{ include('admin/program/_delete_form.html.twig') }}
                 </td>
             </tr>
         </tbody>

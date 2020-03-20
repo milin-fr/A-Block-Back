@@ -4,6 +4,7 @@
          {{ form_row(form.title) }}
          {{ form_row(form.time) }}
          {{ form_row(form.img_path) }}
+         {{ form_row(form.set_image_default) }}
          {{ form_row(form.description) }}
          {{ form_row(form.score) }}
         <div class="exercise-card-hints">
@@ -16,6 +17,8 @@
              {{ form_row(form.mastery_level) }}
             <button class="btn btn-success btn-block">{{ button_label|default('Save') }}</button>
     {{ form_end(form) }}
+        </div>
+        </div>
         </div>
         </div>
         </div>

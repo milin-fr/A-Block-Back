@@ -25,7 +25,7 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
-     * @Groups("abloc_user")
+     * @Groups({"abloc_user", "exercise_comment", "program_comment"})
      * @Assert\NotBlank
      */
     private $email;
@@ -82,7 +82,7 @@ class User implements UserInterface
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Program")
      * @JoinTable(name="program_bookmark")
-     * @Groups("abloc_user")
+     * @Groups({"abloc_user", "exercise_comment", "program_comment", "exercise", "program"})
      */
     private $program_bookmarks;
 

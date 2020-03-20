@@ -3,18 +3,57 @@
 {% form_theme form 'bootstrap_4_layout.html.twig' %}
 {% block body %}
 <div class="wrapper-entity-form">
-    <p class="d-flex justify-content-end">Create New Exercise</p>
-    <table class="table table-striped table-dark">
+    <table class="table table-striped table-bordered table-light text-center">
         <thead class="thead">
             <tr>
-                <th>Id</th>
-                <th></th>
+                <th>New Exercise</th>
             </tr>
         </thead>
         <tbody>
             <tr>
-                <td>{{ exercise.id }}</td>
-                <td>    {{ include('admin/exercise/_form.html.twig', {'button_label': 'Create'}) }}
+                <td>
+                    <div class="new-card">
+                        <div class="new-card--entity">
+                        {{ form_start(form) }}
+                            {{ form_label(form.title) }}
+                            {{ form_widget(form.title) }}
+
+                            {{ form_label(form.description) }}
+                            {{ form_widget(form.description) }}
+
+                            {{ form_label(form.time) }}
+                            {{ form_widget(form.time) }}
+
+                            {{ form_label(form.score) }}
+                            {{ form_widget(form.score) }}
+
+                            {{ form_label(form.mastery_level) }}
+                            {{ form_widget(form.mastery_level) }}
+
+                     <div class="image-card d-flex justify-content-around align-items-center">
+                    {{ form_label(form.img_path) }}
+                    {{ form_widget(form.img_path) }}
+                    {{ form_label(form.set_image_default) }}
+                    {{ form_widget(form.set_image_default) }}
+                     </div>
+                        </div>  
+                        <div class="new-card--relation d-flex justify-content-around">
+                            <div class="relation-card">
+                            {{ form_label(form.hints) }}
+                            {{ form_widget(form.hints) }}
+                            </div>
+                            <div class="relation-card">
+                            {{ form_label(form.prerequisites) }}
+                            {{ form_widget(form.prerequisites) }}
+                            </div>
+                            <div class="relation-card">
+                            {{ form_label(form.programs) }}
+                            {{ form_widget(form.programs) }}
+                            </div>
+                        </div>
+                    </div>
+                    <button class="btn btn-success btn-block">{{ button_label|default('Create') }}</button>
+                    {{ form_end(form) }}
                 </td>
             </tr>
         </tbody>

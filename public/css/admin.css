@@ -2,7 +2,7 @@
 @import url('https://fonts.googleapis.com/css?family=Numans');
 
 html,body{
-    background-image: url('../asset/images/background_back.png');
+
     background-size: cover;
     background-repeat: no-repeat;
     height: 100%;
@@ -10,26 +10,38 @@ html,body{
     }
     
     .container{
-    height: 100%;
+    height: auto;
     align-content: center;
     }
     
-    .card{
-    text-align: center;
-    height: 350px;
-    margin-top: auto;
-    margin-bottom: auto;
-    width: 300px;
-    background-color: rgba(0,0,0,0.5);
-    }
+.object-table{
+  display:flex;
+  justify-content:center;
+}
+.card-text{
+  color:rgb(238, 98, 33);
+}
+.card{
+  text-align: center;
+  height: auto;
+  margin-top: auto;
+  margin-bottom: auto;
+  width: 300px;
+  background-color: white;
+}
     
     .card-header h3{
     color: white;
     }
-    
+    .card-footer > .d-flex > a{
+color: rgb(252, 152, 66)
+    }
+    .card-footer > .d-flex > a:hover{
+      color: rgb(238, 98, 33);
+          }   
     .input-group-prepend span{
-    width: 50px;
-    background-color: #FFC312;
+    width: 100%;
+    background-color: rgb(238, 98, 33);
     color: black;
     border:0;
     }
@@ -40,18 +52,17 @@ html,body{
     }
     
     .login_btn{
-    color: black;
-    background-color: #FFC312;
-    width: 100px;
+    color: white;
+    background-color: rgb(252, 152, 66);
+    width: 100%;
     }
     
     .login_btn:hover{
-    color: black;
-    background-color: #EE6122;
+    color: white;
+    background-color: rgb(238, 98, 33);
     }
 
-
-/* ----- BUTTONS ----- A'Bloc ----- */
+/* ----- BOOTSTRAP CUSTOM BUTTONS ----- A'Bloc ----- */
 
 .btn-primary:hover {
   background-color: rgb(0, 0, 255);
@@ -72,29 +83,132 @@ html,body{
 
 /* ----- SHOW View----- A'Bloc ----- */
       
-      .wrapper {
-        margin: 0 auto;
-        padding: 40px;
-        max-width: 800px;
+.wrapper {
+  margin: 0 auto;
+  padding: 40px;
+  max-width: 800px;
+}
+th {
+  color: white;
+}
+.form-control{
+  width: 100%;
+  font-size: 1rem;
+  padding: 1em;
+  border-width: 1px;
+  border-style: solid;  
+  border-color: rgb(252, 152, 66);
+}
 
-      }
-      .wrapper-entity-form {
-        margin: 0 auto;
-        padding: 40px;
-        max-width: auto; 
-      }
-      .thead {
-        background-color: #EE6122;
-      }
-      .thead-objects {
-        color:white;
-      }
-      .nav-link {
-        color: #ffc107;
-      }
-      .nav-link:hover {
-        color: #ffc107;
-      }
-      .nav .nav-link > .active > a {
-        background:transparent;
-      }
+.wrapper-entity-form {
+  margin: 50px;
+  max-width: auto; 
+}
+thead {
+  background-color: rgb(238, 98, 33);
+  border: solid 1px;
+  border-color:  rgb(238, 98, 33);
+  color: white,
+}
+.table-light {
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 0.5rem 1rem;
+  margin: auto; 
+}
+.navbar-nav > .nav-item > .nav-link{
+color: rgb(238, 98, 33);
+}
+.dropdown-menu {
+  background-color: rgb(238, 98, 33);
+}
+.dropdown-menu > .dropdown-item {
+  color: white;
+}
+.dropdown-menu > .dropdown-item:hover {
+  color: rgb(238, 98, 33);
+}
+
+
+
+/* ----- COMMENTS ----- A'Bloc ----- */
+
+img {
+  width: 40px;
+  height: 40px;
+}
+.thumbnail {
+  padding:0px;
+}
+.panel {
+position:relative;
+}
+.panel>.panel-heading:after,.panel>.panel-heading:before{
+position:absolute;
+top:11px;left:-16px;
+right:100%;
+width:0;
+height:0;
+display:block;
+content:" ";
+border-color:transparent;
+border-style:solid solid outset;
+pointer-events:none;
+}
+.panel>.panel-heading:after{
+border-width:7px;
+border-right-color:#f7f7f7;
+margin-top:1px;
+margin-left:2px;
+}
+.panel>.panel-heading:before{
+border-right-color:#ddd;
+border-width:8px;
+}
+.col-sm-5{
+  font-size: 0.5em;
+}
+.comment {
+  color: black;
+}
+.comment-user {
+  color: green;
+}
+.comment-content {
+  color: green;
+}
+.comment-date {
+  color: black;
+  font-size: 0.7em;
+}
+
+
+
+/* ----- Text Relations on EDIT/NEW ----- A'Bloc ----- */
+.col-form-label {
+  color:  rgb(238, 98, 33)
+}
+.relation-card {
+  background: white;
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 0.5rem 1rem;
+  margin: 3px;
+  padding: 10px;
+}
+.image-card {
+  display:flex;
+  background: white;
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 0.5rem 1rem;
+  margin: 10px;
+  padding: 10px;
+}
+.form-check {
+  display:flex;
+  background: white;
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 0.5rem 1rem;
+  margin: 10px;
+  padding: 10px;
+}
+.current-image {
+  font-size: 0.5em;
+}
+.hidden {
+  opacity: 0;
+}

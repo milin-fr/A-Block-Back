@@ -16,6 +16,7 @@ use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
 class ProgramType extends AbstractType
@@ -30,7 +31,7 @@ class ProgramType extends AbstractType
             'label' => 'Time (in sessions)'])
             ->add('img_path', FileType::class, [
                 'mapped' => false,
-                'label' => 'Upload Image Program',
+                'label' => 'Upload Image',
                 'constraints' => [
                     new File([
                         'maxSize' => '2048k',
@@ -38,6 +39,10 @@ class ProgramType extends AbstractType
                         'mimeTypesMessage' => 'Please upload a valid Image : JPEG or PNG, less than 2MB',
                     ])
                 ],
+            ])
+            ->add('set_image_default',CheckboxType::class, [
+                'label' => 'Set Default image',
+                'mapped' => false,
             ])
             ->add('exercises', EntityType::class, [
                 'class' => Exercise::class,
