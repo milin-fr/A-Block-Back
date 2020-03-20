@@ -20,6 +20,7 @@
                 <td>
                     <a href="{{ path('admin_mastery_level_edit', {'id': mastery_level.id}) }}" class="btn btn-warning fas fa-edit"></a>
                     <a href="{{ path('admin_mastery_level_delete', {'id': mastery_level.id}) }}" class="btn btn-danger fas fa-trash-alt"></a>
+                    {{ include('admin/mastery_level/_delete_small_form.html.twig') }}
                 </td>
             </tr>
         </tbody>

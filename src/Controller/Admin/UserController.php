@@ -148,10 +148,9 @@ class UserController extends AbstractController
     /**
      * @Route("/edit/password/{id<\d+>}", name="admin_user_edit_password")
      */
-    public function editPassword(Request $request, UserPasswordEncoderInterface $encoder)
+    public function editPassword($id, Request $request, UserPasswordEncoderInterface $encoder, UserRepository $userRepository)
     {
-        $user = $this->getUser();
-
+        $user = $userRepository->find($id);
         $form = $this->createForm(UserPasswordType::class, $user);
 
         $form->handleRequest($request);

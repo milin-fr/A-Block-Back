@@ -23,7 +23,7 @@
                 <td>{{ program_comment.program.title }}</td>
                 <td>
                     <a href="{{ path('admin_program_comment_edit', {'id': program_comment.id}) }}" class="btn btn-warning fas fa-edit"></a>
-                    <a href="{{ path('admin_program_comment_delete', {'id': program_comment.id}) }}" class="btn btn-danger fas fa-trash-alt"></a>
+                    {{ include('admin/program_comment/_delete_small_form.html.twig') }}
                 </td>
             </tr>
         </tbody>
