@@ -27,7 +27,7 @@
                 <td>
                     <a href="{{ path('admin_user_show', {'id': user.id}) }}" class="btn btn-primary fas fa-search-plus"></a>
                     <a href="{{ path('admin_user_edit', {'id': user.id}) }}" class="btn btn-warning fas fa-edit"></a>
-                    <a href="{{ path('admin_user_delete', {'id': user.id}) }}" class="btn btn-danger fas fa-trash-alt"></a>
+                    {{ include('admin/user/_delete_small_form.html.twig') }}
                 </td>
                 <td><a href="{{ path('admin_user_edit_password', {'id': user.id}) }}" class="btn btn-warning fas fa-key"></a></td>
 

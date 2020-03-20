@@ -19,7 +19,7 @@
                 <td>{{ hint.text }}</td>
                 <td>
                     <a href="{{ path('admin_hint_edit', {'id': hint.id}) }}" class="btn btn-warning fas fa-edit"></a>
-                    <a href="{{ path('admin_hint_delete', {'id': hint.id}) }}" class="btn btn-danger fas fa-trash-alt"></a>
+                    {{ include('admin/hint/_delete_small_form.html.twig') }}
                 </td>
             </tr>
         </tbody>

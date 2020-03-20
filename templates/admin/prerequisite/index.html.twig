@@ -22,7 +22,7 @@
                 <td>
                     <a href="{{ path('admin_prerequisite_show', {'id': prerequisite.id}) }}" class="btn btn-primary fas fa-search-plus"></a>
                     <a href="{{ path('admin_prerequisite_edit', {'id': prerequisite.id}) }}" class="btn btn-warning fas fa-edit"></a>
-                    <a href="{{ path('admin_prerequisite_delete', {'id': prerequisite.id}) }}" class="btn btn-danger fas fa-trash-alt"></a>
+                    {{ include('admin/prerequisite/_delete_small_form.html.twig') }}
                 </td>
             </tr>
         {% else %}

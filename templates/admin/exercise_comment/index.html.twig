@@ -22,7 +22,7 @@
                 <td>
                     <a href="{{ path('admin_exercise_comment_show', {'id': exercise_comment.id}) }}" class="btn btn-primary fas fa-search-plus"></a>
                     <a href="{{ path('admin_exercise_comment_edit', {'id': exercise_comment.id}) }}" class="btn btn-warning fas fa-edit"></a>
-                    <a href="{{ path('admin_exercise_comment_delete', {'id': exercise_comment.id}) }}" class="btn btn-danger fas fa-trash-alt"></a>
+                    {{ include('admin/exercise_comment/_delete_small_form.html.twig') }}
                 </td>
             </tr>
         {% else %}

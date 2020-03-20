@@ -24,7 +24,7 @@
                 <td>
                     <a href="{{ path('admin_exercise_show', {'id': exercise.id}) }}" class="btn btn-primary fas fa-search-plus"></a>
                     <a href="{{ path('admin_exercise_edit', {'id': exercise.id}) }}" class="btn btn-warning fas fa-edit"></a>
-                    <a href="{{ path('admin_exercise_delete', {'id': exercise.id}) }}" class="btn btn-danger fas fa-trash-alt"></a>
+                    {{ include('admin/exercise/_delete_small_form.html.twig') }}
                 </td>
             </tr>
         {% else %}

@@ -37,7 +37,7 @@
                 <td>{{ program.masteryLevel.title }}</td>
                 <td>
                     <a href="{{ path('admin_program_edit', {'id': program.id}) }}" class="btn btn-warning fas fa-edit"></a>
-                    <a href="{{ path('admin_program_delete', {'id': program.id}) }}" class="btn btn-danger fas fa-trash-alt"></a>
+                    {{ include('admin/program/_delete_small_form.html.twig') }}
                 </td>
             </tr>
         </tbody>
