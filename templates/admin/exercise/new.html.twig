@@ -33,8 +33,10 @@
                      <div class="image-card d-flex justify-content-around align-items-center">
                     {{ form_label(form.img_path) }}
                     {{ form_widget(form.img_path) }}
-                    {{ form_label(form.set_image_default) }}
-                    {{ form_widget(form.set_image_default) }}
+                    <div class="hidden-content">
+                        {{ form_label(form.set_image_default) }}
+                        {{ form_widget(form.set_image_default) }}
+                    </div>
                      </div>
                         </div>  
                         <div class="new-card--relation d-flex justify-content-around">

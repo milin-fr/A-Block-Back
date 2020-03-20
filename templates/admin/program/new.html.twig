@@ -15,7 +15,6 @@
                 <td>
                     <div class="new-card d-flex d-flex justify-content-around">
                         <div class="edit-card--entity d-flex align-items-center">
-                        {{ form_start(form) }}
                             {{ form_label(form.title) }}
                             {{ form_widget(form.title) }}
 
@@ -24,7 +23,7 @@
 
                             {{ form_label(form.time) }}
                             {{ form_widget(form.time) }}
-
+                     </div>
                      <div class="image-card d-flex justify-content-around align-items-center">
                     {{ form_label(form.img_path) }}
                     {{ form_widget(form.img_path) }}
@@ -38,7 +37,6 @@
                         </div>
                     </div>
                     <button class="btn btn-success btn-block">{{ button_label|default('Create') }}</button>
-                    {{ form_end(form) }}
                 </td>
             </tr>
         </tbody>
