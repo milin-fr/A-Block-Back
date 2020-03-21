@@ -3,117 +3,123 @@
 {% block title %}Exercise{% endblock %}
 
 {% block body %}
-<div class="wrapper-entity-form">
+<div class="info-container">
+    <div class="info-body">
         <p class="d-flex justify-content-end">Exercise details</p>
-        <p class="d-flex justify-content-end"><font color="#fff">Created At : {{ exercise.createdAt|date("m/d/Y") }}</p>
-    <table class="table table-striped table-bordered table-light text-center">
-        <div class="d-flex justify-content-start">
-            <div class="card-header">
-                <ul class="nav nav-tabs card-header-tabs" id="objects-list" role="tablist">
-                <li class="nav-item-tab">
-                <a class="nav-link active" href="#hints" role="tab" aria-controls="hints" aria-selected="true">Hints</a>
-                </li>
-                <li class="nav-item-tab">
-                <a class="nav-link"  href="#prerequisites" role="tab" aria-controls="prerequisites" aria-selected="false">Prerequisites</a>
-                </li>
-                <li class="nav-item-tab">
-                <a class="nav-link" href="#programs" role="tab" aria-controls="programs" aria-selected="false">Programs</a>
-                </li>
-                <li class="nav-item-tab">
-                <a class="nav-link" href="#comments" role="tab" aria-controls="comments" aria-selected="false">Comments</a>
-                </li>
-                </ul>
-            </div>
-        <thead class="thead">
+        <p class="d-flex justify-content-end">Created At : {{ exercise.createdAt|date("m/d/Y") }}</p>
+
+        <div class="info">
+            <table class="table table-striped table-bordered table-light text-center">
+                        <ul class="nav nav-tabs card-header-tabs" id="objects-list" role="tablist">
+                            <li class="nav-item-tab">
+                                <a class="nav-link active" href="#hints" role="tab" aria-controls="hints" aria-selected="true">Hints</a>
+                            </li>
+                            <li class="nav-item-tab">
+                            <a class="nav-link" href="#prerequisites" role="tab" aria-controls="prerequisites" aria-selected="false">Prerequisites</a>
+                            </li>
+                            <li class="nav-item-tab">
+                                <a class="nav-link" href="#programs" role="tab" aria-controls="programs"aria-selected="false">Programs</a>
+                            </li>
+                            <li class="nav-item-tab">
+                                <a class="nav-link" href="#comments" role="tab" aria-controls="comments"aria-selected="false">Comments</a>
+                            </li>
+                        </ul>
+        </div>
+        <thead class="info-thead">
             <tr>
                 <th>Id</th>
                 <th>Title</th>
-                <th>Score</th>
                 <th>Time</th>
+                <th>Score</th>
                 <th>Image</th>
                 <th>Mastery Level</th>
                 <th>Actions</th>
             </tr>
-        </thead>    
+        </thead>
         <tbody>
             <tr>
                 <td>{{ exercise.id }}</td>
                 <td>{{ exercise.title }}</td>
-                <td>{{ exercise.score }}</td>
                 <td>{{ exercise.time }}</td>
-                <td><img src="{{ asset('uploads/exercise_img/'~ exercise.imgPath) }}" alt="Exercise Image Abloc" style="width:30px;"></td>
+                <td>{{ exercise.score }}</td>
+                <td><img src="{{ asset('uploads/exercise_img/'~ exercise.imgPath) }}" alt="Exercise Image Abloc"></td>
                 <td>{{ exercise.masteryLevel.title }}</td>
                 <td>
-                    <a href="{{ path('admin_exercise_edit', {'id': exercise.id}) }}" class="btn btn-warning fas fa-edit"></a>
+                    <a href="{{ path('admin_exercise_edit', {'id': exercise.id}) }}"
+                        class="btn btn-warning fas fa-edit"></a>
                     {{ include('admin/exercise/_delete_small_form.html.twig') }}
                 </td>
             </tr>
         </tbody>
-    </table>
-    <table class="table table-striped table-dark">
-        <thead class="thead">
-            <tr><font color="#fff">Description</tr>
-        </thead>
-        <tbody>
-                <td>{{ exercise.description }}</td>
-        </tbody>
-    </table>
-    <table class="table table-striped table-dark">
-        <thead class="thead">
-            <tr><font color="#fff">Tabs</tr>
-        </thead>
-        <tbody>
-            <td>
-                <div class="card" style="width: auto;">
-                    <div class="card-body">
-                        <div class="tab-content">
-                            <div class="tab-pane active" id="hints" role="tabpanel">
-                                {% for hint in exercise.hints %}
-                                    <p class="card-text">{{ hint.text }}</p>
-                                {% endfor %}
-                            </div>
-                            <div class="tab-pane" id="prerequisites" role="tabpanel" aria-labelledby="prerequisites-tab">  
-                                {% for prerequisite in exercise.prerequisites %}
-                                    <p class="card-text">{{ prerequisite.description }}</p>
-                                {% endfor %}
-                            </div>
-                            <div class="tab-pane" id="programs" role="tabpanel" aria-labelledby="programs-tab">
-                            {% for program in exercise.programs %}
-                                <p class="card-text">{{ program.title }}</p>
-                            {% endfor %}
-                            </div>
-                        <div class="tab-pane" id="comments" role="tabpanel" aria-labelledby="comments-tab">  
-                                {% for user in exercise.comments %}
-                                {% for comment in exercise.comments %}
-
-                        <table class="table">
-                          <thead>
-                            <tr>
-                            <th scope="col">Image</th>
-                              <th scope="col">User</th>
-                              <th scope="col">Comment</th>
-                              <th scope="col">Created At</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr>
-                              <th scope="row"><img class="img-responsive user-photo" src="{{ asset('uploads/user_img/'~ user.imgPath) }}"</th>
-                              <td class="comment-user">@{{ comment.user.accountName }}</td>
-                              <td class="comment-content">"{{ comment.text }}"</td>
-                              <td class="comment-date">{{ comment.createdAt|date("m/d/Y") }}</td>
-                            </tr>
-                            </table>
-                            {% endfor %}
-                            {% endfor %}
-                                                    </div>
-                                                </div>
-                                            </div>
+            </table>
+            <div class="info-description">
+                <table class="table table-light text-center">
+                    <thead class="info-thead">
+                        <th>Description</th>
+                    </thead>
+                    <tbody>
+                        <td>{{ exercise.description }}</td>
+                    </tbody>
+            </table>
+            </div>
+            <div class="info-tabs-content">
+                <div class="info-tabs-content">
+                    <table class="table table-striped table-bordered table-light text-center">
+                        <thead class="info-thead">
+                            <th>Tabs</th>
+                        </thead>
+                        <tbody>
+                        <td>
+                            <div class="info-card" style="width: auto;">
+                                <div class="info-card-body">
+                                    <div class="tab-content">
+                                        <div class="tab-pane active" id="hints" role="tabpanel">
+                                            {% for hint in exercise.hints %}
+                                            <p class="card-text">{{ hint.text }}</p>
+                                            {% endfor %}
                                         </div>
-                                    </td>
-                                </tbody>
-                            </table>
-                        </div>
-
+                                        <div class="tab-pane" id="prerequisites" role="tabpanel" aria-labelledby="prerequisites-tab">
+                                            {% for prerequisite in exercise.prerequisites %}
+                                            <p class="card-text">{{ prerequisite.description }}</p>
+                                            {% endfor %}
+                                        </div>
+                                        <div class="tab-pane" id="programs" role="tabpanel" aria-labelledby="programs-tab">
+                                            {% for program in exercise.programs %}
+                                            <p class="card-text">{{ program.title }}</p>
+                                            {% endfor %}
+                                        </div>
+                                        <div class="tab-pane" id="comments" role="tabpanel" aria-labelledby="comments-tab">
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th>Image</th>
+                                                    <th>User</th>
+                                                    <th>Comment</th>
+                                                    <th>Created At</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for comment in exercise.comments %}
+                                                <tr>
+                                                    <td class="comment-user-image"><img src="{{ asset('uploads/user_img/'~ comment.user.imgPath) }}" </th>
+                                                    <td class="comment-user">@{{ comment.user.accountName }}</td>
+                                                    <td class="comment-content">"{{ comment.text }}"</td>
+                                                    <td class="comment-date">{{ comment.createdAt|date("m/d/Y") }}</td>
+                                                </tr>
+                                                {% endfor %}
+                                        </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                    </table>
+                        <div class="back-list-button">
+                            <a href="{{ path('admin_exercise_index') }}" button type="button" class="btn btn-primary btn-block">Back to list</a>
+                        </div>          
+                </div>
+            </div>
+    </div>
+</div>  
 <!-- @TODO include fichier js pr supprimer ici -->
 <script>$('#objects-list a').on('click', function (e) {
   e.preventDefault()
