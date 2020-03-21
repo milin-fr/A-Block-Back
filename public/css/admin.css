@@ -212,3 +212,67 @@ border-width:8px;
 .hidden {
   opacity: 0;
 }
+
+.hidden-content
+{
+  display: none;
+}
+
+
+
+
+
+
+/* ----- Admin checkboxes ----- */
+#exercise_hints
+{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.form-check
+{
+  width: 100%;
+}
+
+.form-check-label
+{
+  text-align: left;
+  cursor: pointer;
+}
+
+input[type=checkbox] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+}
+
+:checked + .form-check-label {
+  font-weight: bold;
+}
+
+@media (min-width: 800px) {
+  .form-check
+  {
+    width: 50%;
+  }
+}
+@media (min-width: 1200px) {
+  .form-check
+  {
+    width: 33%;
+  }
+}
+@media (min-width: 1600px) {
+  .form-check
+  {
+    width: 25%;
+  }
+}
+@media (min-width: 1900px) {
+  .form-check
+  {
+    width: 20%;
+  }
+}
