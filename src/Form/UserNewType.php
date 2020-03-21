@@ -3,8 +3,6 @@
 namespace App\Form;
 
 use App\Entity\User;
-use App\Entity\Program;
-use App\Entity\Exercise;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -14,11 +12,10 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
-use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use App\Entity\MasteryLevel;
+
 
 class UserNewType extends AbstractType
 {
@@ -26,7 +23,9 @@ class UserNewType extends AbstractType
     {
         $builder
             ->add('email', EmailType::class)
-            ->add('password', TextType::class)
+            ->add('password', TextType::class, [
+                'constraints' => new NotBlank()
+            ])
             ->add('roles', ChoiceType::class, [
                     'choices' => [
                         'ADMIN' => 'ROLE_ADMIN',

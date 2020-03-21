@@ -25,6 +25,9 @@ class Exercise
      * @ORM\Column(type="string", length=64)
      * @Groups({"exercise", "prerequisite", "program", "abloc_user", "mastery_level", "exercise_comment"})
      * @Assert\NotBlank
+     * @Assert\Length(
+     *      max = 64
+     * )
      */
     private $title;
 

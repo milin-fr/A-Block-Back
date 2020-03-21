@@ -26,7 +26,7 @@ class Program
      * @Groups({"exercise", "program", "abloc_user", "mastery_level", "program_comment"})
      * @Assert\NotBlank
      * @Assert\Length(
-     *      max = 50
+     *      max = 64
      * )
      */
     private $title;
