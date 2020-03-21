@@ -11,6 +11,9 @@
 .dropdown-menu > .dropdown-item:hover {
   color: rgb(238, 98, 33);
 }
+.logo {
+  margin: 5px;
+}
 
 /* ----- BOOTSTRAP CUSTOM BUTTONS ----- A'Bloc ----- */
 .btn-primary:hover {
