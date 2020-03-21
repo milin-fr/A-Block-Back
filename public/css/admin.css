@@ -157,6 +157,10 @@ th {
   font-size: 0.5em;
 }
 
+.col-form-label {
+  color: rgb(238, 98, 33);
+}
+
 /* ----- Admin checkboxes ----- */
 
 .check-box--flex > div
