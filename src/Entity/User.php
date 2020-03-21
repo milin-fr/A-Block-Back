@@ -27,6 +27,9 @@ class User implements UserInterface
      * @ORM\Column(type="string", length=180, unique=true)
      * @Groups({"abloc_user", "exercise_comment", "program_comment"})
      * @Assert\NotBlank
+     * @Assert\Length(
+     *      max = 180
+     * )
      */
     private $email;
 
@@ -39,6 +42,9 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank
+     * @Assert\Length(
+     *      max = 64
+     * )
      */
     private $password;
 
@@ -46,12 +52,18 @@ class User implements UserInterface
      * @ORM\Column(type="string", length=64)
      * @Groups({"abloc_user", "exercise_comment", "program_comment", "exercise", "program"})
      * @Assert\NotBlank
+     * @Assert\Length(
+     *      max = 64
+     * )
      */
     private $account_name;
 
     /**
      * @ORM\Column(type="string", length=64, nullable=true)
      * @Groups({"abloc_user", "exercise_comment", "program_comment", "exercise", "program"})
+     * @Assert\Length(
+     *      max = 64
+     * )
      */
     private $img_path;
 
