@@ -14,6 +14,9 @@
 .logo {
   margin: 5px;
 }
+.navbar {
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 0.5rem 1rem; 
+}
 
 /* ----- BOOTSTRAP CUSTOM BUTTONS ----- A'Bloc ----- */
 .btn-primary:hover {
@@ -35,8 +38,7 @@
 
 /* ----- GENERAL ----- A'Bloc ----- */
 html,body{
-  background-size: cover;
-  background-repeat: no-repeat;
+  background-color: #EBEBEB;
   height: 100%;
   font-family: 'Roboto', sans-serif;
 }
@@ -67,6 +69,7 @@ tbody {
   padding: 0;
   box-shadow: rgba(68, 55, 55, 0.15) 0px 0.5rem 1rem;
   width: 90%;
+  background-color: white;
 }
 .info-body .table {
   margin-bottom: 0em;

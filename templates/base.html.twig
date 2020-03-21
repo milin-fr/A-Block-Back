@@ -121,6 +121,12 @@
                 }
                 imgField.addEventListener("change", message);
             </script>
+
+            <script>
+              $('#objects-list a').on('click', function (e) {
+              e.preventDefault()
+              $(this).tab('show')})
+            </script>
         {% endblock %}
     </body>
 </html>
