@@ -60,6 +60,7 @@ th {
   margin: 50px;
   padding: 0;
   box-shadow: rgba(68, 55, 55, 0.15) 0px 0.5rem 1rem;
+  width: 90%;
 }
 .info-body .table {
   margin-bottom: 0em;
@@ -142,14 +143,9 @@ th {
   border-color: rgb(252, 152, 66);
 }
 .form-check {
-  display:flex;
   background: white;
   box-shadow: rgba(0, 0, 0, 0.15) 0px 0.5rem 1rem;
   margin: 10px;
-  padding: 10px;
-}
-.form-check:hover{
-  background-color:rgb(238, 98, 33);
 }
 .image-card {
   display:flex;
@@ -163,7 +159,8 @@ th {
 }
 
 /* ----- Admin checkboxes ----- */
-#exercise_hints
+
+.check-box--flex > div
 {
   display: flex;
   flex-direction: row;
@@ -173,12 +170,23 @@ th {
 .form-check
 {
   width: 100%;
+  border-radius: .25rem;
+  border: white solid 1px;
+  padding-left: 0;
 }
 
 .form-check-label
 {
-  text-align: left;
+  border-radius: .25rem;
+  line-height: 3em;
+  text-align: center;
   cursor: pointer;
+  width: 100%;
+  height: 100%;
+}
+
+.form-check:hover{
+  border: rgb(238, 98, 33) solid 1px;
 }
 
 input[type=checkbox] {
@@ -189,29 +197,32 @@ input[type=checkbox] {
 
 :checked + .form-check-label {
   font-weight: bold;
+  background-color:rgb(238, 98, 33);
 }
+
+
 
 @media (min-width: 800px) {
   .form-check
   {
-    width: 50%;
+    width: 47%;
   }
 }
 @media (min-width: 1200px) {
   .form-check
   {
-    width: 33%;
+    width: 31%;
   }
 }
 @media (min-width: 1600px) {
   .form-check
   {
-    width: 25%;
+    width: 22%;
   }
 }
 @media (min-width: 1900px) {
   .form-check
   {
-    width: 20%;
+    width: 18%;
   }
 }
