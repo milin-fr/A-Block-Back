@@ -25,6 +25,9 @@ class Program
      * @ORM\Column(type="string", length=64)
      * @Groups({"exercise", "program", "abloc_user", "mastery_level", "program_comment"})
      * @Assert\NotBlank
+     * @Assert\Length(
+     *      max = 50
+     * )
      */
     private $title;
 
@@ -37,6 +40,7 @@ class Program
     /**
      * @ORM\Column(type="smallint")
      * @Groups({"program", "abloc_user"})
+     * @Assert\PositiveOrZero
      */
     private $time;
 
@@ -123,7 +127,7 @@ class Program
         return $this->time;
     }
 
-    public function setTime(int $time): self
+    public function setTime(?int $time): self
     {
         $this->time = $time;
 
