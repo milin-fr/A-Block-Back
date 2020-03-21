@@ -127,7 +127,7 @@ class Program
         return $this->time;
     }
 
-    public function setTime(?int $time): self
+    public function setTime(int $time): self
     {
         $this->time = $time;
 
