@@ -40,21 +40,18 @@
                     </div>
                     </div>
                     </div>  
-                        <div class="new-card--relation d-flex justify-content-around">
-                            <div class="relation-card">
+                            <div class="new-card check-box--flex">
                             {{ form_label(form.hints) }}
                             {{ form_widget(form.hints) }}
                             </div>
-                            <div class="relation-card">
+                            <div class="new-card check-box--flex">
                             {{ form_label(form.prerequisites) }}
                             {{ form_widget(form.prerequisites) }}
                             </div>
-                            <div class="relation-card">
+                            <div class="new-card check-box--flex">
                             {{ form_label(form.programs) }}
                             {{ form_widget(form.programs) }}
                             </div>
-                        </div>
-                    </div>
                     <button class="btn btn-success btn-block">{{ button_label|default('Create') }}</button>
                     {{ form_end(form) }}
                 </td>
