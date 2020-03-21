@@ -35,8 +35,10 @@
                     </div>
                     </div>
                     </div>  
+                        <div class="new-card check-box--flex">
                             {{ form_label(form.exercises) }}
                             {{ form_widget(form.exercises) }}
+                        </div>
                     </div>
                     <button class="btn btn-success btn-block">{{ button_label|default('Create') }}</button>
                     {{ form_end(form) }}

@@ -38,11 +38,9 @@
                     {{ form_widget(form.set_image_default) }}
                      </div>
                         </div>  
-                        <div class="edit-card--relation d-flex justify-content-around">
-                            <div class="relation-card">
+                        <div class="new-card check-box--flex">
                             {{ form_label(form.exercises) }}
                             {{ form_widget(form.exercises) }}
-                            </div>
                         </div>
                     </div>
                     <button class="btn btn-success btn-block">{{ button_label|default('Update') }}</button>

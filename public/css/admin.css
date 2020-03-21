@@ -189,7 +189,9 @@ th {
   border: rgb(238, 98, 33) solid 1px;
 }
 
-input[type=checkbox] {
+input[type=checkbox],
+input[type=radio]
+ {
   -webkit-appearance: none;
   -moz-appearance: none;
   -ms-appearance: none;
@@ -200,6 +202,15 @@ input[type=checkbox] {
   background-color:rgb(238, 98, 33);
 }
 
+/* ----- Admin new/edit user radio checkboxes ----- */
+
+#user_new_mastery_level,
+#user_edit_mastery_level
+{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 
 
 @media (min-width: 800px) {
