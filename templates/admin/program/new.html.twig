@@ -3,9 +3,10 @@
 {% block title %}New Program{% endblock %}
 
 {% block body %}
-<div class="wrapper-entity-form">
-    <table class="table table-striped table-bordered table-light text-center">
-        <thead class="thead">
+<div class="info-container">
+    <div class="info-body">
+    <table class="table table-light text-center">
+        <thead class="info-thead">
             <tr>
                 <th>New Program</th>
             </tr>
@@ -34,12 +35,8 @@
                     </div>
                     </div>
                     </div>  
-                        <div class="new-card--relation d-flex justify-content-around">
-                            <div class="relation-card">
                             {{ form_label(form.exercises) }}
                             {{ form_widget(form.exercises) }}
-                            </div>
-                        </div>
                     </div>
                     <button class="btn btn-success btn-block">{{ button_label|default('Create') }}</button>
                     {{ form_end(form) }}
@@ -47,6 +44,9 @@
             </tr>
         </tbody>
     </table>
-        <a href="{{ path('admin_exercise_index') }}" button type="button" class="btn btn-primary btn-block">Back to list</a>
+        <div class="back-list-button">
+            <a href="{{ path('admin_program_index') }}" button type="button" class="btn btn-primary btn-block">Back to list</a>
+        </div>
+    </div>
 </div>
 {% endblock %}

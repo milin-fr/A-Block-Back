@@ -3,111 +3,114 @@
 {% block title %}Program{% endblock %}
 
 {% block body %}
-<div class="wrapper-entity-form">
-    <p class="d-flex justify-content-end">Program details</p>
-    <p class="d-flex justify-content-end">Created At : {{ program.createdAt|date("m/d/Y") }}</p>
-    <table class="table table-striped table-bordered table-light text-center">
-        <div class="d-flex justify-content-start">
-            <div class="card-header">
-                <ul class="nav nav-tabs card-header-tabs" id="objects-list" role="tablist">
-                    <li class="nav-item-tab">
-                        <a class="nav-link active" href="#exercises" role="tab" aria-controls="exercises"
-                            aria-selected="true">Exercises</a>
-                    </li>
-                    <li class="nav-item-tab">
-                        <a class="nav-link" href="#active-users" role="tab" aria-controls="active-users"
-                            aria-selected="false">Active Users</a>
-                    </li>
-                    <li class="nav-item-tab">
-                        <a class="nav-link" href="#comments" role="tab" aria-controls="comments"
-                            aria-selected="false">Comments</a>
-                    </li>
-                </ul>
-            </div>
-            <thead class="thead">
-                <tr>
-                    <th>Id</th>
-                    <th>Title</th>
-                    <th>Time</th>
-                    <th>Image</th>
-                    <th>Mastery Level</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>{{ program.id }}</td>
-                    <td>{{ program.title }}</td>
-                    <td>{{ program.time }}</td>
-                    <td><img src="{{ asset('uploads/program_img/'~ program.imgPath) }}" alt="Program Image Abloc"></td>
-                    <td>{{ program.masteryLevel.title }}</td>
-                    <td>
-                        <a href="{{ path('admin_program_edit', {'id': program.id}) }}"
-                            class="btn btn-warning fas fa-edit"></a>
-                        {{ include('admin/program/_delete_small_form.html.twig') }}
-                    </td>
-                </tr>
-            </tbody>
-    </table>
-    <table class="table table-striped table-dark">
-        <thead class="thead">
-            <tr>Description</tr>
-        </thead>
-        <tbody>
-            <td>{{ program.description }}</td>
-        </tbody>
-    </table>
-    <table class="table table-striped table-dark">
-        <thead class="thead">
-            <tr>Tabs</tr>
-        </thead>
-        <tbody>
-            <td>
-                <div class="card" style="width: auto;">
-                    <div class="card-body">
-                        <div class="tab-content">
-                            <div class="tab-pane active" id="exercises" role="tabpanel">
-                                {% for exercise in program.exercises %}
-                                <p class="card-text">{{ exercise.title }}</p>
-                                {% endfor %}
-                            </div>
-                            <div class="tab-pane" id="active-users" role="tabpanel" aria-labelledby="active-users-tab">
-                                {% for user in program.users %}
-                                <p class="card-text">{{ user.email }}</p>
-                                {% endfor %}
-                            </div>
-                            <div class="tab-pane" id="comments" role="tabpanel" aria-labelledby="comments-tab">
-                                {% for user in program.users %}
-                                {% for comment in program.comments %}
+<div class="info-container">
 
-                                <table class="table">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col">Image</th>
-                                            <th scope="col">User</th>
-                                            <th scope="col">Comment</th>
-                                            <th scope="col">Created At</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <th scope="row"><img class="img-responsive user-photo"
-                                                    src="{{ asset('uploads/user_img/'~ user.imgPath) }}" </th>
-                                            <td class="comment-user">@{{ comment.user.accountName }}</td>
-                                            <td class="comment-content">"{{ comment.text }}"</td>
-                                            <td class="comment-date">{{ comment.createdAt|date("m/d/Y") }}</td>
-                                        </tr>
-                                </table>
-                                {% endfor %}
-                                {% endfor %}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </td>
+    <div class="info-body">
+        <p class="d-flex justify-content-end">Program details</p>
+        <p class="d-flex justify-content-end">Created At : {{ program.createdAt|date("m/d/Y") }}</p>
+
+        <div class="info">
+            <table class="table table-striped table-bordered table-light text-center">
+                        <ul class="nav nav-tabs card-header-tabs" id="objects-list" role="tablist">
+                            <li class="nav-item-tab">
+                                <a class="nav-link active" href="#exercises" role="tab" aria-controls="exercises" aria-selected="true">Exercises</a>
+                            </li>
+                            <li class="nav-item-tab">
+                            <a class="nav-link" href="#active-users" role="tab" aria-controls="active-users" aria-selected="false">Active Users</a>
+                            </li>
+                            <li class="nav-item-tab">
+                                <a class="nav-link" href="#comments" role="tab" aria-controls="comments"aria-selected="false">Comments</a>
+                            </li>
+                        </ul>
+        </div>
+        <thead class="info-thead">
+            <tr>
+                <th>Id</th>
+                <th>Title</th>
+                <th>Time</th>
+                <th>Image</th>
+                <th>Mastery Level</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{ program.id }}</td>
+                <td>{{ program.title }}</td>
+                <td>{{ program.time }}</td>
+                <td><img src="{{ asset('uploads/program_img/'~ program.imgPath) }}" alt="Program Image Abloc"></td>
+                <td>{{ program.masteryLevel.title }}</td>
+                <td>
+                    <a href="{{ path('admin_program_edit', {'id': program.id}) }}"
+                        class="btn btn-warning fas fa-edit"></a>
+                    {{ include('admin/program/_delete_small_form.html.twig') }}
+                </td>
+            </tr>
         </tbody>
-    </table>
-</div>
+            </table>
+            <div class="info-description">
+                <table class="table table-striped table-bordered table-light text-center">
+                    <thead class="info-thead">
+                        <th>Description</th>
+                    </thead>
+                    <tbody>
+                        <td>{{ program.description }}</td>
+                    </tbody>
+            </table>
+            </div>
+            <div class="info-tabs-content">
+                <table class="table table-striped table-bordered table-light text-center">
+                    <thead class="info-thead">
+                        <th>Tabs</th>
+                    </thead>
+                    <tbody>
+                        <td>
+                            <div class="info-card" style="width: auto;">
+                                <div class="info-card-body">
+                                    <div class="tab-content">
+                                        <div class="tab-pane active" id="exercises" role="tabpanel">
+                                            {% for exercise in program.exercises %}
+                                            <p class="card-text">{{ exercise.title }}</p>
+                                            {% endfor %}
+                                        </div>
+                                        <div class="tab-pane" id="active-users" role="tabpanel" aria-labelledby="active-users-tab">
+                                            {% for user in program.users %}
+                                            <p class="card-text">{{ user.email }}</p>
+                                            {% endfor %}
+                                        </div>
+                                        <div class="tab-pane" id="comments" role="tabpanel" aria-labelledby="comments-tab">
+                                        {% for comment in program.comments %}
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th>Image</th>
+                                                    <th>User</th>
+                                                    <th>Comment</th>
+                                                    <th>Created At</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <th scope="row"><img src="{{ asset('uploads/user_img/'~ comment.user.imgPath) }}" </th>
+                                                    <td class="comment-user">@{{ comment.user.accountName }}</td>
+                                                    <td class="comment-content">"{{ comment.text }}"</td>
+                                                    <td class="comment-date">{{ comment.createdAt|date("m/d/Y") }}</td>
+                                                </tr>
+                                        </table>
+                                        {% endfor %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tbody>
+                </table>
+                    <div class="back-list-button">
+                        <a href="{{ path('admin_program_index') }}" button type="button" class="btn btn-primary btn-block">Back to list</a>
+                    </div>
+            </div>
+    </div>
+</div>    
 <!-- @TODO include fichier js pr supprimer ici -->
 <script>$('#objects-list a').on('click', function (e) {
         e.preventDefault()

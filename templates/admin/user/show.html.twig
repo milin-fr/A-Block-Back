@@ -3,68 +3,72 @@
 {% block title %}User{% endblock %}
 
 {% block body %}
-<div class="wrapper-entity-form">
-        <p class="d-flex justify-content-end">User details</p>
-        <p class="d-flex justify-content-end"><font color="#fff">Created At : {{ user.createdAt|date("m/d/Y") }}</p>
-    <table class="table table-striped table-bordered table-light text-center">
-        <div class="d-flex justify-content-start">
-            <div class="card-header">
-                <ul class="nav nav-tabs card-header-tabs" id="objects-list" role="tablist">
-                <li class="nav-item-tab">
-                <a class="nav-link active" href="#program-bookmarks" role="tab" aria-controls="program-bookmarks" aria-selected="true">Program Bookmarks</a>
-                </li>
-                <li class="nav-item-tab">
-                <a class="nav-link"  href="#exercise-bookmarks" role="tab" aria-controls="exercise-bookmarks" aria-selected="false">Exercise Bookmarks</a>
-                </li>
-                <li class="nav-item-tab">
-                <a class="nav-link"  href="#program-comments" role="tab" aria-controls="program-comments" aria-selected="false">Program Comments</a>
-                </li>
-                <li class="nav-item-tab">
-                <a class="nav-link"  href="#exercise-comments" role="tab" aria-controls="exercise-comments" aria-selected="false">Exercise Comments</a>
-                </li>
-                </ul>
-            </div>
-        <thead class="thead">
-            <tr>
-                <th>Id</th>
-                <th>Email</th>
-                <th>Account Name</th>                
-                <th>Available Time</th>
-                <th>Image</th>
-                <th>Mastery Level</th>
-                <th>Score</th>
-                <th>Actions</th>
-                <th>Edit Password</th>
-            </tr>
-        </thead>    
-        <tbody>
-            <tr>
-                <td>{{ user.id }}</td>
-                <td>{{ user.email }}</td>
-                <td>{{ user.accountName }}</td>
-                <td>{{ user.availableTime }}</td>
-                <td><img src="{{ asset('uploads/user_img/'~ user.imgPath) }}" alt="User Image Abloc"></td>
-                <td>{{ user.masteryLevel.title }}</td>
-                <td>{{ user.score }}</td>
-                <td>
+<div class="info-container">
+
+    <div class="info-body">
+        <p class="route d-flex justify-content-end">User details</p>
+        <p class="d-flex justify-content-end">Created At : {{ user.createdAt|date("m/d/Y") }}</p>
+
+        <div class="info">
+            <table class="table table-striped table-bordered table-light text-center">
+                <div class="general-tabs">
+                    <ul class="nav nav-tabs card-header-tabs" id="objects-list" role="tablist">
+                    <li class="nav-item-tab">
+                    <a class="nav-link active" href="#program-bookmarks" role="tab" aria-controls="program-bookmarks" aria-selected="true">Program Bookmarks</a>
+                    </li>
+                    <li class="nav-item-tab">
+                    <a class="nav-link"  href="#exercise-bookmarks" role="tab" aria-controls="exercise-bookmarks" aria-selected="false">Exercise Bookmarks</a>
+                    </li>
+                    <li class="nav-item-tab">
+                    <a class="nav-link"  href="#program-comments" role="tab" aria-controls="program-comments" aria-selected="false">Program Comments</a>
+                    </li>
+                    <li class="nav-item-tab">
+                    <a class="nav-link"  href="#exercise-comments" role="tab" aria-controls="exercise-comments" aria-selected="false">Exercise Comments</a>
+                    </li>
+                    </ul>
+                </div>
+            <thead class="info-thead">
+                <tr>
+                    <th>Id</th>
+                    <th>Email</th>
+                    <th>Account Name</th>                
+                    <th>Available Time</th>
+                    <th>Image</th>
+                    <th>Mastery Level</th>
+                    <th>Score</th>
+                    <th>Actions</th>
+                    <th>Edit Password</th>
+                </tr>
+            </thead>    
+            <tbody>
+                <tr>
+                    <td>{{ user.id }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>{{ user.accountName }}</td>
+                    <td>{{ user.availableTime }}</td>
+                    <td><img src="{{ asset('uploads/user_img/'~ user.imgPath) }}" alt="User Image Abloc"></td>
+                    <td>{{ user.masteryLevel.title }}</td>
+                    <td>{{ user.score }}</td>
+                    <td>
                     <a href="{{ path('admin_user_edit', {'id': user.id}) }}" class="btn btn-warning fas fa-edit"></a>
                     {{ include('admin/user/_delete_small_form.html.twig') }}
-                </td>
-                <td>
+                    </td>
+                    <td>
                     <a href="{{ path('admin_user_edit_password', {'id': user.id}) }}" class="btn btn-warning fas fa-key"></a>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-striped table-dark">
-        <thead class="thead">
-            <tr><font color="#fff">Tabs</tr>
-        </thead>
-        <tbody>
-            <td>
-                <div class="card" style="width: auto;">
-                    <div class="card-body">
-                        <div class="tab-content">
+                    </td>
+                </tr>
+            </tbody>
+            </table>
+                <div class="info-tabs-content">
+                <table class="table table-striped table-bordered table-light text-center">
+                    <thead class="info-thead">
+                        <th>Tabs</th>
+                    </thead>
+                    <tbody>
+                        <td>
+                <div class="info-card" style="width: auto;">
+                    <div class="info-card-body">
+                        <div class="info-tab-content">
 
                         </div>
                     </div>
@@ -72,6 +76,9 @@
             </td>
         </tbody>
     </table>
+        <div class="back-list-button">
+            <a href="{{ path('admin_user_index') }}" button type="button" class="btn btn-primary btn-block">Back to list</a>
+        </div>
 </div>
     <!-- @TODO include fichier js pr supprimer ici -->
 <script>$('#objects-list a').on('click', function (e) {

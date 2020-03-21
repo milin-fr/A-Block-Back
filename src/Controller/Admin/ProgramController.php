@@ -116,6 +116,11 @@ class ProgramController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            //Image par défaut
+            $defaultImg = $form->get('set_image_default');
+            if ($defaultImg == true)
+            $program->setImgPath('program_image_default.png');
+
             $imgFile = $form->get('img_path')->getData();
             if ($imgFile) {
                 $safeFilename = 'program-'.$program->getId();
