@@ -50,6 +50,9 @@ img {
 th {
   color: white;
 }
+tbody {
+  background-color: white;
+}
 
 /* ----- VIEWS ----- A'Bloc ----- */
 .info {
@@ -86,6 +89,14 @@ th {
 .info-tabs-content {
   text-align: center;
   box-shadow: rgba(0, 0, 0, 0.15) 0px 0.5rem 1rem; 
+}
+
+/* ----- NAV-Tabs on VIEWS ----- A'Bloc ----- */
+.card-header-tabs {
+ margin: 0;
+}
+.nav-item-tab > a {
+  color:rgb(238, 98, 33);
 }
 
 /* ----- LOGIN Form ----- A'Bloc ----- */
@@ -206,6 +217,7 @@ input[type=radio]
 :checked + .form-check-label {
   font-weight: bold;
   background-color:rgb(238, 98, 33);
+  color: white;
 }
 
 /* ----- Admin new/edit user radio checkboxes ----- */
