@@ -216,7 +216,7 @@ class ExerciseController extends AbstractController
         $exercise->setTime($exerciseTime);
 
         if($exerciseImgPath === ""){
-            $exerciseImgPath = "default_exercise.png";
+            $exerciseImgPath = "exercise_image_default.png";
         }
 
         $exercise->setImgPath($exerciseImgPath);
@@ -478,7 +478,7 @@ class ExerciseController extends AbstractController
         $exercise->setTime($exerciseTime);
 
         if($exerciseImgPath === ""){
-            $exerciseImgPath = "default_exercise.png";
+            $exerciseImgPath = "exercise_image_default.png";
         }
 
         $exercise->setImgPath($exerciseImgPath);

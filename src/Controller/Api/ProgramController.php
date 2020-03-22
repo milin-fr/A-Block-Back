@@ -154,7 +154,7 @@ class ProgramController extends AbstractController
         $program->setTime($programTime);
 
         if($programImgPath === ""){
-            $programImgPath = "default_program.png";
+            $programImgPath = "program_image_default.png";
         }
 
         $program->setImgPath($programImgPath);
@@ -333,7 +333,7 @@ class ProgramController extends AbstractController
         $program->setTime($programTime);
 
         if($programImgPath === ""){
-            $programImgPath = "default_program.png";
+            $programImgPath = "program_image_default.png";
         }
 
         $program->setImgPath($programImgPath);
