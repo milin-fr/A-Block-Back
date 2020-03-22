@@ -55,6 +55,7 @@ class MasteryLevel
     /**
      * @ORM\Column(type="smallint")
      * @Groups({"mastery_level", "exercise", "program"})
+     * @Assert\NotBlank
      */
     private $level_index;
 

@@ -125,6 +125,7 @@ class User implements UserInterface
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\MasteryLevel")
      * @Groups("abloc_user")
+     * @Assert\NotBlank
      */
     private $mastery_level;
 

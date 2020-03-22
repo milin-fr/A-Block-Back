@@ -11,74 +11,107 @@
 
         <div class="info">
             <table class="table table-striped table-bordered table-light text-center">
-                <div class="general-tabs">
                     <ul class="nav nav-tabs card-header-tabs" id="objects-list" role="tablist">
-                    <li class="nav-item-tab">
-                    <a class="nav-link active" href="#program-bookmarks" role="tab" aria-controls="program-bookmarks" aria-selected="true">Program Bookmarks</a>
-                    </li>
-                    <li class="nav-item-tab">
-                    <a class="nav-link"  href="#exercise-bookmarks" role="tab" aria-controls="exercise-bookmarks" aria-selected="false">Exercise Bookmarks</a>
-                    </li>
-                    <li class="nav-item-tab">
-                    <a class="nav-link"  href="#program-comments" role="tab" aria-controls="program-comments" aria-selected="false">Program Comments</a>
-                    </li>
-                    <li class="nav-item-tab">
-                    <a class="nav-link"  href="#exercise-comments" role="tab" aria-controls="exercise-comments" aria-selected="false">Exercise Comments</a>
-                    </li>
+                        <li class="nav-item-tab">
+                            <a class="nav-link active"  href="#exercise-comments" role="tab" aria-controls="exercise-comments" aria-selected="true">Exercise Comments</a>
+                        </li>
+                        <li class="nav-item-tab">
+                            <a class="nav-link"  href="#program-comments" role="tab" aria-controls="program-comments" aria-selected="false">Program Comments</a>
+                        </li>
                     </ul>
-                </div>
-            <thead class="info-thead">
-                <tr>
-                    <th>Id</th>
-                    <th>Email</th>
-                    <th>Account Name</th>                
-                    <th>Available Time</th>
-                    <th>Image</th>
-                    <th>Mastery Level</th>
-                    <th>Score</th>
-                    <th>Actions</th>
-                    <th>Edit Password</th>
-                </tr>
-            </thead>    
-            <tbody>
-                <tr>
-                    <td>{{ user.id }}</td>
-                    <td>{{ user.email }}</td>
-                    <td>{{ user.accountName }}</td>
-                    <td>{{ user.availableTime }}</td>
-                    <td><img src="{{ asset('uploads/user_img/'~ user.imgPath) }}" alt="User Image Abloc"></td>
-                    <td>{{ user.masteryLevel.title }}</td>
-                    <td>{{ user.score }}</td>
-                    <td>
+        </div>
+        <thead class="info-thead">
+            <tr>
+                <th>Id</th>
+                <th>Email</th>
+                <th>Account Name</th>                
+                <th>Available Time</th>
+                <th>Image</th>
+                <th>Mastery Level</th>
+                <th>Score</th>
+                <th>Actions</th>
+                <th>Edit Password</th>
+            </tr>
+        </thead>    
+        <tbody>
+            <tr>
+                <td>{{ user.id }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.accountName }}</td>
+                <td>{{ user.availableTime }}</td>
+                <td><img src="{{ asset('uploads/user_img/'~ user.imgPath) }}" alt="User Image Abloc"></td>
+                <td>{{ user.masteryLevel.title }}</td>
+                <td>{{ user.score }}</td>
+                <td>
                     <a href="{{ path('admin_user_edit', {'id': user.id}) }}" class="btn btn-warning fas fa-edit"></a>
                     {{ include('admin/user/_delete_small_form.html.twig') }}
-                    </td>
-                    <td>
+                </td>
+                <td>
                     <a href="{{ path('admin_user_edit_password', {'id': user.id}) }}" class="btn btn-warning fas fa-key"></a>
-                    </td>
-                </tr>
-            </tbody>
+                </td>
+            </tr>
+        </tbody>
             </table>
                 <div class="info-tabs-content">
-                <table class="table table-striped table-bordered table-light text-center">
-                    <thead class="info-thead">
-                        <th>Tabs</th>
-                    </thead>
-                    <tbody>
-                        <td>
-                <div class="info-card" style="width: auto;">
-                    <div class="info-card-body">
-                        <div class="info-tab-content">
-
-                        </div>
+                    <table class="table text-center">
+                        <thead class="info-thead">
+                            <th>Tabs</th>
+                        </thead>
+                        <tbody>
+                            <td>
+                                <div class="info-card" style="width: auto;">
+                                    <div class="info-card-body">
+                                        <div class="tab-content">
+                                            <div class="tab-pane active" id="exercise-comments" role="tabpanel">
+                                                {% for comment in user.exerciseComments %}
+                                                <table class="table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Exercise</th>
+                                                            <th>Comment</th>
+                                                            <th>Created At</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td class="comment-exercise">@{{ comment.exercise.title }}</td>
+                                                            <td class="comment-content">"{{ comment.text }}"</td>
+                                                            <td class="comment-date">{{ comment.createdAt|date("m/d/Y") }}</td>
+                                                        </tr>
+                                                </table>
+                                                {% endfor %}
+                                            </div>
+                                            <div class="tab-pane" id="program-comments" role="tabpanel" aria-labelledby="program-comments-tab">
+                                                {% for comment in user.programComments %}
+                                                <table class="comment-table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Program</th>
+                                                            <th>Comment</th>
+                                                            <th>Created At</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td class="comment-program">@{{ comment.program.title }}</td>
+                                                            <td class="comment-content">"{{ comment.text }}"</td>
+                                                            <td class="comment-date">{{ comment.createdAt|date("m/d/Y") }}</td>
+                                                        </tr>
+                                                </table>
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tbody>
+                    </table>
+                    <div class="back-list-button">
+                    <a href="{{ path('admin_user_index') }}" button type="button" class="btn btn-primary btn-block">Back to list</a>
                     </div>
                 </div>
-            </td>
-        </tbody>
-    </table>
-        <div class="back-list-button">
-            <a href="{{ path('admin_user_index') }}" button type="button" class="btn btn-primary btn-block">Back to list</a>
         </div>
+    </div>
 </div>
     <!-- @TODO include fichier js pr supprimer ici -->
 <script>$('#objects-list a').on('click', function (e) {

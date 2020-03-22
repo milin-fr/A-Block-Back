@@ -15,7 +15,7 @@
     <body>
         {% block header %}
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <img src="{{ asset('asset/images/logo_abloc.png') }}" alt="Logo Abloc" style="width:30px;">
+            <img class="logo" src="{{ asset('asset/images/logo_abloc.png') }}" alt="Logo Abloc">
             <a class="navbar-brand" href="{{ path('admin_home') }}">A'Bloc Admin v1</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -120,6 +120,12 @@
                     document.getElementsByClassName("custom-file-label")[0].innerText = fileName;
                 }
                 imgField.addEventListener("change", message);
+            </script>
+
+            <script>
+              $('#objects-list a').on('click', function (e) {
+              e.preventDefault()
+              $(this).tab('show')})
             </script>
         {% endblock %}
     </body>

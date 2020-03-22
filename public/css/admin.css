@@ -11,6 +11,12 @@
 .dropdown-menu > .dropdown-item:hover {
   color: rgb(238, 98, 33);
 }
+.logo {
+  margin: 5px;
+}
+.navbar {
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 0.5rem 1rem; 
+}
 
 /* ----- BOOTSTRAP CUSTOM BUTTONS ----- A'Bloc ----- */
 .btn-primary:hover {
@@ -32,8 +38,7 @@
 
 /* ----- GENERAL ----- A'Bloc ----- */
 html,body{
-  background-size: cover;
-  background-repeat: no-repeat;
+  background-color: #EBEBEB;
   height: 100%;
   font-family: 'Roboto', sans-serif;
 }
@@ -46,6 +51,9 @@ img {
 }
 th {
   color: white;
+}
+tbody {
+  background-color: white;
 }
 
 /* ----- VIEWS ----- A'Bloc ----- */
@@ -61,6 +69,7 @@ th {
   padding: 0;
   box-shadow: rgba(68, 55, 55, 0.15) 0px 0.5rem 1rem;
   width: 90%;
+  background-color: white;
 }
 .info-body .table {
   margin-bottom: 0em;
@@ -83,6 +92,14 @@ th {
 .info-tabs-content {
   text-align: center;
   box-shadow: rgba(0, 0, 0, 0.15) 0px 0.5rem 1rem; 
+}
+
+/* ----- NAV-Tabs on VIEWS ----- A'Bloc ----- */
+.card-header-tabs {
+ margin: 0;
+}
+.nav-item-tab > a {
+  color:rgb(238, 98, 33);
 }
 
 /* ----- LOGIN Form ----- A'Bloc ----- */
@@ -157,6 +174,10 @@ th {
   font-size: 0.5em;
 }
 
+.col-form-label {
+  color: rgb(238, 98, 33);
+}
+
 /* ----- Admin checkboxes ----- */
 
 .check-box--flex > div
@@ -199,6 +220,7 @@ input[type=radio]
 :checked + .form-check-label {
   font-weight: bold;
   background-color:rgb(238, 98, 33);
+  color: white;
 }
 
 /* ----- Admin new/edit user radio checkboxes ----- */

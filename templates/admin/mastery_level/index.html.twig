@@ -12,6 +12,7 @@
             <tr>
                 <th>Id</th>
                 <th>Title</th>
+                <th>Level Index</th>          
                 <th>Actions</th>
             </tr>
         </thead>
@@ -20,6 +21,7 @@
             <tr>
                 <td>{{ mastery_level.id }}</td>
                 <td>{{ mastery_level.title }}</td>
+                <td>{{ mastery_level.levelIndex }}</td>
                 <td>
                     <a href="{{ path('admin_mastery_level_show', {'id': mastery_level.id}) }}" class="btn btn-primary fas fa-search-plus"></a>
                     <a href="{{ path('admin_mastery_level_edit', {'id': mastery_level.id}) }}" class="btn btn-warning fas fa-edit"></a>
