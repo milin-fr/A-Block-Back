@@ -94,7 +94,7 @@ class User implements UserInterface
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Program")
      * @JoinTable(name="program_bookmark")
-     * @Groups({"abloc_user", "exercise_comment", "program_comment", "exercise", "program"})
+     * @Groups("abloc_user")
      */
     private $program_bookmarks;
 
