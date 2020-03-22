@@ -56,6 +56,34 @@ tbody {
   background-color: white;
 }
 
+/* ----- MAIN API ROUTES ----- A'Bloc ----- */
+.info-thead-api {
+  background-color: rgb(238, 98, 33);
+  font-size: 0.8em;
+}
+.info-body .table-api {
+  margin-bottom: 0em;
+  font-size: 0.7em;
+}
+.collapsible {
+  background-color: #777;
+  color: white;
+  cursor: pointer;
+  padding: 18px;
+  width: 100%;
+  border: none;
+  text-align: left;
+  outline: none;
+  font-size: 15px;
+}
+.collapse-content {
+  padding: 0 18px;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.2s ease-out;
+  background-color: #f1f1f1;
+}
+
 /* ----- VIEWS ----- A'Bloc ----- */
 .info {
   background-color:white;
@@ -178,7 +206,7 @@ tbody {
   color: rgb(238, 98, 33);
 }
 
-/* ----- Admin checkboxes ----- */
+/* ----- Admin checkboxes ----- A'Bloc ----- */
 
 .check-box--flex > div
 {
@@ -223,7 +251,7 @@ input[type=radio]
   color: white;
 }
 
-/* ----- Admin new/edit user radio checkboxes ----- */
+/* ----- Admin new/edit user radio checkboxes ----- A'Bloc ----- */
 
 #user_new_mastery_level,
 #user_edit_mastery_level

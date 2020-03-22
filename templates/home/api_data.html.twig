@@ -3,31 +3,58 @@
 {% block title %}La liste des access api{% endblock %}
 
 {% block body %}
-    <h1>Liste des access api</h1>
+<div class="info-container">
 
-    <table class="table table-striped table-dark">
-        <thead class="thead">
-            <tr>
-                <th>route</th>
-                <th>methode</th>
-                <th>usage</th>
-                <th>JSON to send</th>
-                <th>access level</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for line in api_data %}
-            <tr>
-                {% for info in line %}
-                    <td>{{ info }}</td>
+    <div class="info-body">
+        <p class="route d-flex justify-content-end">Liste des access api</p>
+
+        <div class="info">
+            <table class="table-api table-striped table-bordered table-light text-center">
+                <thead class="info-thead-api">
+                    <tr>
+                        <th>route</th>
+                        <th>methode</th>
+                        <th>usage</th>
+                        <th>JSON to send</th>
+                        <th>access level</th>
+                    </tr>
+                </thead>
+                <tbody>             
+                {% for line in api_data %}
+                    <tr>
+                        {% for info in line %}
+                            <td>{{ info }}</td>
+                        {% endfor %}
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="5">no records found</td>
+                    </tr>
                 {% endfor %}
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="5">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
 
+                <div class="collapse-content">
+
+                </div>
+
+                </tbody>
+            </table>  
+        </div>
+    </div>
+
+<script>
+var coll = document.getElementsByClassName("collapsible");
+var i;
+
+for (i = 0; i < coll.length; i++) {
+  coll[i].addEventListener("click", function() {
+    this.classList.toggle("active");
+    var content = this.nextElementSibling;
+    if (content.style.maxHeight){
+      content.style.maxHeight = null;
+    } else {
+      content.style.maxHeight = content.scrollHeight + "px";
+    } 
+  });
+}
+</script>
 {% endblock %}
