@@ -15,13 +15,13 @@ class ProgramComment
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups({"program", "abloc_user", "program_comment"})
+     * @Groups({"program", "program_comment"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="text")
-     * @Groups({"program", "abloc_user", "program_comment"})
+     * @Groups({"program", "program_comment"})
      * @Assert\NotBlank
      */
     private $text;
