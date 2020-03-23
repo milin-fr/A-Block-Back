@@ -61,9 +61,6 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string", length=64, nullable=true)
      * @Groups({"abloc_user", "exercise_comment", "program_comment", "exercise", "program"})
-     * @Assert\Length(
-     *      max = 64
-     * )
      */
     private $img_path;
 
