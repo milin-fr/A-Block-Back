@@ -151,7 +151,7 @@ class ProgramController extends AbstractController
                     $masteryLevelList[$masteryLevelId] = $exercise->getMasteryLevel(); // storing mastery objects by id for later use
                 }
             }
-        
+            
             if(!empty($masteryLevelIdList)){ // checking if there were at least 1 bdd match for mastery
                 $idFrequencies = array_count_values($masteryLevelIdList); // getting a list with ids as keys and number of id as value
                 $mostFrequentMasteryId = $masteryLevelIdList[0]; // assuming that the most frequent id is the first one
