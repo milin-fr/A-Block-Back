@@ -3,7 +3,7 @@ Programme de formation : https://oclock.io/formations/developpeur-web#programme
 
 C'est la partie serveur et administrateur du site A Block.
 Serveur front : http://3.84.28.117/
-Serveur back : http://3.81.147.17/A-Block-Back/public/
+Serveur back : http://54.205.93.97/A-Block-Back/public/
 
 ## Installation en local :
 - "git clone git@github.com:milin-fr/A-Block-Back.git" (dans le dossier xampp\htdocs)
