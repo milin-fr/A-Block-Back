@@ -1,7 +1,7 @@
 # A Block - Projet de fin de formation
-Program de formation : https://oclock.io/formations/developpeur-web#programme
+Programme de formation : https://oclock.io/formations/developpeur-web#programme
 
-C'est la partie serveur et admin du site A Block.
+C'est la partie serveur et administrateur du site A Block.
 Serveur front : http://3.84.28.117/
 Serveur back : http://3.81.147.17/A-Block-Back/public/
 
