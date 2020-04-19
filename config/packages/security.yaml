@@ -54,6 +54,12 @@ security:
             anonymous: true
             methods: [GET]
 
+        open_exercise:
+            pattern: ^/api/exercise/
+            stateless: true
+            anonymous: true
+            methods: [GET]
+
         api:
             pattern: ^/api
             stateless: true
@@ -81,7 +87,7 @@ security:
         - { path: ^/api/user/, roles: IS_AUTHENTICATED_ANONYMOUSLY, methods: [POST] }
         - { path: ^/api/mastery-level/, roles: IS_AUTHENTICATED_ANONYMOUSLY, methods: [GET] }
         - { path: ^/api/program/, roles: IS_AUTHENTICATED_ANONYMOUSLY, methods: [GET] }
-        - { path: ^/api/exercise/, roles: ROLE_USER, methods: [GET] }
+        - { path: ^/api/exercise/, roles: IS_AUTHENTICATED_ANONYMOUSLY, methods: [GET] }
         - { path: ^/api/hint/, roles: ROLE_USER, methods: [GET] }
         - { path: ^/api/prerequisite/, roles: ROLE_USER, methods: [GET] }
         - { path: ^/api/user/, roles: ROLE_USER, methods: [GET, POST, PUT, DELETE] } # controller limits acces to current user and admin
